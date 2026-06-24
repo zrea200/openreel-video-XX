@@ -131,6 +131,10 @@ function App() {
         ? "recent"
         : undefined;
   const isSharePage = route === "share" && params.shareId;
+  // VF 嵌入模式（iframe + parentOrigin）：项目状态由父侧桥接管理，抑制 OpenReel 自带恢复弹窗。
+  const isVfEmbedded =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).has("parentOrigin");
 
   return (
     <TooltipProvider>
@@ -151,7 +155,7 @@ function App() {
           onClose={closeModal}
         />
         <SearchModal isOpen={activeModal === "search"} onClose={closeModal} />
-        {showDialog && availableSaves.length > 0 && (
+        {showDialog && availableSaves.length > 0 && !isVfEmbedded && (
           <RecoveryDialog
             saves={availableSaves}
             onRecover={async (saveId) => {

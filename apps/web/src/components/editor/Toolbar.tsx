@@ -100,6 +100,10 @@ export const Toolbar: React.FC = () => {
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const [isRecorderOpen, setIsRecorderOpen] = useState(false);
+  // VF 嵌入模式：导出由 VF（父侧「导出视频」）统一处理，隐藏 OpenReel 自带 Export 避免重复。
+  const isVfEmbedded =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).has("parentOrigin");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const { importMedia } = useProjectStore();
   const { track } = useAnalytics();
@@ -852,7 +856,7 @@ export const Toolbar: React.FC = () => {
             <Check size={13} />
             <span className="font-medium">Saved!</span>
           </div>
-        ) : (
+        ) : isVfEmbedded ? null : (
           <DropdownMenu open={isExportOpen} onOpenChange={setIsExportOpen}>
             <DropdownMenuTrigger asChild>
               <button
