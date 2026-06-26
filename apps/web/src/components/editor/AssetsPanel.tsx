@@ -70,43 +70,43 @@ const ASSETS_TABS: ReadonlyArray<{
 }> = [
   {
     value: "media",
-    label: "Media",
-    description: "Import footage, audio, and stills.",
+    label: "媒体",
+    description: "导入视频、音频和图片素材。",
   },
   {
     value: "text",
-    label: "Text",
-    description: "Add title presets and caption elements.",
+    label: "文字",
+    description: "添加标题预设与字幕元素。",
   },
   {
     value: "graphics",
-    label: "Graphics",
-    description: "Create shapes, arrows, and SVG overlays.",
+    label: "图形",
+    description: "创建形状、箭头和 SVG 叠加层。",
   },
   {
     value: "effects",
-    label: "Effects",
-    description: "Drag effects onto a clip to apply them.",
+    label: "特效",
+    description: "把特效拖到片段上即可应用。",
   },
   {
     value: "transitions",
-    label: "Transitions",
-    description: "Drag transitions onto a clip's edge.",
+    label: "转场",
+    description: "把转场拖到片段边缘即可应用。",
   },
   {
     value: "ai",
-    label: "AI Generate",
-    description: "Generate clips, captions, and assisted edits.",
+    label: "AI 生成",
+    description: "生成片段、字幕与智能辅助剪辑。",
   },
   {
     value: "recipes",
-    label: "Recipes",
-    description: "Apply clip-scoped looks, overlays, and text stacks.",
+    label: "配方",
+    description: "为片段套用风格、叠加层和文字组合。",
   },
   {
     value: "templates",
-    label: "Project Templates",
-    description: "Load full-project starter layouts and presets.",
+    label: "项目模板",
+    description: "加载整套项目起始布局与预设。",
   },
 ] as const;
 
@@ -558,16 +558,16 @@ const EmptyState: React.FC<{ onImport: () => void }> = ({ onImport }) => (
       <Upload size={24} className="text-text-muted" />
     </div>
     <p className="text-sm text-text-secondary mb-2 font-medium">
-      No media imported
+      还没有导入媒体
     </p>
     <p className="text-xs text-text-muted mb-6">
-      Drag files here or click to import
+      将文件拖到这里，或点击导入
     </p>
     <button
       onClick={onImport}
       className="px-4 py-2 bg-background-elevated hover:bg-background-tertiary border border-border text-text-primary text-xs font-medium rounded-lg transition-all hover:border-primary/50"
     >
-      Import Media
+      导入媒体
     </button>
   </div>
 );
@@ -961,15 +961,15 @@ export const AssetsPanel: React.FC = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search media"
+                  placeholder="搜索媒体"
                   className="pl-9 text-xs bg-background-tertiary border-border text-text-primary h-9"
                 />
               </div>
               <div className="flex items-center bg-background-tertiary border border-border rounded-lg p-0.5">
                 {([
-                  { mode: "large" as const, icon: LayoutGrid, title: "Large icons" },
-                  { mode: "small" as const, icon: Grid2x2, title: "Small icons" },
-                  { mode: "list" as const, icon: List, title: "List view" },
+                  { mode: "large" as const, icon: LayoutGrid, title: "大图标" },
+                  { mode: "small" as const, icon: Grid2x2, title: "小图标" },
+                  { mode: "list" as const, icon: List, title: "列表视图" },
                 ]).map(({ mode, icon: ViewIcon, title }) => (
                   <button
                     key={mode}
@@ -999,7 +999,7 @@ export const AssetsPanel: React.FC = () => {
                 >
                   <div className="flex items-center gap-2">
                     <AlertTriangle size={14} />
-                    <span>Show Only Missing Assets</span>
+                    <span>仅显示缺失素材</span>
                   </div>
                   <div className="px-2 py-0.5 rounded-full bg-yellow-500 text-black text-[10px] font-bold">
                     {missingAssetsCount}
@@ -1010,7 +1010,7 @@ export const AssetsPanel: React.FC = () => {
                   className="w-full px-3 py-2 rounded-lg border border-yellow-500/40 bg-yellow-500/5 text-yellow-500 text-xs font-medium transition-all hover:bg-yellow-500/15 flex items-center gap-2"
                 >
                   <RefreshCw size={14} />
-                  <span>Relink from Folder…</span>
+                  <span>从文件夹重新关联…</span>
                 </button>
               </div>
             )}
@@ -1055,7 +1055,7 @@ export const AssetsPanel: React.FC = () => {
                         <div className="w-12 h-8 rounded bg-background-tertiary flex items-center justify-center flex-shrink-0">
                           <Upload size={14} className="text-text-muted group-hover:text-text-secondary transition-colors" />
                         </div>
-                        <span className="text-[11px] text-text-muted group-hover:text-text-secondary transition-colors font-medium">Add media</span>
+                        <span className="text-[11px] text-text-muted group-hover:text-text-secondary transition-colors font-medium">添加媒体</span>
                       </button>
                     ) : (
                       <div className="flex flex-col">
@@ -1065,7 +1065,7 @@ export const AssetsPanel: React.FC = () => {
                         >
                           <div className="flex flex-col items-center gap-1.5">
                             <Upload size={mediaViewMode === "small" ? 16 : 20} className="text-text-muted group-hover:text-text-secondary transition-colors" />
-                            <span className="text-[10px] text-text-muted group-hover:text-text-secondary transition-colors">Add media</span>
+                            <span className="text-[10px] text-text-muted group-hover:text-text-secondary transition-colors">添加媒体</span>
                           </div>
                         </button>
                       </div>
@@ -1076,7 +1076,7 @@ export const AssetsPanel: React.FC = () => {
                 {isDragOver && (
                   <div className="absolute inset-4 border-2 border-dashed border-primary rounded-xl flex items-center justify-center bg-primary/5 pointer-events-none z-50 backdrop-blur-sm">
                     <div className="text-primary text-sm font-bold bg-background-secondary px-4 py-2 rounded-full shadow-lg">
-                      Drop files to import
+                      松开以导入文件
                     </div>
                   </div>
                 )}
@@ -1093,7 +1093,7 @@ export const AssetsPanel: React.FC = () => {
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-medium text-text-secondary flex items-center gap-1.5">
                       <Palette size={12} />
-                      Backgrounds
+                      背景
                     </h4>
                   </div>
                   <div className="flex gap-1.5 mb-3 flex-wrap">
@@ -1141,31 +1141,31 @@ export const AssetsPanel: React.FC = () => {
 
                 <div className="mb-6">
                   <h4 className="text-xs font-medium text-text-secondary mb-3">
-                    Shapes
+                    形状
                   </h4>
                   <div className="grid grid-cols-4 gap-2">
                     {[
                       {
                         type: "rectangle" as ShapeType,
                         icon: Square,
-                        label: "Rectangle",
+                        label: "矩形",
                       },
-                      { type: "circle" as ShapeType, icon: Circle, label: "Circle" },
+                      { type: "circle" as ShapeType, icon: Circle, label: "圆形" },
                       {
                         type: "triangle" as ShapeType,
                         icon: Triangle,
-                        label: "Triangle",
+                        label: "三角形",
                       },
-                      { type: "star" as ShapeType, icon: Star, label: "Star" },
+                      { type: "star" as ShapeType, icon: Star, label: "星形" },
                       {
                         type: "arrow" as ShapeType,
                         icon: ArrowRight,
-                        label: "Arrow",
+                        label: "箭头",
                       },
                       {
                         type: "polygon" as ShapeType,
                         icon: Hexagon,
-                        label: "Polygon",
+                        label: "多边形",
                       },
                     ].map((shape) => (
                       <button
@@ -1203,16 +1203,16 @@ export const AssetsPanel: React.FC = () => {
 
                 <div className="mb-6">
                   <h4 className="text-xs font-medium text-text-secondary mb-3">
-                    3D Objects
+                    3D 物体
                   </h4>
                   <div className="grid grid-cols-3 gap-2">
                     {([
-                      { type: "mesh-cube" as ShapeType, label: "Cube", icon: "□" },
-                      { type: "mesh-sphere" as ShapeType, label: "Sphere", icon: "○" },
-                      { type: "mesh-torus" as ShapeType, label: "Torus", icon: "◯" },
-                      { type: "mesh-cone" as ShapeType, label: "Cone", icon: "△" },
-                      { type: "mesh-cylinder" as ShapeType, label: "Cylinder", icon: "▯" },
-                      { type: "mesh-icosahedron" as ShapeType, label: "Icosahedron", icon: "◆" },
+                      { type: "mesh-cube" as ShapeType, label: "立方体", icon: "□" },
+                      { type: "mesh-sphere" as ShapeType, label: "球体", icon: "○" },
+                      { type: "mesh-torus" as ShapeType, label: "圆环", icon: "◯" },
+                      { type: "mesh-cone" as ShapeType, label: "圆锥", icon: "△" },
+                      { type: "mesh-cylinder" as ShapeType, label: "圆柱", icon: "▯" },
+                      { type: "mesh-icosahedron" as ShapeType, label: "二十面体", icon: "◆" },
                     ]).map((mesh) => (
                       <button
                         key={mesh.type}
@@ -1262,7 +1262,7 @@ export const AssetsPanel: React.FC = () => {
 
                 <div className="mb-6">
                   <h4 className="text-xs font-medium text-text-secondary mb-3">
-                    SVG Import
+                    SVG 导入
                   </h4>
                   <button
                     onClick={() => {
@@ -1298,14 +1298,14 @@ export const AssetsPanel: React.FC = () => {
                       className="text-text-secondary group-hover:text-primary transition-colors"
                     />
                     <span className="text-xs text-text-secondary group-hover:text-text-primary">
-                      Import SVG File
+                      导入 SVG 文件
                     </span>
                   </button>
                 </div>
 
                 <div className="mb-6">
                   <h4 className="text-xs font-medium text-text-secondary mb-3">
-                    Stickers & Emojis
+                    贴纸与表情
                   </h4>
                   <div className="grid grid-cols-4 gap-2">
                     {["😀", "🎉", "❤️", "⭐", "🔥", "👍", "🎬", "🎵"].map(
@@ -1374,22 +1374,22 @@ export const AssetsPanel: React.FC = () => {
                         !tracksBefore.some((bt) => bt.id === t.id),
                     );
                     if (newTextTrack) {
-                      createTextClip(newTextTrack.id, 0, "New Title");
+                      createTextClip(newTextTrack.id, 0, "新标题");
                     }
                   }}
                   className="w-full py-4 bg-background-tertiary rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-all text-center"
                 >
                   <span className="text-lg font-bold text-text-primary">
-                    Add Title
+                    添加标题
                   </span>
                   <p className="text-xs text-text-muted mt-1">
-                    Click to add text to timeline
+                    点击即可把文字添加到时间轴
                   </p>
                 </button>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     {
-                      name: "Heading",
+                      name: "大标题",
                       text: "Heading",
                       style: {
                         fontSize: 72,
@@ -1399,7 +1399,7 @@ export const AssetsPanel: React.FC = () => {
                       },
                     },
                     {
-                      name: "Subtitle",
+                      name: "副标题",
                       text: "Subtitle text",
                       style: {
                         fontSize: 36,
@@ -1409,7 +1409,7 @@ export const AssetsPanel: React.FC = () => {
                       },
                     },
                     {
-                      name: "Lower Third",
+                      name: "下方字幕条",
                       text: "Name Here",
                       style: {
                         fontSize: 32,
@@ -1420,7 +1420,7 @@ export const AssetsPanel: React.FC = () => {
                       },
                     },
                     {
-                      name: "Caption",
+                      name: "字幕",
                       text: "Caption text here",
                       style: {
                         fontSize: 24,
@@ -1542,7 +1542,7 @@ export const AssetsPanel: React.FC = () => {
       {/* ── Body: section content fills the remaining space ──── */}
       <div className="flex-1 flex flex-col min-w-0 h-full bg-bg-1 relative">
         {isImporting && (
-          <LoadingIndicator message={importProgress || "Importing media..."} />
+          <LoadingIndicator message={importProgress || "正在导入媒体…"} />
         )}
 
         {/* Lightweight panel sub-header (active tab description) */}
@@ -1553,11 +1553,11 @@ export const AssetsPanel: React.FC = () => {
           {activeTab === "media" && (
             <button
               onClick={triggerFileInput}
-              title="Import media"
+              title="导入媒体"
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent text-accent-fg font-semibold text-[11.5px] hover:bg-accent-strong transition-colors"
             >
               <Plus size={12} />
-              <span>Import</span>
+              <span>导入</span>
             </button>
           )}
         </div>

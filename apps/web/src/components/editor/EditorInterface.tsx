@@ -392,7 +392,7 @@ export const EditorInterface: React.FC = () => {
       <div className="w-full h-full bg-bg flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-fg-2 text-sm">Initializing editor…</p>
+          <p className="text-fg-2 text-sm">正在初始化编辑器…</p>
           <p className="text-fg-muted text-xs mt-2">{initStatus}</p>
           {initError && (
             <p className="text-status-error text-xs mt-2">{initError}</p>

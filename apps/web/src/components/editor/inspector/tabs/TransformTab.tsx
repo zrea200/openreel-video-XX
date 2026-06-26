@@ -37,10 +37,10 @@ export const TransformTab: React.FC<TransformTabProps> = ({
     <>
       {showTransformControls && (
         <>
-          <InspectorSection title="Transform" sectionId="transform">
+          <InspectorSection title="变换" sectionId="transform">
             <div className="space-y-3">
               <LabeledSlider
-                label="Position X"
+                label="水平位置 X"
                 value={transform.position.x}
                 onChange={(x) =>
                   handleTransformChange({
@@ -54,7 +54,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                 defaultValue={0}
               />
               <LabeledSlider
-                label="Position Y"
+                label="垂直位置 Y"
                 value={transform.position.y}
                 onChange={(y) =>
                   handleTransformChange({
@@ -68,7 +68,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                 defaultValue={0}
               />
               <LabeledSlider
-                label="Scale X"
+                label="水平缩放 X"
                 value={transform.scale.x * 100}
                 onChange={(x) =>
                   handleTransformChange({
@@ -82,7 +82,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                 defaultValue={100}
               />
               <LabeledSlider
-                label="Scale Y"
+                label="垂直缩放 Y"
                 value={transform.scale.y * 100}
                 onChange={(y) =>
                   handleTransformChange({
@@ -96,7 +96,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                 defaultValue={100}
               />
               <LabeledSlider
-                label="Rotation"
+                label="旋转"
                 value={transform.rotation}
                 onChange={(rotation) => handleTransformChange({ rotation })}
                 min={-180}
@@ -106,7 +106,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                 defaultValue={0}
               />
               <LabeledSlider
-                label="Opacity"
+                label="不透明度"
                 value={transform.opacity * 100}
                 onChange={(opacity) =>
                   handleTransformChange({ opacity: opacity / 100 })
@@ -118,7 +118,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                 defaultValue={100}
               />
               <LabeledSlider
-                label="Border Radius"
+                label="圆角半径"
                 value={transform.borderRadius || 0}
                 onChange={(borderRadius) =>
                   handleTransformChange({ borderRadius })
@@ -132,7 +132,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
               {(clipType === "image" || clipType === "video") && (
                 <div className="space-y-1 pt-2 border-t border-border">
                   <span className="text-[10px] text-text-secondary">
-                    Fit Mode
+                    适配方式
                   </span>
                   <div className="grid grid-cols-3 gap-1">
                     {(["contain", "cover", "stretch"] as FitMode[]).map(
@@ -154,10 +154,10 @@ export const TransformTab: React.FC<TransformTabProps> = ({
                             }`}
                           >
                             {mode === "contain"
-                              ? "Fit"
+                              ? "适应"
                               : mode === "cover"
-                                ? "Fill"
-                                : mode}
+                                ? "填充"
+                                : "拉伸"}
                           </button>
                         );
                       },
@@ -176,7 +176,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
         !selectedClip.mediaId.startsWith("shape-") &&
         !selectedClip.mediaId.startsWith("svg-") &&
         !selectedClip.mediaId.startsWith("sticker-") && (
-          <InspectorSection title="Crop" sectionId="crop" defaultOpen={false}>
+          <InspectorSection title="裁剪" sectionId="crop" defaultOpen={false}>
             <CropSection clip={selectedClip as Clip} />
           </InspectorSection>
         )}
@@ -188,7 +188,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
         clipType === "svg" ||
         clipType === "sticker") && (
         <InspectorSection
-          title="Alignment"
+          title="对齐"
           sectionId="alignment"
           defaultOpen={false}
         >
@@ -203,7 +203,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
         clipType === "svg" ||
         clipType === "sticker") && (
         <InspectorSection
-          title="Blending"
+          title="混合"
           sectionId="blending"
           defaultOpen={false}
         >
@@ -218,7 +218,7 @@ export const TransformTab: React.FC<TransformTabProps> = ({
         clipType === "svg" ||
         clipType === "sticker") && (
         <InspectorSection
-          title="3D Transforms"
+          title="3D 变换"
           sectionId="transform-3d"
           defaultOpen={false}
         >
