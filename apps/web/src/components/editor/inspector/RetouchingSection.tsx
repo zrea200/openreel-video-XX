@@ -300,17 +300,17 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
       <div className="p-3 bg-background-secondary rounded-lg border border-border">
         <div className="flex items-start gap-2">
           <MousePointer2 size={14} className="text-text-muted mt-0.5" />
-          <div>
+          <div className="min-w-0">
             <span className="text-[10px] text-text-primary font-medium block">
-              How to use
+              使用说明
             </span>
-            <p className="text-[9px] text-text-muted mt-1">
+            <p className="text-[9px] text-text-muted mt-1 break-words">
               {activeTool === "spotHeal" &&
-                "Click and drag over blemishes to remove them. The tool samples surrounding pixels to blend seamlessly."}
+                "在瑕疵区域点击并拖动即可移除；工具会采样周围像素并自然融合。"}
               {activeTool === "cloneStamp" &&
-                "Alt+Click to set source point, then paint to copy pixels from source to target."}
+                "按 Alt 并点击设置取样点，然后涂抹目标区域以复制像素。"}
               {activeTool === "redEyeRemoval" &&
-                "Click on red eyes to automatically detect and remove the red-eye effect."}
+                "点击红眼位置，自动检测并移除红眼效果。"}
             </p>
           </div>
         </div>
