@@ -71,7 +71,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
     return (
       <div className="text-center py-4">
         <Music size={24} className="mx-auto text-text-muted mb-2" />
-        <p className="text-[10px] text-text-muted">No clip selected</p>
+        <p className="text-[10px] text-text-muted">未选中片段</p>
       </div>
     );
   }
@@ -82,7 +82,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Music size={14} className="text-primary" />
-        <span className="text-xs font-medium text-text-primary">Beat Sync</span>
+        <span className="text-xs font-medium text-text-primary">节拍同步</span>
       </div>
 
       {hasAudio ? (
@@ -92,7 +92,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
               <div className="flex items-center gap-2 mb-2">
                 <Loader2 size={14} className="animate-spin text-primary" />
                 <span className="text-[10px] text-text-primary">
-                  Analyzing beats...
+                  正在分析节拍…
                 </span>
               </div>
               <div className="h-1.5 bg-background-secondary rounded-full overflow-hidden">
@@ -108,7 +108,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
               className="w-full py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-lg text-[11px] font-medium text-primary transition-all flex items-center justify-center gap-2"
             >
               <Zap size={14} />
-              Detect Beats from Audio
+              从音频检测节拍
             </button>
           )}
 
@@ -122,7 +122,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
             <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] text-text-secondary">
-                  Detected BPM
+                  检测 BPM
                 </span>
                 <span className="text-sm font-bold text-green-400">
                   {beatState.beatAnalysis.bpm}
@@ -130,7 +130,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
               </div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] text-text-secondary">
-                  Confidence
+                  置信度
                 </span>
                 <span className="text-[10px] text-text-primary">
                   {Math.round(beatState.beatAnalysis.confidence * 100)}%
@@ -138,7 +138,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-text-secondary">
-                  Beat Markers
+                  节拍标记
                 </span>
                 <span className="text-[10px] text-text-primary">
                   {beatState.beatMarkers.length}
@@ -154,7 +154,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
                 className="w-full py-2 bg-background-tertiary hover:bg-background-secondary border border-border rounded-lg text-[10px] text-text-primary transition-all flex items-center justify-center gap-2"
               >
                 <Scissors size={12} />
-                Auto-Cut on Every 4 Beats
+                每 4 拍自动剪切
               </button>
 
               <button
@@ -162,7 +162,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
                 className="w-full py-2 bg-background-tertiary hover:bg-red-500/10 border border-border hover:border-red-500/30 rounded-lg text-[10px] text-text-secondary hover:text-red-400 transition-all flex items-center justify-center gap-2"
               >
                 <RefreshCw size={12} />
-                Clear Beat Markers
+                清除节拍标记
               </button>
             </div>
           )}
@@ -171,14 +171,14 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="w-full py-1.5 text-[10px] text-text-muted hover:text-text-secondary transition-colors"
           >
-            {showAdvanced ? "Hide" : "Show"} Manual BPM Settings
+            {showAdvanced ? "隐藏" : "显示"}手动 BPM 设置
           </button>
 
           {showAdvanced && (
             <div className="p-3 bg-background-tertiary rounded-lg space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-text-secondary">
-                  Manual BPM
+                  手动 BPM
                 </span>
                 <div className="flex items-center gap-2">
                   <input
@@ -216,7 +216,7 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
                 className="w-full py-2 bg-background-secondary hover:bg-background-tertiary border border-border rounded-lg text-[10px] text-text-primary transition-all flex items-center justify-center gap-2"
               >
                 <Play size={12} />
-                Generate Beat Grid at {manualBpm} BPM
+                按 {manualBpm} BPM 生成节拍网格
               </button>
             </div>
           )}
@@ -224,15 +224,14 @@ export const BeatSyncSection: React.FC<BeatSyncSectionProps> = ({ clipId }) => {
       ) : (
         <div className="p-3 bg-background-tertiary rounded-lg">
           <p className="text-[10px] text-text-muted text-center">
-            Select a video or audio clip to analyze beats
+            请选择视频或音频片段以分析节拍
           </p>
         </div>
       )}
 
       <div className="pt-2 border-t border-border">
         <p className="text-[9px] text-text-muted">
-          Beat detection analyzes audio to find the tempo and beat positions.
-          Use it to sync cuts, transitions, or effects to the music.
+          节拍检测会分析音频以找出速度与节拍位置，可用于同步剪切、转场或特效。
         </p>
       </div>
     </div>

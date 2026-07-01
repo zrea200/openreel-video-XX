@@ -23,26 +23,36 @@ const PROPERTY_COLORS: Record<string, string> = {
   default: "#64748b",
 };
 
+const PROPERTY_LABELS: Record<string, string> = {
+  "position.x": "位置 X",
+  "position.y": "位置 Y",
+  "scale.x": "缩放 X",
+  "scale.y": "缩放 Y",
+  rotation: "旋转",
+  opacity: "不透明度",
+  borderRadius: "圆角",
+};
+
 const EASING_PRESETS: { label: string; value: EasingName }[] = [
-  { label: "Linear", value: "linear" },
-  { label: "Ease In", value: "easeInQuad" },
-  { label: "Ease Out", value: "easeOutQuad" },
-  { label: "Ease In Out", value: "easeInOutQuad" },
-  { label: "Ease In Cubic", value: "easeInCubic" },
-  { label: "Ease Out Cubic", value: "easeOutCubic" },
-  { label: "Ease In Out Cubic", value: "easeInOutCubic" },
-  { label: "Ease In Quart", value: "easeInQuart" },
-  { label: "Ease Out Quart", value: "easeOutQuart" },
-  { label: "Ease In Out Quart", value: "easeInOutQuart" },
-  { label: "Ease In Back", value: "easeInBack" },
-  { label: "Ease Out Back", value: "easeOutBack" },
-  { label: "Ease In Out Back", value: "easeInOutBack" },
-  { label: "Ease In Elastic", value: "easeInElastic" },
-  { label: "Ease Out Elastic", value: "easeOutElastic" },
-  { label: "Ease In Out Elastic", value: "easeInOutElastic" },
-  { label: "Ease In Bounce", value: "easeInBounce" },
-  { label: "Ease Out Bounce", value: "easeOutBounce" },
-  { label: "Ease In Out Bounce", value: "easeInOutBounce" },
+  { label: "线性", value: "linear" },
+  { label: "缓入", value: "easeInQuad" },
+  { label: "缓出", value: "easeOutQuad" },
+  { label: "缓入缓出", value: "easeInOutQuad" },
+  { label: "三次缓入", value: "easeInCubic" },
+  { label: "三次缓出", value: "easeOutCubic" },
+  { label: "三次缓入缓出", value: "easeInOutCubic" },
+  { label: "四次缓入", value: "easeInQuart" },
+  { label: "四次缓出", value: "easeOutQuart" },
+  { label: "四次缓入缓出", value: "easeInOutQuart" },
+  { label: "回弹缓入", value: "easeInBack" },
+  { label: "回弹缓出", value: "easeOutBack" },
+  { label: "回弹缓入缓出", value: "easeInOutBack" },
+  { label: "弹性缓入", value: "easeInElastic" },
+  { label: "弹性缓出", value: "easeOutElastic" },
+  { label: "弹性缓入缓出", value: "easeInOutElastic" },
+  { label: "弹跳缓入", value: "easeInBounce" },
+  { label: "弹跳缓出", value: "easeOutBounce" },
+  { label: "弹跳缓入缓出", value: "easeInOutBounce" },
 ];
 
 interface KeyframeEditorPanelProps {
@@ -371,7 +381,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
   if (!clip) {
     return (
       <div className="h-full flex items-center justify-center text-text-muted">
-        <p className="text-sm">Select a clip with keyframes to edit</p>
+        <p className="text-sm">请选择带关键帧的片段进行编辑</p>
       </div>
     );
   }
@@ -379,7 +389,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
   return (
     <div className="h-full flex flex-col bg-background-secondary border-l border-border">
       <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-semibold text-text-primary">Keyframe Editor</h3>
+        <h3 className="text-sm font-semibold text-text-primary">关键帧编辑器</h3>
         <button
           onClick={onClose}
           className="p-1 rounded hover:bg-background-elevated text-text-muted hover:text-text-primary transition-colors"
@@ -391,7 +401,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-background-tertiary">
         <Select value={activeProperty || ""} onValueChange={setActiveProperty}>
           <SelectTrigger className="w-[180px] h-8">
-            <SelectValue placeholder="Select property" />
+            <SelectValue placeholder="选择属性" />
           </SelectTrigger>
           <SelectContent>
             {propertyGroups.map((group) => (
@@ -401,7 +411,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: group.color }}
                   />
-                  <span>{group.property}</span>
+                  <span>{PROPERTY_LABELS[group.property] ?? group.property}</span>
                 </div>
               </SelectItem>
             ))}
@@ -418,7 +428,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
           className="h-8 px-2"
         >
           <Copy size={14} className="mr-1" />
-          Copy
+          复制
         </Button>
         <Button
           variant="ghost"
@@ -428,7 +438,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
           className="h-8 px-2"
         >
           <Clipboard size={14} className="mr-1" />
-          Paste
+          粘贴
         </Button>
         <Button
           variant="ghost"
@@ -438,7 +448,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
           className="h-8 px-2 text-red-400 hover:text-red-300"
         >
           <Trash2 size={14} className="mr-1" />
-          Delete
+          删除
         </Button>
       </div>
 
@@ -458,14 +468,14 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
       <div className="px-4 py-3 border-t border-border bg-background-tertiary">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-text-muted">Easing:</span>
+            <span className="text-xs text-text-muted">缓动：</span>
             <Select
               value={selectedKeyframeIds.length > 0 ? undefined : ""}
               onValueChange={handleEasingChange}
               disabled={selectedKeyframeIds.length === 0}
             >
               <SelectTrigger className="w-[160px] h-7 text-xs">
-                <SelectValue placeholder="Select easing" />
+                <SelectValue placeholder="选择缓动" />
               </SelectTrigger>
               <SelectContent>
                 {EASING_PRESETS.map((preset) => (
@@ -480,7 +490,7 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
           <div className="flex-1" />
 
           <span className="text-xs text-text-muted">
-            {selectedKeyframeIds.length} keyframe{selectedKeyframeIds.length !== 1 ? "s" : ""} selected
+            已选 {selectedKeyframeIds.length} 个关键帧
           </span>
         </div>
       </div>
@@ -491,9 +501,9 @@ export const KeyframeEditorPanel: React.FC<KeyframeEditorPanelProps> = ({
             <table className="w-full text-xs">
               <thead>
                 <tr className="text-text-muted">
-                  <th className="text-left py-1 px-2">Time</th>
-                  <th className="text-left py-1 px-2">Value</th>
-                  <th className="text-left py-1 px-2">Easing</th>
+                  <th className="text-left py-1 px-2">时间</th>
+                  <th className="text-left py-1 px-2">数值</th>
+                  <th className="text-left py-1 px-2">缓动</th>
                 </tr>
               </thead>
               <tbody>

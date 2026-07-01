@@ -16,6 +16,26 @@ import type { TransitionType } from "@openreel/core";
 import { toast } from "../../../stores/notification-store";
 import { LabeledSlider, Switch } from "@openreel/ui";
 
+const TRANSITION_TYPE_LABELS: Record<
+  TransitionType,
+  { name: string; description: string }
+> = {
+  crossfade: { name: "交叉淡化", description: "片段之间平滑混合" },
+  dipToBlack: { name: "淡入黑场", description: "经黑场过渡" },
+  dipToWhite: { name: "淡入白场", description: "经白场过渡" },
+  wipe: { name: "划像", description: "从一个片段划到另一个" },
+  slide: { name: "滑动", description: "入点片段滑过出点片段" },
+  zoom: { name: "缩放", description: "缩放式片段转场" },
+  push: { name: "推移", description: "出点片段被入点片段推出" },
+};
+
+const DIRECTION_LABELS: Record<string, string> = {
+  left: "左",
+  right: "右",
+  up: "上",
+  down: "下",
+};
+
 const TransitionSlider = LabeledSlider;
 
 /**
@@ -35,7 +55,7 @@ const DirectionSelector: React.FC<{
 
   return (
     <div className="space-y-1">
-      <span className="text-[10px] text-text-secondary">Direction</span>
+      <span className="text-[10px] text-text-secondary">方向</span>
       <div className="grid grid-cols-4 gap-1">
         {options.map((dir) => (
           <button
@@ -46,7 +66,7 @@ const DirectionSelector: React.FC<{
                 ? "bg-primary/20 border-primary text-primary"
                 : "bg-background-tertiary border-border text-text-secondary hover:text-text-primary"
             }`}
-            title={dir.charAt(0).toUpperCase() + dir.slice(1)}
+            title={DIRECTION_LABELS[dir] ?? dir}
           >
             {directionIcons[dir] || dir}
           </button>
@@ -205,11 +225,12 @@ const TransitionTypeCard: React.FC<{
             isSelected ? "text-primary" : "text-text-primary"
           }`}
         >
-          {typeInfo.name}
+          {TRANSITION_TYPE_LABELS[typeInfo.type]?.name ?? typeInfo.name}
         </span>
         {isSelected && <Check size={12} className="text-primary" />}
       </div>
-      <p className="text-[9px] text-text-muted">{typeInfo.description}</p>
+      <p className="text-[9px] text-text-muted">
+        {TRANSITION_TYPE_LABELS[typeInfo.type]?.description ?? typeInfo.description}</p>
     </button>
   );
 };
@@ -331,14 +352,14 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
       if (newTransition) {
         onTransitionCreate?.(newTransition);
         toast.success(
-          "Transition Applied",
-          `${selectedType} transition added (${duration}s)`,
+          "转场已应用",
+          `已添加 ${TRANSITION_TYPE_LABELS[selectedType]?.name ?? selectedType} 转场（${duration}s）`,
         );
       }
     } else {
       toast.error(
-        "Transition Failed",
-        result.error || "Could not apply transition",
+        "转场失败",
+        result.error || "无法应用转场",
       );
     }
   }, [clipA, clipB, selectedType, duration, params, onTransitionCreate]);
@@ -348,7 +369,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
     if (transition) {
       bridge.removeTransition(transition.id);
       onTransitionRemove?.(transition.id);
-      toast.success("Transition Removed");
+      toast.success("转场已移除");
     }
   }, [transition, onTransitionRemove]);
 
@@ -364,7 +385,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
               options={["left", "right", "up", "down"]}
             />
             <TransitionSlider
-              label="Softness"
+              label="柔化"
               value={((params.softness as number) || 0) * 100}
               onChange={(v) => handleParamChange("softness", v / 100)}
               min={0}
@@ -382,7 +403,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
               onChange={(dir) => handleParamChange("direction", dir)}
             />
             <Toggle
-              label="Push Out"
+              label="推出"
               value={(params.pushOut as boolean) || false}
               onChange={(v) => handleParamChange("pushOut", v)}
             />
@@ -400,7 +421,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
       case "zoom":
         return (
           <TransitionSlider
-            label="Scale"
+            label="缩放"
             value={(params.scale as number) || 2}
             onChange={(v) => handleParamChange("scale", v)}
             min={1.1}
@@ -414,7 +435,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
       case "dipToWhite":
         return (
           <TransitionSlider
-            label="Hold Duration"
+            label="保持时长"
             value={(params.holdDuration as number) || 0.1}
             onChange={(v) => handleParamChange("holdDuration", v)}
             min={0}
@@ -437,14 +458,14 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
       {/* Clip Info */}
       <div className="flex items-center gap-2 p-2 bg-background-tertiary rounded-lg border border-border">
         <div className="flex-1 text-center">
-          <p className="text-[9px] text-text-muted">From</p>
+          <p className="text-[9px] text-text-muted">从</p>
           <p className="text-[10px] text-text-primary truncate">
             {clipA.id.substring(0, 12)}...
           </p>
         </div>
         <ArrowRight size={14} className="text-text-muted" />
         <div className="flex-1 text-center">
-          <p className="text-[9px] text-text-muted">To</p>
+          <p className="text-[9px] text-text-muted">到</p>
           <p className="text-[10px] text-text-primary truncate">
             {clipB.id.substring(0, 12)}...
           </p>
@@ -461,7 +482,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
       {/* Transition Type Selector */}
       <div className="space-y-2">
         <span className="text-[10px] text-text-secondary font-medium">
-          Transition Type
+          转场类型
         </span>
         <div className="grid grid-cols-2 gap-2">
           {transitionTypes.map((typeInfo) => (
@@ -477,7 +498,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
 
       {/* Duration Slider */}
       <TransitionSlider
-        label="Duration"
+        label="时长"
         value={duration}
         onChange={handleDurationChange}
         min={0.1}
@@ -490,7 +511,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
       {selectedTypeInfo?.hasCustomParams && (
         <div className="space-y-3 pt-2 border-t border-border">
           <span className="text-[10px] text-text-secondary font-medium">
-            Parameters
+            参数
           </span>
           {renderTypeParams()}
         </div>
@@ -504,7 +525,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
             className="flex-1 py-2 bg-red-500/10 border border-red-500/30 rounded-lg text-[10px] text-red-400 hover:bg-red-500/20 transition-colors flex items-center justify-center gap-1"
           >
             <X size={12} />
-            Remove Transition
+            移除转场
           </button>
         ) : (
           <button
@@ -517,7 +538,7 @@ export const TransitionInspector: React.FC<TransitionInspectorProps> = ({
             }`}
           >
             <Check size={12} />
-            Apply Transition
+            应用转场
           </button>
         )}
       </div>

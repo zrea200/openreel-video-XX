@@ -81,7 +81,7 @@ const AngleCard: React.FC<{
         </button>
       </div>
       <div className="mt-1 flex items-center gap-1">
-        <span className="text-[8px] text-text-muted">Offset:</span>
+        <span className="text-[8px] text-text-muted">偏移：</span>
         <input
           type="number"
           value={angle.offset.toFixed(2)}
@@ -90,7 +90,7 @@ const AngleCard: React.FC<{
           className="w-16 px-1 py-0.5 text-[8px] bg-background-secondary rounded border border-border focus:border-primary focus:outline-none"
           step="0.1"
         />
-        <span className="text-[8px] text-text-muted">sec</span>
+        <span className="text-[8px] text-text-muted">秒</span>
       </div>
     </div>
   );
@@ -132,7 +132,7 @@ const GroupSection: React.FC<{
         {group.name}
       </span>
       <span className="text-[9px] text-text-muted">
-        {group.angles.length} angles
+        {group.angles.length} 个机位
       </span>
     </button>
     {isExpanded && (
@@ -156,7 +156,7 @@ const GroupSection: React.FC<{
             className="flex-1 flex items-center justify-center gap-1 py-1.5 text-[9px] text-text-secondary hover:text-text-primary bg-background-tertiary rounded transition-colors"
           >
             <Link size={10} />
-            Sync Audio
+            同步音频
           </button>
           <button
             onClick={onDelete}
@@ -204,8 +204,8 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
         for (const clip of track.clips) {
           clips.push({
             id: clip.id,
-            name: `Clip ${clip.id.slice(-6)}`,
-            trackName: track.name || `Track ${track.id.slice(-4)}`,
+            name: `片段 ${clip.id.slice(-6)}`,
+            trackName: track.name || `轨道 ${track.id.slice(-4)}`,
           });
         }
       }
@@ -229,7 +229,7 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
     if (!multiCamEngine || selectedClips.length < 2) return;
 
     const group = multiCamEngine.createGroup(
-      `Multi-Cam ${groups.length + 1}`,
+      `多机位 ${groups.length + 1}`,
       selectedClips,
     );
 
@@ -322,10 +322,10 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
         <Video size={16} className="text-primary" />
         <div className="flex-1">
           <span className="text-[11px] font-medium text-text-primary">
-            Multi-Camera Editing
+            多机位剪辑
           </span>
           <p className="text-[9px] text-text-muted">
-            Sync and switch between camera angles
+            同步并在多个机位间切换
           </p>
         </div>
       </div>
@@ -333,7 +333,7 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
       {groups.length > 0 && (
         <div className="space-y-2">
           <span className="text-[10px] font-medium text-text-secondary">
-            Camera Groups
+            机位组
           </span>
           {groups.map((group) => (
             <GroupSection
@@ -358,10 +358,10 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
 
       <div className="space-y-2 pt-2 border-t border-border">
         <span className="text-[10px] font-medium text-text-secondary">
-          Create New Group
+          新建机位组
         </span>
         <p className="text-[9px] text-text-muted">
-          Select 2+ video clips to create a multi-camera group
+          选择 2 个及以上视频片段以创建多机位组
         </p>
 
         {availableClips.length === 0 ? (
@@ -371,7 +371,7 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
               className="mx-auto mb-2 text-text-muted opacity-50"
             />
             <p className="text-[10px] text-text-muted">
-              Import video clips to use multi-camera editing
+              导入视频片段后可使用多机位剪辑
             </p>
           </div>
         ) : (
@@ -420,14 +420,14 @@ export const MultiCameraPanel: React.FC<MultiCameraPanelProps> = () => {
               }`}
             >
               <Plus size={12} />
-              Create Group ({selectedClips.length} selected)
+              创建机位组（已选 {selectedClips.length} 个）
             </button>
           </>
         )}
       </div>
 
       <p className="text-[9px] text-text-muted text-center">
-        Switch angles during playback to create cuts
+        播放时切换机位即可生成剪辑
       </p>
     </div>
   );

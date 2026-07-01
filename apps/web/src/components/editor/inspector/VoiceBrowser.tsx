@@ -115,7 +115,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
     return (
       <div className="space-y-2">
         <label className="text-[10px] font-medium text-text-secondary">
-          Voice
+          音色
         </label>
         <div className="flex flex-wrap gap-1.5">
           {PIPER_VOICES.map((voice) => (
@@ -141,13 +141,13 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
   return (
     <div className="space-y-2">
       <label className="text-[10px] font-medium text-text-secondary">
-        Voice
+        音色
       </label>
       <div className="space-y-2">
         {favoriteVoices.length > 0 && (
           <div className="space-y-1.5">
             <span className="text-[9px] text-text-muted flex items-center gap-1">
-              <Star size={9} className="text-amber-400 fill-amber-400" /> Favorites
+              <Star size={9} className="text-amber-400 fill-amber-400" /> 收藏
             </span>
             <div className="flex flex-wrap gap-1.5">
               {favoriteVoices.map((fav) => (
@@ -169,7 +169,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
                         previewVoice(fav.previewUrl, fav.voiceId);
                       }}
                       className="ml-0.5 opacity-60 hover:opacity-100"
-                      title="Preview voice"
+                      title="试听音色"
                     >
                       {previewingVoice === fav.voiceId ? (
                         <Pause size={8} />
@@ -189,7 +189,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
           className="w-full flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-[10px] border border-dashed border-border text-text-muted hover:text-text-primary hover:border-primary/50 transition-colors"
         >
           <Search size={10} />
-          {showAllVoices ? "Hide voice browser" : "Browse & search voices"}
+          {showAllVoices ? "隐藏音色浏览器" : "浏览并搜索音色"}
           <ChevronDown size={10} className={`transition-transform ${showAllVoices ? "rotate-180" : ""}`} />
         </button>
 
@@ -201,7 +201,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
                 type="text"
                 value={voiceSearch}
                 onChange={(e) => setVoiceSearch(e.target.value)}
-                placeholder="Search by name, accent, gender..."
+                placeholder="按名称、口音、性别搜索…"
                 className="flex-1 bg-transparent text-[10px] text-text-primary placeholder:text-text-muted focus:outline-none"
                 autoFocus
               />
@@ -211,15 +211,15 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
             <div className="max-h-48 overflow-y-auto">
               {filteredVoices.length === 0 ? (
                 <div className="p-3 text-center text-[10px] text-text-muted">
-                  {isLoadingVoices ? "Loading voices..." : allVoices.length === 0 ? (
+                  {isLoadingVoices ? "正在加载音色…" : allVoices.length === 0 ? (
                     <button
                       onClick={() => openSettings("api-keys")}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-400 hover:bg-amber-500/25 transition-colors font-medium"
                     >
                       <Settings size={12} />
-                      Unlock session to browse voices
+                      解锁会话以浏览音色
                     </button>
-                  ) : "No voices match your search"}
+                  ) : "没有匹配的音色"}
                 </div>
               ) : (
                 filteredVoices.map((voice) => {
@@ -245,7 +245,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
                           </span>
                           {voice.category === "cloned" && (
                             <span className="text-[8px] px-1 py-0.5 rounded bg-purple-500/20 text-purple-400">
-                              Cloned
+                              克隆
                             </span>
                           )}
                         </div>
@@ -262,7 +262,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
                               previewVoice(voice.preview_url, voice.voice_id);
                             }}
                             className="p-1 rounded hover:bg-background-elevated text-text-muted hover:text-text-primary transition-colors"
-                            title="Preview"
+                            title="试听"
                           >
                             {previewingVoice === voice.voice_id ? (
                               <Pause size={10} />
@@ -279,7 +279,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
                           className={`p-1 rounded hover:bg-background-elevated transition-colors ${
                             isFav ? "text-amber-400" : "text-text-muted hover:text-amber-400"
                           }`}
-                          title={isFav ? "Remove from favorites" : "Add to favorites"}
+                          title={isFav ? "移出收藏" : "加入收藏"}
                         >
                           {isFav ? (
                             <Star size={10} className="fill-current" />
@@ -295,7 +295,7 @@ export const VoiceBrowser: React.FC<VoiceBrowserProps> = ({
             </div>
 
             <div className="px-2 py-1 border-t border-border bg-background-secondary text-[8px] text-text-muted text-center">
-              {filteredVoices.length} of {allVoices.length} voices
+              {filteredVoices.length} / {allVoices.length} 个音色
             </div>
           </div>
         )}

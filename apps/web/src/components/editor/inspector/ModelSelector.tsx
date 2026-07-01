@@ -52,13 +52,13 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   return (
     <div className="space-y-2">
       <label className="text-[10px] font-medium text-text-secondary">
-        Model
+        模型
       </label>
 
       {favoriteModels.length > 0 && (
         <div className="space-y-1.5">
           <span className="text-[9px] text-text-muted flex items-center gap-1">
-            <Star size={9} className="text-amber-400 fill-amber-400" /> Favorite Models
+            <Star size={9} className="text-amber-400 fill-amber-400" /> 收藏模型
           </span>
           <div className="flex flex-wrap gap-1.5">
             {favoriteModels.map((fav) => (
@@ -85,7 +85,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
           onClick={() => setShowAllModels(!showAllModels)}
         >
           <span className="truncate">
-            {isLoadingModels ? "Loading models..." : getSelectedModelName()}
+            {isLoadingModels ? "正在加载模型…" : getSelectedModelName()}
           </span>
           <ChevronDown size={12} className={`shrink-0 text-text-muted transition-transform ${showAllModels ? "rotate-180" : ""}`} />
         </div>
@@ -96,7 +96,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
           <div className="max-h-48 overflow-y-auto">
             {allModels.length === 0 ? (
               <div className="p-3 text-center text-[10px] text-text-muted">
-                {isLoadingModels ? "Loading models..." : "No models available"}
+                {isLoadingModels ? "正在加载模型…" : "无可用模型"}
               </div>
             ) : (
               allModels.map((model) => {
@@ -127,7 +127,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                         {model.description
                           ? (model.description.length > 80 ? model.description.slice(0, 80) + "..." : model.description)
                           : ""}
-                        {langCount > 0 && ` · ${langCount} languages`}
+                        {langCount > 0 && ` · ${langCount} 种语言`}
                       </div>
                     </div>
 
@@ -139,7 +139,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                       className={`p-1 rounded hover:bg-background-elevated transition-colors shrink-0 ${
                         isFav ? "text-amber-400" : "text-text-muted hover:text-amber-400"
                       }`}
-                      title={isFav ? "Remove from favorites" : "Add to favorites"}
+                      title={isFav ? "移出收藏" : "加入收藏"}
                     >
                       {isFav ? (
                         <Star size={10} className="fill-current" />
@@ -154,7 +154,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
           </div>
 
           <div className="px-2 py-1 border-t border-border bg-background-secondary text-[8px] text-text-muted text-center">
-            {allModels.length} models available
+            共 {allModels.length} 个模型
           </div>
         </div>
       )}

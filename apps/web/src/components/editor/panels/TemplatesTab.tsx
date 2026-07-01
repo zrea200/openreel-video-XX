@@ -8,6 +8,18 @@ import type {
 } from "@openreel/core";
 import { TEMPLATE_CATEGORIES } from "@openreel/core";
 
+const TEMPLATE_CATEGORY_LABELS: Record<string, string> = {
+  social: "社交",
+  youtube: "YouTube",
+  promo: "宣传",
+  business: "商务",
+  education: "教育",
+  travel: "旅行",
+};
+
+const getTemplateCategoryLabel = (categoryId: string): string =>
+  TEMPLATE_CATEGORY_LABELS[categoryId] ?? categoryId.replace(/-/g, " ");
+
 export const TemplatesTab: React.FC = () => {
   const getTemplateEngine = useEngineStore((s) => s.getTemplateEngine);
   const [templates, setTemplates] = useState<TemplateSummary[]>([]);
@@ -53,7 +65,7 @@ export const TemplatesTab: React.FC = () => {
         useProjectStore.getState().project.timeline.tracks.length > 0;
       if (hasClips) {
         const confirmed = window.confirm(
-          "Applying a template will replace your current project. Continue?",
+          "应用模板将替换当前项目内容，是否继续？",
         );
         if (!confirmed) return;
       }
@@ -84,7 +96,7 @@ export const TemplatesTab: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12 text-text-muted text-xs">
-        Loading templates...
+        正在加载模板…
       </div>
     );
   }
@@ -98,7 +110,7 @@ export const TemplatesTab: React.FC = () => {
         />
         <input
           type="text"
-          placeholder="Search templates..."
+          placeholder="搜索模板…"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-8 pr-3 py-2 text-xs bg-background-secondary border border-border rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50"
@@ -114,7 +126,7 @@ export const TemplatesTab: React.FC = () => {
               : "bg-background-tertiary border-border text-text-muted hover:border-primary/50"
           }`}
         >
-          All
+          全部
         </button>
         {TEMPLATE_CATEGORIES.slice(0, 6).map((cat) => (
           <button
@@ -126,14 +138,14 @@ export const TemplatesTab: React.FC = () => {
                 : "bg-background-tertiary border-border text-text-muted hover:border-primary/50"
             }`}
           >
-            {cat.name}
+            {getTemplateCategoryLabel(cat.id)}
           </button>
         ))}
       </div>
 
       {filteredTemplates.length === 0 ? (
         <div className="text-center py-8 text-text-muted text-xs">
-          No templates found
+          未找到模板
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-2">
@@ -159,8 +171,8 @@ export const TemplatesTab: React.FC = () => {
                 {template.name}
               </span>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[9px] text-text-muted capitalize">
-                  {template.category.replace("-", " ")}
+                <span className="text-[9px] text-text-muted">
+                  {getTemplateCategoryLabel(template.category)}
                 </span>
                 <span className="flex items-center gap-0.5 text-[9px] text-text-muted">
                   <Clock size={8} />
@@ -169,7 +181,7 @@ export const TemplatesTab: React.FC = () => {
               </div>
               {applying === template.id && (
                 <div className="absolute inset-0 bg-background-primary/80 rounded-lg flex items-center justify-center">
-                  <span className="text-[10px] text-primary">Applying...</span>
+                  <span className="text-[10px] text-primary">正在应用…</span>
                 </div>
               )}
             </button>

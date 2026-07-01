@@ -42,16 +42,16 @@ export class ErrorBoundary extends React.Component<
       return (
         <div className="flex flex-col items-center justify-center p-8 text-center bg-background-secondary/50 rounded-lg m-2">
           <div className="text-red-400 text-sm font-medium mb-2">
-            Something went wrong
+            出错了
           </div>
           <div className="text-text-muted text-xs mb-4 max-w-xs">
-            {this.state.error?.message || "An unexpected error occurred"}
+            {this.state.error?.message || "发生了意外错误"}
           </div>
           <button
             onClick={this.handleRetry}
             className="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary text-xs rounded transition-colors"
           >
-            Retry
+            重试
           </button>
         </div>
       );
@@ -74,7 +74,7 @@ export const PanelErrorBoundary: React.FC<PanelErrorBoundaryProps> = ({
     fallback={
       <div className="flex-1 flex items-center justify-center p-4 text-center">
         <div className="text-text-muted text-xs">
-          {name} failed to load. Please refresh the page.
+          {name} 加载失败，请刷新页面。
         </div>
       </div>
     }

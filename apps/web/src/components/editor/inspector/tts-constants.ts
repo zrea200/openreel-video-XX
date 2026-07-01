@@ -1,12 +1,12 @@
 import type { ElevenLabsModel, Voice } from "./tts-types";
 
 export const TTS_PROVIDERS = [
-  { id: "piper" as const, label: "Piper (Free)", description: "Built-in open-source TTS" },
-  { id: "elevenlabs" as const, label: "ElevenLabs", description: "Premium AI voices" },
+  { id: "piper" as const, label: "Piper（免费）", description: "内置开源 TTS" },
+  { id: "elevenlabs" as const, label: "ElevenLabs", description: "高级 AI 语音" },
 ];
 
 export const FALLBACK_MODELS: ElevenLabsModel[] = [
-  { model_id: "eleven_v3", name: "Eleven v3", description: "Latest ElevenLabs model", can_do_text_to_speech: true, languages: [] },
+  { model_id: "eleven_v3", name: "Eleven v3", description: "ElevenLabs 最新模型", can_do_text_to_speech: true, languages: [] },
 ];
 
 export const PIPER_VOICES: Voice[] = [

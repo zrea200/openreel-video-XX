@@ -34,15 +34,22 @@ type MutableGraphicClip = {
   -readonly [K in keyof GraphicClip]: GraphicClip[K];
 };
 
+const CATEGORY_LABELS: Record<PresetCategory, string> = {
+  entrance: "入点",
+  exit: "出点",
+  emphasis: "强调",
+  transition: "转场",
+};
+
 const CATEGORY_CONFIG: {
   id: PresetCategory;
   name: string;
   icon: React.ElementType;
 }[] = [
-  { id: "entrance", name: "In", icon: ArrowRight },
-  { id: "exit", name: "Out", icon: ArrowLeft },
-  { id: "emphasis", name: "Emphasis", icon: Zap },
-  { id: "transition", name: "Transition", icon: RefreshCw },
+  { id: "entrance", name: "入", icon: ArrowRight },
+  { id: "exit", name: "出", icon: ArrowLeft },
+  { id: "emphasis", name: "强调", icon: Zap },
+  { id: "transition", name: "转场", icon: RefreshCw },
 ];
 
 function easingToType(easing: string): EasingType {
@@ -279,7 +286,7 @@ const PresetCard: React.FC<PresetCardProps> = ({
         {isHovered && !isApplied && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
             <span className="text-[10px] text-white font-medium px-2 py-1 bg-primary rounded">
-              Apply
+              应用
             </span>
           </div>
         )}
@@ -446,7 +453,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
         updateClipKeyframes(targetClipId, allKeyframes);
       }
 
-      toast.success("Motion Preset Applied", `${preset.name} added to clip`);
+      toast.success("运动预设已应用", `已为片段添加 ${preset.name}`);
     },
     [
       clip,
@@ -501,7 +508,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
         updateClipKeyframes(targetClipId, filteredKeyframes);
       }
 
-      toast.info("Preset Removed");
+      toast.info("预设已移除");
     },
     [
       clip,
@@ -517,7 +524,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
       <div className="p-4 text-center">
         <Zap size={24} className="mx-auto mb-2 text-text-muted" />
         <p className="text-[10px] text-text-muted">
-          Select a clip to apply motion presets
+          选择片段以应用运动预设
         </p>
       </div>
     );
@@ -527,7 +534,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
     return (
       <div className="p-4 text-center">
         <Zap size={24} className="mx-auto mb-2 text-text-muted" />
-        <p className="text-[10px] text-text-muted">Clip not found</p>
+        <p className="text-[10px] text-text-muted">未找到片段</p>
       </div>
     );
   }
@@ -539,7 +546,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
         appliedState.emphasis) && (
         <div className="space-y-1 p-2 bg-background-tertiary rounded-lg border border-border">
           <span className="text-[10px] text-text-secondary font-medium">
-            Applied Animations
+            已应用动画
           </span>
           <div className="flex flex-wrap gap-1 mt-1">
             {appliedState.entrance && (
@@ -548,7 +555,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
                 className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-[9px] hover:bg-green-500/30"
               >
                 <ArrowRight size={10} />
-                Entry ×
+                入点 ×
               </button>
             )}
             {appliedState.exit && (
@@ -557,7 +564,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
                 className="flex items-center gap-1 px-2 py-1 bg-red-500/20 text-red-400 rounded text-[9px] hover:bg-red-500/30"
               >
                 <ArrowLeft size={10} />
-                Exit ×
+                出点 ×
               </button>
             )}
             {appliedState.emphasis && (
@@ -566,7 +573,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
                 className="flex items-center gap-1 px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-[9px] hover:bg-yellow-500/30"
               >
                 <Zap size={10} />
-                Emphasis ×
+                强调 ×
               </button>
             )}
           </div>
@@ -623,7 +630,7 @@ export const MotionPresetsPanel: React.FC<MotionPresetsPanelProps> = ({
       </div>
 
       <p className="text-[9px] text-text-muted text-center">
-        {presets.length} presets in {selectedCategory}
+        {CATEGORY_LABELS[selectedCategory]} 分类共 {presets.length} 个预设
       </p>
     </div>
   );

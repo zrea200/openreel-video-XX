@@ -13,11 +13,11 @@ export function Flux2Form({ value, onChange, onSubmit, isLoading }: Props) {
   return (
     <div className="space-y-4">
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-text-secondary">Prompt *</label>
+        <label className="text-xs font-medium text-text-secondary">提示词 *</label>
         <textarea
           value={value.prompt}
           onChange={(e) => onChange({ ...value, prompt: e.target.value })}
-          placeholder="Describe the image you want to generate…"
+          placeholder="描述你想生成的图像…"
           maxLength={2000}
           rows={4}
           className="w-full rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm text-text-primary placeholder:text-text-muted resize-none outline-none focus:border-primary"
@@ -27,7 +27,7 @@ export function Flux2Form({ value, onChange, onSubmit, isLoading }: Props) {
 
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-text-secondary">Aspect Ratio</label>
+          <label className="text-xs font-medium text-text-secondary">宽高比</label>
           <Select value={value.aspect_ratio} onValueChange={(v) => onChange({ ...value, aspect_ratio: v as Flux2Input["aspect_ratio"] })}>
             <SelectTrigger className="h-8 text-sm"><SelectValue /></SelectTrigger>
             <SelectContent>
@@ -39,7 +39,7 @@ export function Flux2Form({ value, onChange, onSubmit, isLoading }: Props) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-text-secondary">Resolution</label>
+          <label className="text-xs font-medium text-text-secondary">分辨率</label>
           <Select value={value.resolution} onValueChange={(v) => onChange({ ...value, resolution: v as Flux2Input["resolution"] })}>
             <SelectTrigger className="h-8 text-sm"><SelectValue /></SelectTrigger>
             <SelectContent>
@@ -51,7 +51,7 @@ export function Flux2Form({ value, onChange, onSubmit, isLoading }: Props) {
       </div>
 
       <Button onClick={onSubmit} disabled={isLoading || !value.prompt.trim()} className="w-full">
-        {isLoading ? "Generating…" : "Generate with Flux 2"}
+        {isLoading ? "生成中…" : "使用 Flux 2 生成"}
       </Button>
     </div>
   );

@@ -69,7 +69,7 @@ const TextPlaceholderInput: React.FC<PlaceholderInputProps> = ({
           <button
             onClick={onClear}
             className="p-1 text-text-muted hover:text-text-primary"
-            title="Reset to default"
+            title="恢复默认"
           >
             <Undo2 size={10} />
           </button>
@@ -86,12 +86,12 @@ const TextPlaceholderInput: React.FC<PlaceholderInputProps> = ({
         maxLength={maxLength}
         rows={Math.min(4, Math.ceil((text.length || 20) / 40))}
         className="w-full px-2 py-1.5 text-[11px] text-text-primary bg-background-tertiary border border-border rounded-lg focus:border-primary focus:outline-none resize-none"
-        placeholder={placeholder.defaultValue || "Enter text..."}
+        placeholder={placeholder.defaultValue || "输入文字…"}
       />
 
       <div className="flex justify-between text-[9px] text-text-muted">
         <span>
-          {text.length} / {maxLength} characters
+          {text.length} / {maxLength} 字符
         </span>
       </div>
     </div>
@@ -156,7 +156,7 @@ const MediaPlaceholderInput: React.FC<PlaceholderInputProps> = ({
           <button
             onClick={onClear}
             className="p-1 text-text-muted hover:text-text-primary"
-            title="Reset"
+            title="重置"
           >
             <Undo2 size={10} />
           </button>
@@ -170,9 +170,9 @@ const MediaPlaceholderInput: React.FC<PlaceholderInputProps> = ({
       {availableMedia.length === 0 ? (
         <div className="p-4 border border-dashed border-border rounded-lg text-center">
           <Upload size={16} className="mx-auto mb-2 text-text-muted" />
-          <p className="text-[10px] text-text-muted">No media available</p>
+          <p className="text-[10px] text-text-muted">暂无可用媒体</p>
           <p className="text-[9px] text-text-muted mt-1">
-            Import media to use here
+            请先导入媒体
           </p>
         </div>
       ) : (
@@ -258,7 +258,7 @@ const SubtitlePlaceholderInput: React.FC<PlaceholderInputProps> = ({
           <button
             onClick={onClear}
             className="p-1 text-text-muted hover:text-text-primary"
-            title="Reset to default"
+            title="恢复默认"
           >
             <Undo2 size={10} />
           </button>
@@ -274,7 +274,7 @@ const SubtitlePlaceholderInput: React.FC<PlaceholderInputProps> = ({
         value={text}
         onChange={(e) => handleChange(e.target.value)}
         className="w-full px-2 py-1.5 text-[11px] text-text-primary bg-background-tertiary border border-border rounded-lg focus:border-primary focus:outline-none"
-        placeholder={placeholder.defaultValue || "Enter subtitle text..."}
+        placeholder={placeholder.defaultValue || "输入字幕文字…"}
       />
     </div>
   );
@@ -362,7 +362,7 @@ export const TemplateVariablesPanel: React.FC<TemplateVariablesPanelProps> = ({
           className="mx-auto mb-2 text-text-muted opacity-50"
         />
         <p className="text-[10px] text-text-muted">
-          Select a template to edit variables
+          请选择模板以编辑变量
         </p>
       </div>
     );
@@ -374,7 +374,7 @@ export const TemplateVariablesPanel: React.FC<TemplateVariablesPanelProps> = ({
         <div className="flex items-center gap-2">
           <Settings2 size={14} className="text-primary" />
           <span className="text-[11px] font-medium text-text-primary">
-            Template Variables
+            模板变量
           </span>
           <span className="text-[9px] text-text-muted bg-background-tertiary px-1.5 py-0.5 rounded">
             {placeholders.length}
@@ -386,7 +386,7 @@ export const TemplateVariablesPanel: React.FC<TemplateVariablesPanelProps> = ({
             className="flex items-center gap-1 text-[10px] text-text-muted hover:text-text-primary"
           >
             <RotateCcw size={10} />
-            Reset All
+            全部重置
           </button>
         )}
       </div>
@@ -394,7 +394,7 @@ export const TemplateVariablesPanel: React.FC<TemplateVariablesPanelProps> = ({
       {placeholders.length === 0 ? (
         <div className="text-center py-6">
           <p className="text-[10px] text-text-muted">
-            This template has no editable variables
+            此模板没有可编辑变量
           </p>
         </div>
       ) : (
@@ -413,7 +413,7 @@ export const TemplateVariablesPanel: React.FC<TemplateVariablesPanelProps> = ({
       {missingRequired.length > 0 && (
         <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg">
           <p className="text-[10px] text-amber-400">
-            Fill in required fields:{" "}
+            请填写必填项：{" "}
             {missingRequired.map((p) => p.label).join(", ")}
           </p>
         </div>
@@ -429,7 +429,7 @@ export const TemplateVariablesPanel: React.FC<TemplateVariablesPanelProps> = ({
               : "bg-background-tertiary text-text-muted cursor-not-allowed"
           }`}
         >
-          Apply Template
+          应用模板
         </button>
       )}
     </div>

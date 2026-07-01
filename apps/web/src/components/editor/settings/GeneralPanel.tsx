@@ -5,13 +5,13 @@ import { useSettingsStore, SERVICE_REGISTRY, type TtsProvider, type LlmProvider,
 import { useProjectStore } from "../../../stores/project-store";
 
 const ASPECT_PRESETS: Array<{ label: string; width: number; height: number }> = [
-  { label: "16:9 Landscape (1080p)", width: 1920, height: 1080 },
-  { label: "9:16 Vertical (TikTok/Reels)", width: 1080, height: 1920 },
-  { label: "1:1 Square", width: 1080, height: 1080 },
-  { label: "4:5 Portrait", width: 1080, height: 1350 },
-  { label: "4:3 Standard", width: 1440, height: 1080 },
-  { label: "21:9 Cinematic", width: 2560, height: 1080 },
-  { label: "4K Landscape", width: 3840, height: 2160 },
+  { label: "16:9 横屏 (1080p)", width: 1920, height: 1080 },
+  { label: "9:16 竖屏 (TikTok/Reels)", width: 1080, height: 1920 },
+  { label: "1:1 方形", width: 1080, height: 1080 },
+  { label: "4:5 竖版", width: 1080, height: 1350 },
+  { label: "4:3 标准", width: 1440, height: 1080 },
+  { label: "21:9 电影宽屏", width: 2560, height: 1080 },
+  { label: "4K 横屏", width: 3840, height: 2160 },
 ];
 
 export const GeneralPanel: React.FC = () => {
@@ -59,7 +59,7 @@ export const GeneralPanel: React.FC = () => {
   }, [draftWidth, draftHeight, applyDimensions]);
 
   const ttsProviders = [
-    { id: "piper", label: "Piper (Free / Built-in)" },
+    { id: "piper", label: "Piper（免费 / 内置）" },
     ...SERVICE_REGISTRY.filter(
       (s) => s.id === "elevenlabs" || configuredServices.includes(s.id),
     ),
@@ -85,11 +85,10 @@ export const GeneralPanel: React.FC = () => {
       <div className="space-y-4">
         <div>
           <h3 className="text-sm font-medium text-text-primary">
-            Project Composition
+            项目画幅
           </h3>
           <p className="text-xs text-text-muted mt-0.5">
-            Set the canvas dimensions for your project. Pick a preset for TikTok,
-            Reels, YouTube, or enter custom values.
+            设置项目画布尺寸。可选择 TikTok、Reels、YouTube 等预设，或输入自定义数值。
           </p>
         </div>
 
@@ -118,7 +117,7 @@ export const GeneralPanel: React.FC = () => {
 
         <div className="flex items-end gap-2">
           <div className="flex-1">
-            <Label className="text-xs text-text-secondary">Width</Label>
+            <Label className="text-xs text-text-secondary">宽度</Label>
             <input
               type="number"
               min={16}
@@ -129,7 +128,7 @@ export const GeneralPanel: React.FC = () => {
             />
           </div>
           <div className="flex-1">
-            <Label className="text-xs text-text-secondary">Height</Label>
+            <Label className="text-xs text-text-secondary">高度</Label>
             <input
               type="number"
               min={16}
@@ -143,7 +142,7 @@ export const GeneralPanel: React.FC = () => {
             onClick={handleApplyCustom}
             className="h-9 px-3 rounded-md bg-primary text-white text-xs font-medium hover:bg-primary/90 transition-colors"
           >
-            Apply
+            应用
           </button>
         </div>
       </div>
@@ -152,13 +151,13 @@ export const GeneralPanel: React.FC = () => {
 
       {/* Auto-save */}
       <div className="space-y-4">
-        <h3 className="text-sm font-medium text-text-primary">Auto-Save</h3>
+        <h3 className="text-sm font-medium text-text-primary">自动保存</h3>
 
         <div className="flex items-center justify-between">
           <div>
-            <Label className="text-sm text-text-secondary">Enable auto-save</Label>
+            <Label className="text-sm text-text-secondary">启用自动保存</Label>
             <p className="text-xs text-text-muted mt-0.5">
-              Automatically save your project at regular intervals
+              按固定间隔自动保存项目
             </p>
           </div>
           <Switch checked={autoSave} onCheckedChange={setAutoSave} />
@@ -167,19 +166,19 @@ export const GeneralPanel: React.FC = () => {
         {autoSave && (
           <div className="flex items-center gap-3">
             <Label className="text-sm text-text-secondary whitespace-nowrap">
-              Save every
+              每
             </Label>
             <select
               value={autoSaveInterval}
               onChange={(e) => setAutoSaveInterval(Number(e.target.value))}
               className="h-9 rounded-md border border-input bg-background px-3 text-sm"
             >
-              <option value={1}>1 minute</option>
-              <option value={2}>2 minutes</option>
-              <option value={5}>5 minutes</option>
-              <option value={10}>10 minutes</option>
-              <option value={15}>15 minutes</option>
-              <option value={30}>30 minutes</option>
+              <option value={1}>1 分钟</option>
+              <option value={2}>2 分钟</option>
+              <option value={5}>5 分钟</option>
+              <option value={10}>10 分钟</option>
+              <option value={15}>15 分钟</option>
+              <option value={30}>30 分钟</option>
             </select>
           </div>
         )}
@@ -190,17 +189,16 @@ export const GeneralPanel: React.FC = () => {
       {/* Default providers */}
       <div className="space-y-4">
         <h3 className="text-sm font-medium text-text-primary">
-          Default AI Providers
+          默认 AI 服务
         </h3>
         <p className="text-xs text-text-muted">
-          Choose which service to use by default for AI features.
-          Configure API keys in the &quot;API Keys&quot; tab first.
+          选择 AI 功能的默认服务提供商。请先在「API 密钥」标签页中配置密钥。
         </p>
 
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label className="text-sm text-text-secondary">
-              Text to Speech/Voice To Speech/Sound Effects
+              文字转语音 / 变声 / 音效
             </Label>
             <select
               value={defaultTtsProvider}
@@ -217,7 +215,7 @@ export const GeneralPanel: React.FC = () => {
 
           <div className="flex items-center justify-between">
             <Label className="text-sm text-text-secondary">
-              AI Assistant (LLM)
+              AI 助手 (LLM)
             </Label>
             <select
               value={defaultLlmProvider}
@@ -235,10 +233,10 @@ export const GeneralPanel: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <Label className="text-sm text-text-secondary">
-                AI Aggregator
+                AI 聚合平台
               </Label>
               <p className="text-xs text-text-muted mt-0.5">
-                Video/image generation, upscaling, and creative AI tools
+                视频/图像生成、超分及创意 AI 工具
               </p>
             </div>
             <select

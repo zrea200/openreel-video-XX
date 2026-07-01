@@ -32,42 +32,42 @@ const EFFECT_PRESETS: Array<{
 }> = [
   {
     id: "brightness",
-    name: "Brightness",
+    name: "亮度",
     effect: { type: "brightness", params: { value: 0 }, enabled: true },
   },
   {
     id: "contrast",
-    name: "Contrast",
+    name: "对比度",
     effect: { type: "contrast", params: { value: 1 }, enabled: true },
   },
   {
     id: "saturation",
-    name: "Saturation",
+    name: "饱和度",
     effect: { type: "saturation", params: { value: 1 }, enabled: true },
   },
   {
     id: "exposure",
-    name: "Exposure",
+    name: "曝光",
     effect: { type: "exposure", params: { value: 0 }, enabled: true },
   },
   {
     id: "blur",
-    name: "Blur",
+    name: "模糊",
     effect: { type: "blur", params: { radius: 0 }, enabled: true },
   },
   {
     id: "sharpen",
-    name: "Sharpen",
+    name: "锐化",
     effect: { type: "sharpen", params: { amount: 0 }, enabled: true },
   },
   {
     id: "vignette",
-    name: "Vignette",
+    name: "暗角",
     effect: { type: "vignette", params: { intensity: 0 }, enabled: true },
   },
   {
     id: "tint",
-    name: "Tint",
+    name: "色调",
     effect: {
       type: "tint",
       params: { color: "#ffffff", strength: 0 },
@@ -77,23 +77,34 @@ const EFFECT_PRESETS: Array<{
 ];
 
 const BLEND_MODES: Array<{ id: BlendMode; name: string; group: string }> = [
-  { id: "normal", name: "Normal", group: "Basic" },
-  { id: "multiply", name: "Multiply", group: "Darken" },
-  { id: "screen", name: "Screen", group: "Lighten" },
-  { id: "overlay", name: "Overlay", group: "Contrast" },
-  { id: "darken", name: "Darken", group: "Darken" },
-  { id: "lighten", name: "Lighten", group: "Lighten" },
-  { id: "color-dodge", name: "Color Dodge", group: "Lighten" },
-  { id: "color-burn", name: "Color Burn", group: "Darken" },
-  { id: "hard-light", name: "Hard Light", group: "Contrast" },
-  { id: "soft-light", name: "Soft Light", group: "Contrast" },
-  { id: "difference", name: "Difference", group: "Inversion" },
-  { id: "exclusion", name: "Exclusion", group: "Inversion" },
-  { id: "hue", name: "Hue", group: "Component" },
-  { id: "saturation", name: "Saturation", group: "Component" },
-  { id: "color", name: "Color", group: "Component" },
-  { id: "luminosity", name: "Luminosity", group: "Component" },
+  { id: "normal", name: "正常", group: "Basic" },
+  { id: "multiply", name: "正片叠底", group: "Darken" },
+  { id: "screen", name: "滤色", group: "Lighten" },
+  { id: "overlay", name: "叠加", group: "Contrast" },
+  { id: "darken", name: "变暗", group: "Darken" },
+  { id: "lighten", name: "变亮", group: "Lighten" },
+  { id: "color-dodge", name: "颜色减淡", group: "Lighten" },
+  { id: "color-burn", name: "颜色加深", group: "Darken" },
+  { id: "hard-light", name: "强光", group: "Contrast" },
+  { id: "soft-light", name: "柔光", group: "Contrast" },
+  { id: "difference", name: "差值", group: "Inversion" },
+  { id: "exclusion", name: "排除", group: "Inversion" },
+  { id: "hue", name: "色相", group: "Component" },
+  { id: "saturation", name: "饱和度", group: "Component" },
+  { id: "color", name: "颜色", group: "Component" },
+  { id: "luminosity", name: "明度", group: "Component" },
 ];
+
+const EFFECT_TYPE_LABELS: Record<string, string> = {
+  brightness: "亮度",
+  contrast: "对比度",
+  saturation: "饱和度",
+  exposure: "曝光",
+  blur: "模糊",
+  sharpen: "锐化",
+  vignette: "暗角",
+  tint: "色调",
+};
 
 export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
   clipId,
@@ -152,7 +163,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
     const layer = adjustmentLayerEngine.createAdjustmentLayer(
       currentTrack.id,
       startTime,
-      { duration, name: `Adjustment ${allLayers.length + 1}` },
+      { duration, name: `调整 ${allLayers.length + 1}` },
     );
 
     setExpandedLayer(layer.id);
@@ -306,7 +317,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-[10px] text-text-secondary">
-                  Opacity
+                  不透明度
                 </label>
                 <span className="text-[10px] font-mono text-text-primary">
                   {Math.round(layer.opacity * 100)}%
@@ -326,7 +337,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
             <div className="space-y-1.5">
               <label className="text-[10px] text-text-secondary flex items-center gap-1">
                 <Palette size={10} />
-                Blend Mode
+                混合模式
               </label>
               <Popover open={showBlendModes} onOpenChange={setShowBlendModes}>
                 <PopoverTrigger asChild>
@@ -336,7 +347,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
                   >
                     <span>
                       {BLEND_MODES.find((m) => m.id === layer.blendMode)?.name ||
-                        "Normal"}
+                        "正常"}
                     </span>
                     <ChevronDown size={10} />
                   </button>
@@ -367,7 +378,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
             <div className="space-y-1.5">
               <label className="text-[10px] text-text-secondary flex items-center gap-1">
                 <Droplet size={10} />
-                Effects ({layer.effects.length})
+                效果 ({layer.effects.length})
               </label>
               {layer.effects.length > 0 && (
                 <div className="space-y-1">
@@ -376,8 +387,8 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
                       key={effect.id}
                       className="flex items-center justify-between p-1.5 bg-background-secondary rounded"
                     >
-                      <span className="text-[9px] text-text-primary capitalize">
-                        {effect.type}
+                      <span className="text-[9px] text-text-primary">
+                        {EFFECT_TYPE_LABELS[effect.type] ?? effect.type}
                       </span>
                       <button
                         onClick={() => handleRemoveEffect(layer.id, effect.id)}
@@ -408,14 +419,14 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
                 className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-background-secondary rounded text-[10px] text-text-secondary hover:text-text-primary transition-colors"
               >
                 <Copy size={10} />
-                Duplicate
+                复制
               </button>
               <button
                 onClick={() => handleDeleteLayer(layer.id)}
                 className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-red-500/10 rounded text-[10px] text-red-400 hover:bg-red-500/20 transition-colors"
               >
                 <Trash2 size={10} />
-                Delete
+                删除
               </button>
             </div>
           </div>
@@ -430,10 +441,10 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
         <Layers size={16} className="text-indigo-400" />
         <div className="flex-1">
           <span className="text-[11px] font-medium text-text-primary">
-            Adjustment Layers
+            调整图层
           </span>
           <p className="text-[9px] text-text-muted">
-            Non-destructive effects on clips below
+            对下方片段施加非破坏性效果
           </p>
         </div>
       </div>
@@ -448,13 +459,13 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
         }`}
       >
         <Plus size={14} />
-        Add Adjustment Layer
+        添加调整图层
       </button>
 
       {trackLayers.length > 0 && (
         <div className="space-y-2">
           <span className="text-[10px] font-medium text-text-secondary">
-            Track Layers ({trackLayers.length})
+            本轨道图层 ({trackLayers.length})
           </span>
           <div className="space-y-1.5">{trackLayers.map(renderLayerItem)}</div>
         </div>
@@ -463,7 +474,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
       {allLayers.length > trackLayers.length && (
         <div className="space-y-2 pt-2 border-t border-border">
           <span className="text-[10px] font-medium text-text-secondary">
-            Other Layers
+            其他图层
           </span>
           <div className="space-y-1.5">
             {allLayers
@@ -475,7 +486,7 @@ export const AdjustmentLayerSection: React.FC<AdjustmentLayerSectionProps> = ({
 
       <div className="pt-2 border-t border-border">
         <p className="text-[9px] text-text-muted text-center">
-          Apply color, effects to all clips below
+          对下方所有片段应用调色与效果
         </p>
       </div>
     </div>

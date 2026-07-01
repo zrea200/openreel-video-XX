@@ -21,6 +21,10 @@ import {
   type EasingName,
 } from "@openreel/core";
 import type { Keyframe, EasingType } from "@openreel/core";
+import {
+  EASING_CATEGORY_LABELS,
+  formatEasingLabel,
+} from "../display-labels";
 
 const keyframeEngine = new KeyframeEngine();
 
@@ -34,10 +38,16 @@ interface AnimatableProperty {
   step?: number;
 }
 
+const PROPERTY_CATEGORY_LABELS: Record<string, string> = {
+  Transform: "变换",
+  Effects: "特效",
+  Audio: "音频",
+};
+
 const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   {
     id: "position.x",
-    label: "Position X",
+    label: "位置 X",
     category: "Transform",
     defaultValue: 0,
     min: -2000,
@@ -45,7 +55,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "position.y",
-    label: "Position Y",
+    label: "位置 Y",
     category: "Transform",
     defaultValue: 0,
     min: -2000,
@@ -53,7 +63,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "scale.x",
-    label: "Scale X",
+    label: "缩放 X",
     category: "Transform",
     defaultValue: 1,
     min: 0,
@@ -62,7 +72,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "scale.y",
-    label: "Scale Y",
+    label: "缩放 Y",
     category: "Transform",
     defaultValue: 1,
     min: 0,
@@ -71,7 +81,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "rotation",
-    label: "Rotation",
+    label: "旋转",
     category: "Transform",
     defaultValue: 0,
     min: -360,
@@ -79,7 +89,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "opacity",
-    label: "Opacity",
+    label: "不透明度",
     category: "Transform",
     defaultValue: 1,
     min: 0,
@@ -89,7 +99,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   // Effect parameters
   {
     id: "effect.brightness",
-    label: "Brightness",
+    label: "亮度",
     category: "Effects",
     defaultValue: 0,
     min: -100,
@@ -97,7 +107,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "effect.contrast",
-    label: "Contrast",
+    label: "对比度",
     category: "Effects",
     defaultValue: 1,
     min: 0,
@@ -106,7 +116,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "effect.saturation",
-    label: "Saturation",
+    label: "饱和度",
     category: "Effects",
     defaultValue: 1,
     min: 0,
@@ -115,7 +125,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "effect.blur",
-    label: "Blur",
+    label: "模糊",
     category: "Effects",
     defaultValue: 0,
     min: 0,
@@ -123,7 +133,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "volume",
-    label: "Volume",
+    label: "音量",
     category: "Audio",
     defaultValue: 1,
     min: 0,
@@ -132,7 +142,7 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
   },
   {
     id: "pan",
-    label: "Pan",
+    label: "声像",
     category: "Audio",
     defaultValue: 0,
     min: -1,
@@ -140,15 +150,6 @@ const ANIMATABLE_PROPERTIES: AnimatableProperty[] = [
     step: 0.01,
   },
 ];
-
-const formatEasingLabel = (easing: string): string => {
-  return (
-    easing
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^ease/, "")
-      .trim() || easing
-  );
-};
 
 const PropertySelector: React.FC<{
   selectedProperty: string | null;
@@ -162,7 +163,7 @@ const PropertySelector: React.FC<{
   const selectedLabel = selectedProperty
     ? ANIMATABLE_PROPERTIES.find((p) => p.id === selectedProperty)?.label ||
       selectedProperty
-    : "Select Property";
+    : "选择属性";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -186,7 +187,7 @@ const PropertySelector: React.FC<{
         {categories.map((category) => (
           <div key={category}>
             <div className="px-3 py-1.5 text-[9px] font-medium text-text-muted uppercase tracking-wider bg-background-tertiary">
-              {category}
+              {PROPERTY_CATEGORY_LABELS[category] ?? category}
             </div>
             {ANIMATABLE_PROPERTIES.filter(
               (p) => p.category === category,
@@ -279,7 +280,7 @@ const EasingSelector: React.FC<{
         <button
           type="button"
           className="flex items-center gap-1.5 px-2 py-1 bg-background-tertiary border border-border rounded text-[9px] text-text-secondary hover:text-text-primary hover:border-primary/50 transition-colors"
-          title={`Easing: ${currentLabel}`}
+          title={`缓动: ${currentLabel}`}
         >
           <EasingCurvePreview easing={value} size={14} />
           <span>{currentLabel}</span>
@@ -294,7 +295,7 @@ const EasingSelector: React.FC<{
         {EASING_CATEGORIES.map((category) => (
           <div key={category.name}>
             <div className="px-3 py-1 text-[8px] font-medium text-text-muted uppercase tracking-wider bg-background-tertiary sticky top-0">
-              {category.name}
+              {EASING_CATEGORY_LABELS[category.name] ?? category.name}
             </div>
             {category.easings.map((easing) => (
               <button
@@ -363,7 +364,7 @@ const KeyframeItem: React.FC<{
       <button
         onClick={onDelete}
         className="p-1 hover:bg-red-500/20 rounded transition-colors text-text-muted hover:text-red-400"
-        title="Delete keyframe"
+        title="删除关键帧"
       >
         <Trash2 size={12} />
       </button>
@@ -507,7 +508,7 @@ export const KeyframesSection: React.FC<KeyframesSectionProps> = ({
   if (!clip) {
     return (
       <div className="text-[10px] text-text-muted text-center py-4">
-        No clip selected
+        未选中片段
       </div>
     );
   }
@@ -516,7 +517,7 @@ export const KeyframesSection: React.FC<KeyframesSectionProps> = ({
     <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-[10px] text-text-secondary font-medium">
-          Animate Property
+          动画属性
         </label>
         <PropertySelector
           selectedProperty={selectedProperty}
@@ -528,7 +529,7 @@ export const KeyframesSection: React.FC<KeyframesSectionProps> = ({
       {selectedProperty && (
         <div className="flex items-center justify-between p-2 bg-background-tertiary rounded-lg border border-border">
           <span className="text-[10px] text-text-secondary">
-            Value at {playheadPosition.toFixed(2)}s
+            {playheadPosition.toFixed(2)}s 处的数值
           </span>
           <span className="text-[10px] font-mono text-text-primary">
             {typeof currentValue === "number"
@@ -551,12 +552,12 @@ export const KeyframesSection: React.FC<KeyframesSectionProps> = ({
           {hasKeyframeAtPlayhead ? (
             <>
               <Key size={12} />
-              Keyframe exists at {playheadPosition.toFixed(2)}s
+              {playheadPosition.toFixed(2)}s 处已有关键帧
             </>
           ) : (
             <>
               <Plus size={12} />
-              Add Keyframe at {playheadPosition.toFixed(2)}s
+              在 {playheadPosition.toFixed(2)}s 添加关键帧
             </>
           )}
         </button>
@@ -566,7 +567,7 @@ export const KeyframesSection: React.FC<KeyframesSectionProps> = ({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-[10px] text-text-secondary font-medium">
-              Keyframes ({propertyKeyframes.length})
+              关键帧 ({propertyKeyframes.length})
             </span>
           </div>
           <div className="space-y-1.5 max-h-48 overflow-y-auto">
@@ -588,14 +589,14 @@ export const KeyframesSection: React.FC<KeyframesSectionProps> = ({
         <div className="text-center py-4">
           <Key size={24} className="mx-auto text-text-muted mb-2" />
           <p className="text-[10px] text-text-muted">
-            Select a property to animate
+            选择要动画化的属性
           </p>
         </div>
       )}
 
       {selectedProperty && propertyKeyframes.length === 0 && (
         <p className="text-[10px] text-text-muted text-center py-2">
-          No keyframes for this property. Add one to start animating.
+          此属性暂无关键帧，添加一个即可开始动画。
         </p>
       )}
     </div>

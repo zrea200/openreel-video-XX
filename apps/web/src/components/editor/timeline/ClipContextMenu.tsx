@@ -125,10 +125,10 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
   };
 
   const getClipTypeLabel = () => {
-    if (isVideo) return "Video Clip";
-    if (isAudio) return "Audio Clip";
-    if (isImage) return "Image Clip";
-    return "Clip";
+    if (isVideo) return "视频片段";
+    if (isAudio) return "音频片段";
+    if (isImage) return "图片片段";
+    return "片段";
   };
 
   const getClipTypeIcon = () => {
@@ -148,12 +148,12 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
 
       <ContextMenuItem onClick={handleCopy}>
         <Copy className="mr-2 h-4 w-4" />
-        Copy Clip
+        复制片段
         <ContextMenuShortcut>⌘C</ContextMenuShortcut>
       </ContextMenuItem>
       <ContextMenuItem onClick={handleDuplicate}>
         <Layers className="mr-2 h-4 w-4" />
-        Duplicate
+        复制
         <ContextMenuShortcut>⌘D</ContextMenuShortcut>
       </ContextMenuItem>
 
@@ -161,12 +161,12 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
 
       <ContextMenuItem onClick={handleSplit} disabled={!isPlayheadOnClip}>
         <Scissors className="mr-2 h-4 w-4" />
-        Split at Playhead
+        在播放头处分割
         <ContextMenuShortcut>S</ContextMenuShortcut>
       </ContextMenuItem>
       <ContextMenuItem onClick={handleCloseGap} disabled={!hasGapBeforeClip}>
         <ArrowLeftToLine className="mr-2 h-4 w-4" />
-        Close Gap to Previous
+        闭合与前一片段的间隙
       </ContextMenuItem>
 
       {(isVideo || isImage) && (
@@ -175,14 +175,14 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
           <ContextMenuSub>
             <ContextMenuSubTrigger>
               <Sparkles className="mr-2 h-4 w-4" />
-              Effects
+              特效
             </ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem onClick={handleCopyEffects} disabled={!hasEffects}>
-                Copy Effects
+                复制特效
               </ContextMenuItem>
               <ContextMenuItem onClick={handlePasteEffects} disabled={!hasCopiedEffects}>
-                Paste Effects
+                粘贴特效
               </ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
@@ -194,7 +194,7 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
           <ContextMenuSeparator />
           <ContextMenuItem onClick={handleSeparateAudio}>
             <Music className="mr-2 h-4 w-4" />
-            Separate Audio
+            分离音频
           </ContextMenuItem>
         </>
       )}
@@ -205,14 +205,14 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
           <ContextMenuSub>
             <ContextMenuSubTrigger>
               <Volume2 className="mr-2 h-4 w-4" />
-              Audio
+              音频
             </ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem onClick={handleCopyEffects} disabled={!hasEffects}>
-                Copy Audio Effects
+                复制音频特效
               </ContextMenuItem>
               <ContextMenuItem onClick={handlePasteEffects} disabled={!hasCopiedEffects}>
-                Paste Audio Effects
+                粘贴音频特效
               </ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
@@ -222,12 +222,12 @@ export const ClipContextMenu: React.FC<ClipContextMenuProps> = ({
       <ContextMenuSeparator />
       <ContextMenuItem onClick={handleRippleDelete} className="text-red-400">
         <Trash2 className="mr-2 h-4 w-4" />
-        Ripple Delete
+        波纹删除
         <ContextMenuShortcut>⌫</ContextMenuShortcut>
       </ContextMenuItem>
       <ContextMenuItem onClick={handleDelete} className="text-red-400">
         <Trash2 className="mr-2 h-4 w-4" />
-        Delete
+        删除
       </ContextMenuItem>
     </ContextMenuContent>
   );

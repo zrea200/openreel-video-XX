@@ -23,11 +23,11 @@ const WHITE_BALANCE_PRESETS: Array<{
   temperature: number;
   tint: number;
 }> = [
-  { label: "Tungsten", temperature: -40, tint: 8 },
-  { label: "Fluorescent", temperature: -15, tint: -10 },
-  { label: "Daylight", temperature: 0, tint: 0 },
-  { label: "Cloudy", temperature: 15, tint: 0 },
-  { label: "Shade", temperature: 30, tint: 5 },
+  { label: "钨丝灯", temperature: -40, tint: 8 },
+  { label: "荧光灯", temperature: -15, tint: -10 },
+  { label: "日光", temperature: 0, tint: 0 },
+  { label: "阴天", temperature: 15, tint: 0 },
+  { label: "阴影", temperature: 30, tint: 5 },
 ];
 
 const SubSection: React.FC<{
@@ -171,24 +171,23 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
           className="flex items-center gap-1 px-2 py-1 text-[10px] text-text-muted hover:text-text-primary transition-colors"
         >
           <RotateCcw size={10} />
-          Reset All
+          全部重置
         </button>
       </div>
 
-      <SubSection title="White Balance" defaultOpen>
+      <SubSection title="白平衡" defaultOpen>
         <div className="space-y-4">
           <div className="flex items-start justify-between gap-2">
             <p className="text-[10px] text-text-muted leading-snug">
-              Warm up cool shots or cool down warm ones. Tint corrects green or
-              magenta casts.
+              为偏冷画面增暖，或为偏暖画面降温。色调用于校正偏绿或偏洋红。
             </p>
             <button
               onClick={handleWhiteBalanceReset}
               className="flex items-center gap-1 px-2 py-0.5 text-[10px] text-text-muted hover:text-text-primary transition-colors shrink-0"
-              title="Reset white balance"
+              title="重置白平衡"
             >
               <RotateCcw size={10} />
-              Reset
+              重置
             </button>
           </div>
 
@@ -196,7 +195,7 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
             <div className="flex items-center gap-1.5">
               <Thermometer size={12} className="text-text-muted" />
               <LabeledSlider
-                label="Temperature"
+                label="色温"
                 value={temperatureValue}
                 onChange={handleTemperatureChange}
                 min={-100}
@@ -218,7 +217,7 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
             <div className="flex items-center gap-1.5">
               <Sun size={12} className="text-text-muted" />
               <LabeledSlider
-                label="Tint"
+                label="色调"
                 value={tintValue}
                 onChange={handleTintChange}
                 min={-100}
@@ -238,7 +237,7 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
 
           <div className="pt-1">
             <span className="text-[10px] text-text-muted block mb-1.5">
-              Presets
+              预设
             </span>
             <div className="grid grid-cols-5 gap-1">
               {WHITE_BALANCE_PRESETS.map((preset) => {
@@ -254,7 +253,7 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
                         ? "bg-primary text-white"
                         : "bg-background-tertiary border border-border text-text-secondary hover:text-text-primary"
                     }`}
-                    title={`Temp: ${preset.temperature}, Tint: ${preset.tint}`}
+                    title={`色温: ${preset.temperature}，色调: ${preset.tint}`}
                   >
                     {preset.label}
                   </button>
@@ -265,7 +264,7 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
         </div>
       </SubSection>
 
-      <SubSection title="Color Wheels" defaultOpen={false}>
+      <SubSection title="色轮" defaultOpen={false}>
         <ColorWheelsControl
           values={colorWheelValues}
           onChange={handleColorWheelsChange}
@@ -273,7 +272,7 @@ export const ColorGradingSection: React.FC<ColorGradingSectionProps> = ({
         />
       </SubSection>
 
-      <SubSection title="Curves">
+      <SubSection title="曲线">
         <CurvesEditor
           values={curvesValues}
           onChange={handleCurvesChange}

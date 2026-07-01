@@ -426,20 +426,20 @@ export const CurvesEditor: React.FC<CurvesEditorProps> = ({
       {/* Controls */}
       <div className="flex justify-between items-center">
         <span className="text-[9px] text-text-muted">
-          Click to add point • Double-click to remove
+          点击添加点 · 双击删除
         </span>
         <button
           onClick={handleResetChannel}
           className="flex items-center gap-1 px-2 py-1 text-[10px] text-text-muted hover:text-text-primary transition-colors"
         >
           <RotateCcw size={10} />
-          Reset
+          重置
         </button>
       </div>
 
       {/* Point count indicator */}
       <div className="text-[9px] text-text-muted text-center">
-        {currentPoints.length} points
+        {currentPoints.length} 个控制点
       </div>
     </div>
   );

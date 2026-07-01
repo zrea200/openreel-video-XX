@@ -11,6 +11,10 @@ import {
   type FilterPreset,
   type FilterCategory,
 } from "@openreel/core";
+import {
+  getFilterPresetDisplayDescription,
+  getFilterPresetDisplayName,
+} from "../display-labels";
 
 const CATEGORY_ICONS: Record<string, React.ElementType> = {
   cinematic: Film,
@@ -18,6 +22,14 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   mood: Moon,
   color: Palette,
   stylized: Wand2,
+};
+
+const FILTER_CATEGORY_LABELS: Record<string, string> = {
+  cinematic: "电影",
+  vintage: "复古",
+  mood: "氛围",
+  color: "色彩",
+  stylized: "风格化",
 };
 
 interface PresetCardProps {
@@ -48,12 +60,12 @@ const PresetCard: React.FC<PresetCardProps> = ({
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-medium text-text-primary">
-              {preset.name}
+              {getFilterPresetDisplayName(preset.id, preset.name)}
             </span>
             {isApplied && <Check size={12} className="text-primary" />}
           </div>
           <p className="text-[9px] text-text-muted mt-0.5">
-            {preset.description}
+            {getFilterPresetDisplayDescription(preset.id, preset.description)}
           </p>
         </div>
       </div>
@@ -75,7 +87,7 @@ const PresetCard: React.FC<PresetCardProps> = ({
       {isHovered && !isApplied && (
         <div className="absolute inset-0 flex items-center justify-center bg-background-tertiary/80 rounded-lg">
           <span className="text-[10px] text-primary font-medium">
-            Click to Apply
+            点击应用
           </span>
         </div>
       )}
@@ -120,7 +132,7 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
       });
 
       setAppliedPresetId(preset.id);
-      toast.success("Filter Applied", `${preset.name} preset applied`);
+      toast.success("滤镜已应用", `已应用「${getFilterPresetDisplayName(preset.id, preset.name)}」预设`);
     },
     [targetClipId, addVideoEffect, getVideoEffects, removeVideoEffect],
   );
@@ -134,7 +146,7 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
     });
 
     setAppliedPresetId(null);
-    toast.info("Effects Cleared");
+    toast.info("效果已清除");
   }, [targetClipId, getVideoEffects, removeVideoEffect]);
 
   if (!targetClipId) {
@@ -142,7 +154,7 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
       <div className="p-4 text-center">
         <Palette size={24} className="mx-auto mb-2 text-text-muted" />
         <p className="text-[10px] text-text-muted">
-          Select a video clip to apply filters
+          请选择视频片段以应用滤镜
         </p>
       </div>
     );
@@ -154,9 +166,9 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
         <Palette size={16} className="text-primary" />
         <div>
           <span className="text-[11px] font-medium text-text-primary">
-            Filter Presets
+            滤镜预设
           </span>
-          <p className="text-[9px] text-text-muted">One-click color grades</p>
+          <p className="text-[9px] text-text-muted">一键调色</p>
         </div>
       </div>
 
@@ -174,7 +186,7 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
               }`}
             >
               <Icon size={12} />
-              {category.name}
+              {FILTER_CATEGORY_LABELS[category.id] ?? category.name}
             </button>
           );
         })}
@@ -194,7 +206,7 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
       {appliedPresetId && (
         <div className="space-y-3 p-3 bg-background-tertiary rounded-lg">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-text-secondary">Intensity</span>
+            <span className="text-[10px] text-text-secondary">强度</span>
             <span className="text-[10px] font-mono text-text-primary">
               {intensityValue}%
             </span>
@@ -210,14 +222,13 @@ export const FilterPresetsPanel: React.FC<FilterPresetsPanelProps> = ({
             onClick={handleClearEffects}
             className="w-full py-2 text-[10px] text-red-400 hover:text-red-300 bg-red-500/10 rounded-lg transition-colors"
           >
-            Remove All Effects
+            移除全部效果
           </button>
         </div>
       )}
 
       <p className="text-[9px] text-text-muted text-center">
-        {FILTER_PRESETS.length} presets across {FILTER_CATEGORIES.length}{" "}
-        categories
+        共 {FILTER_CATEGORIES.length} 个分类、{FILTER_PRESETS.length} 个预设
       </p>
     </div>
   );

@@ -43,6 +43,23 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   custom: Folder,
 };
 
+const TEMPLATE_CATEGORY_LABELS: Record<string, string> = {
+  "social-media": "社交媒体",
+  youtube: "YouTube",
+  tiktok: "TikTok",
+  instagram: "Instagram",
+  business: "商务",
+  personal: "个人",
+  slideshow: "幻灯片",
+  "intro-outro": "片头片尾",
+  "lower-third": "下三分之一",
+  custom: "自定义",
+  social: "社交",
+  promo: "宣传",
+  education: "教育",
+  travel: "旅行",
+};
+
 interface TemplateCardProps {
   template: TemplateSummary & { source?: "local" | "cloud"; author?: string };
   isSelected: boolean;
@@ -82,20 +99,20 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
             </span>
             {template.id.startsWith("builtin-") && (
               <span className="px-1.5 py-0.5 text-[8px] bg-status-info/20 text-status-info rounded shrink-0">
-                Built-in
+                内置
               </span>
             )}
             {template.source === "cloud" && (
               <span className="px-1.5 py-0.5 text-[8px] bg-primary/20 text-primary rounded flex items-center gap-1 shrink-0">
                 <Cloud size={8} />
-                Cloud
+                云端
               </span>
             )}
           </div>
           <div className="flex items-center gap-3 mt-1">
             <div className="flex items-center gap-1 text-[9px] text-text-muted">
               <Layers size={10} />
-              <span>{template.placeholderCount} placeholders</span>
+              <span>{template.placeholderCount} 个占位符</span>
             </div>
             <div className="flex items-center gap-1 text-[9px] text-text-muted">
               <Clock size={10} />
@@ -112,7 +129,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
           }}
           className="mt-3 w-full py-1.5 text-[10px] font-medium bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
         >
-          Use This Template
+          使用此模板
         </button>
       )}
     </div>
@@ -240,7 +257,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
       }
 
       if (!template) {
-        setApplyError("Template not found");
+        setApplyError("未找到模板");
         return;
       }
 
@@ -248,7 +265,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
         templateEngine.applyTemplate(template, placeholderValues);
 
       if (missingPlaceholders.length > 0) {
-        setApplyError(`Missing required: ${missingPlaceholders.join(", ")}`);
+        setApplyError(`缺少必填项：${missingPlaceholders.join(", ")}`);
       }
 
       loadProject(project);
@@ -258,7 +275,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
           const placeholder = template.placeholders.find(
             (p) => p.id === textClip.placeholderId,
           );
-          const trackName = placeholder?.label || "Text";
+          const trackName = placeholder?.label || "文字";
 
           const track = project.timeline.tracks.find((t) =>
             t.clips.some((c) => c.id === textClip.id),
@@ -301,7 +318,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
       onTemplateApplied?.();
     } catch (error) {
       setApplyError(
-        error instanceof Error ? error.message : "Failed to apply template",
+        error instanceof Error ? error.message : "应用模板失败",
       );
     }
   }, [
@@ -331,7 +348,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
           className="flex items-center gap-1.5 text-[10px] text-text-muted hover:text-text-primary transition-colors"
         >
           <ChevronLeft size={12} />
-          <span>Back to Templates</span>
+          <span>返回模板列表</span>
         </button>
 
         <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg border border-primary/30">
@@ -341,7 +358,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
               {loadedTemplate.name}
             </span>
             <p className="text-[9px] text-text-muted">
-              Configure template variables
+              配置模板变量
             </p>
           </div>
         </div>
@@ -368,10 +385,10 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
         <FolderOpen size={16} className="text-primary shrink-0" />
         <div className="min-w-0 flex-1">
           <span className="text-[11px] font-medium text-text-primary">
-            Templates
+            模板
           </span>
           <p className="text-[9px] text-text-muted">
-            Start with a pre-made project
+            从预制项目开始
           </p>
         </div>
       </div>
@@ -385,7 +402,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
               : "bg-background-tertiary text-text-secondary hover:text-text-primary"
           }`}
         >
-          All
+          全部
         </button>
         {TEMPLATE_CATEGORIES.map((category) => {
           const Icon = CATEGORY_ICONS[category.id] || FolderOpen;
@@ -400,7 +417,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
               }`}
             >
               <Icon size={12} />
-              {category.name}
+              {TEMPLATE_CATEGORY_LABELS[category.id] ?? category.name}
             </button>
           );
         })}
@@ -420,7 +437,7 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
               className="mx-auto mb-2 text-text-muted opacity-50"
             />
             <p className="text-[10px] text-text-muted">
-              No templates in this category
+              此分类下暂无模板
             </p>
           </div>
         ) : (
@@ -442,12 +459,12 @@ export const TemplatesBrowserPanel: React.FC<TemplatesBrowserPanelProps> = ({
           className="w-full flex items-center justify-center gap-2 py-2 text-[10px] text-text-secondary hover:text-text-primary bg-background-tertiary rounded-lg transition-colors"
         >
           <Plus size={12} />
-          <span>Save Current Project as Template</span>
+          <span>将当前项目保存为模板</span>
         </button>
       </div>
 
       <p className="text-[9px] text-text-muted text-center">
-        {templates.length} templates available
+        共 {templates.length} 个模板
       </p>
 
       <SaveTemplateDialog

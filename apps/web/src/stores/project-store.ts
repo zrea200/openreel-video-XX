@@ -663,7 +663,7 @@ export const useProjectStore = create<ProjectState>()(
     ): Track => ({
       id: `track-${uuidv4()}`,
       type: trackType,
-      name: trackType === "text" ? "Recipe Text" : "Recipe Graphics",
+      name: trackType === "text" ? "配方文字" : "配方图形",
       clips: [],
       transitions: [],
       locked: false,
@@ -1653,7 +1653,7 @@ export const useProjectStore = create<ProjectState>()(
               success: false,
               error: {
                 code: "DECODE_ERROR" as const,
-                message: importResult.error || "Failed to import media",
+                message: importResult.error || "导入媒体失败",
               },
             };
           }
@@ -1836,7 +1836,7 @@ export const useProjectStore = create<ProjectState>()(
             error: {
               code: "DECODE_ERROR" as const,
               message:
-                error instanceof Error ? error.message : "Unknown import error",
+                error instanceof Error ? error.message : "未知导入错误",
             },
           };
         }
@@ -1876,7 +1876,7 @@ export const useProjectStore = create<ProjectState>()(
               success: false,
               error: {
                 code: "DECODE_ERROR" as const,
-                message: importResult.error || "Failed to import media",
+                message: importResult.error || "导入媒体失败",
               },
             };
           }
@@ -2034,7 +2034,7 @@ export const useProjectStore = create<ProjectState>()(
             error: {
               code: "DECODE_ERROR" as const,
               message:
-                error instanceof Error ? error.message : "Unknown import error",
+                error instanceof Error ? error.message : "未知导入错误",
             },
           };
         }
@@ -2353,7 +2353,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "MEDIA_NOT_FOUND" as const,
-              message: "Media item not found",
+              message: "未找到媒体项",
             },
           };
         }
@@ -2389,7 +2389,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "TRACK_NOT_FOUND" as const,
-              message: "Could not find newly created track",
+              message: "找不到新创建的轨道",
             },
           };
         }
@@ -2424,7 +2424,7 @@ export const useProjectStore = create<ProjectState>()(
         if (!videoClip) {
           return {
             success: false,
-            error: { code: "CLIP_NOT_FOUND" as const, message: "Clip not found" },
+            error: { code: "CLIP_NOT_FOUND" as const, message: "未找到片段" },
           };
         }
 
@@ -2442,7 +2442,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "MEDIA_NOT_FOUND" as const,
-              message: "Media has no audio to separate",
+              message: "媒体没有可分离的音频",
             },
           };
         }
@@ -2491,7 +2491,7 @@ export const useProjectStore = create<ProjectState>()(
               success: false,
               error: {
                 code: "TRACK_NOT_FOUND" as const,
-                message: "Failed to create audio track",
+                message: "创建音频轨道失败",
               },
             };
           }
@@ -2507,7 +2507,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "TRACK_NOT_FOUND" as const,
-              message: "Could not find or create audio track",
+              message: "找不到或无法创建音频轨道",
             },
           };
         }
@@ -2644,7 +2644,7 @@ export const useProjectStore = create<ProjectState>()(
         }
         const { actionExecutor } = get();
         const history = actionExecutor.getHistory();
-        history.beginGroup("Move clips");
+        history.beginGroup("移动片段");
         try {
           let lastResult: ActionResult = { success: true };
           for (const move of moves) {
@@ -2737,7 +2737,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "INVALID_PARAMS" as const,
-              message: "Clip not found",
+              message: "未找到片段",
             },
           };
         }
@@ -2750,7 +2750,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "INVALID_PARAMS" as const,
-              message: "Track not found",
+              message: "未找到轨道",
             },
           };
         }
@@ -3015,7 +3015,7 @@ export const useProjectStore = create<ProjectState>()(
               success: false,
               error: {
                 code: "INVALID_PARAMS" as const,
-                message: "Clipboard is empty",
+                message: "剪贴板为空",
               },
             },
           ];
@@ -3058,7 +3058,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "INVALID_PARAMS" as const,
-              message: "Clip not found",
+              message: "未找到片段",
             },
           };
         }
@@ -3071,7 +3071,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "INVALID_PARAMS" as const,
-              message: "Track not found",
+              message: "未找到轨道",
             },
           };
         }
@@ -3147,7 +3147,7 @@ export const useProjectStore = create<ProjectState>()(
             success: false,
             error: {
               code: "INVALID_PARAMS" as const,
-              message: "No effects in clipboard",
+              message: "剪贴板中没有效果",
             },
           };
         }
@@ -3172,7 +3172,7 @@ export const useProjectStore = create<ProjectState>()(
         return (
           results[0] || {
             success: false,
-            error: { code: "UNKNOWN" as const, message: "No results" },
+            error: { code: "UNKNOWN" as const, message: "无结果" },
           }
         );
       },
@@ -3743,7 +3743,7 @@ export const useProjectStore = create<ProjectState>()(
               success: false,
               error: {
                 code: "INVALID_PARAMS",
-                message: "Failed to undo editing template update",
+                message: "撤销编辑模板更新失败",
               },
             };
           }
@@ -3915,7 +3915,7 @@ export const useProjectStore = create<ProjectState>()(
               success: false,
               error: {
                 code: "INVALID_PARAMS",
-                message: "Failed to restore editing template application",
+                message: "恢复编辑模板应用失败",
               },
             };
           }
@@ -4760,7 +4760,7 @@ export const useProjectStore = create<ProjectState>()(
 
       // Marker actions
 
-      addMarker: (time, label = "Marker", color = "#3b82f6") => {
+      addMarker: (time, label = "标记", color = "#3b82f6") => {
         const newMarker: import("@openreel/core").Marker = {
           id: `marker-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
           time,

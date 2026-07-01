@@ -18,14 +18,29 @@ import {
 const CAPTION_STYLE_PRESETS = [
   {
     id: "default",
-    name: "Default",
-    description: "White text on dark background",
+    name: "默认",
+    description: "深色背景上的白色文字",
   },
-  { id: "modern", name: "Modern", description: "Clean, minimal style" },
-  { id: "bold", name: "Bold", description: "Large, impactful text" },
-  { id: "cinematic", name: "Cinematic", description: "Film-style captions" },
-  { id: "minimal", name: "Minimal", description: "Subtle, understated" },
+  { id: "modern", name: "现代", description: "简洁、极简风格" },
+  { id: "bold", name: "粗体", description: "大号、醒目文字" },
+  { id: "cinematic", name: "电影", description: "电影风格字幕" },
+  { id: "minimal", name: "极简", description: "低调、含蓄" },
 ];
+
+const LANGUAGE_LABELS: Record<string, string> = {
+  "en-US": "英语（美国）",
+  "en-GB": "英语（英国）",
+  "zh-CN": "中文（简体）",
+  "zh-TW": "中文（繁体）",
+  "ja-JP": "日语",
+  "ko-KR": "韩语",
+  "fr-FR": "法语",
+  "de-DE": "德语",
+  "es-ES": "西班牙语",
+  "it-IT": "意大利语",
+  "pt-BR": "葡萄牙语（巴西）",
+  "ru-RU": "俄语",
+};
 
 export const AutoCaptionPanel: React.FC = () => {
   const getSpeechToTextEngine = useEngineStore(
@@ -70,7 +85,7 @@ export const AutoCaptionPanel: React.FC = () => {
       await speechEngine.startLiveTranscription();
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to start transcription",
+        err instanceof Error ? err.message : "无法开始转写",
       );
       setIsTranscribing(false);
     }
@@ -128,11 +143,10 @@ export const AutoCaptionPanel: React.FC = () => {
       <div className="p-4 space-y-3">
         <div className="flex items-center gap-2 text-status-warning">
           <AlertCircle size={16} />
-          <span className="text-[11px] font-medium">Browser Not Supported</span>
+          <span className="text-[11px] font-medium">浏览器不支持</span>
         </div>
         <p className="text-[10px] text-text-muted">
-          Auto-captions require Chrome or Edge browser with Speech Recognition
-          API support.
+          自动字幕需要 Chrome 或 Edge 浏览器，且支持语音识别 API。
         </p>
       </div>
     );
@@ -144,10 +158,10 @@ export const AutoCaptionPanel: React.FC = () => {
         <Mic size={16} className="text-primary" />
         <div>
           <span className="text-[11px] font-medium text-text-primary">
-            Auto-Caption
+            自动字幕
           </span>
           <p className="text-[9px] text-text-muted">
-            Generate captions from speech
+            从语音生成字幕
           </p>
         </div>
       </div>
@@ -156,7 +170,7 @@ export const AutoCaptionPanel: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Languages size={14} className="text-text-secondary" />
-            <span className="text-[10px] text-text-secondary">Language</span>
+            <span className="text-[10px] text-text-secondary">语言</span>
           </div>
           <Select
             value={selectedLanguage}
@@ -169,7 +183,7 @@ export const AutoCaptionPanel: React.FC = () => {
             <SelectContent className="bg-background-secondary border-border">
               {languages.map((lang) => (
                 <SelectItem key={lang.code} value={lang.code}>
-                  {lang.name}
+                  {LANGUAGE_LABELS[lang.code] ?? lang.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -177,7 +191,7 @@ export const AutoCaptionPanel: React.FC = () => {
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="text-[10px] text-text-secondary">Caption Style</span>
+          <span className="text-[10px] text-text-secondary">字幕样式</span>
           <Select
             value={selectedStyle}
             onValueChange={setSelectedStyle}
@@ -207,15 +221,15 @@ export const AutoCaptionPanel: React.FC = () => {
       {isTranscribing && progress && (
         <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-text-secondary">Status</span>
+            <span className="text-[10px] text-text-secondary">状态</span>
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              <span className="text-[10px] text-red-400">Recording</span>
+              <span className="text-[10px] text-red-400">录制中</span>
             </div>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-[10px] text-text-secondary">
-              Segments Found
+              已识别片段
             </span>
             <span className="text-[10px] text-text-primary font-mono">
               {progress.segmentsFound}
@@ -228,14 +242,13 @@ export const AutoCaptionPanel: React.FC = () => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-[10px] text-text-secondary">
-              {segments.length} caption{segments.length !== 1 ? "s" : ""}{" "}
-              detected
+              已识别 {segments.length} 条字幕
             </span>
             <button
               onClick={handleApplySegments}
               className="px-2 py-1 text-[10px] bg-primary text-white rounded hover:bg-primary/80 transition-colors"
             >
-              Add to Timeline
+              添加到时间轴
             </button>
           </div>
           <div className="max-h-32 overflow-y-auto space-y-1">
@@ -262,7 +275,7 @@ export const AutoCaptionPanel: React.FC = () => {
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
           >
             <Mic size={16} />
-            <span className="text-[11px] font-medium">Start Recording</span>
+            <span className="text-[11px] font-medium">开始录制</span>
           </button>
         ) : (
           <button
@@ -270,14 +283,13 @@ export const AutoCaptionPanel: React.FC = () => {
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
           >
             <MicOff size={16} />
-            <span className="text-[11px] font-medium">Stop Recording</span>
+            <span className="text-[11px] font-medium">停止录制</span>
           </button>
         )}
       </div>
 
       <p className="text-[9px] text-text-muted text-center">
-        Speak clearly into your microphone. Captions will be generated in
-        real-time.
+        请对着麦克风清晰说话，字幕将实时生成。
       </p>
     </div>
   );

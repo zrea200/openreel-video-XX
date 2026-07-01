@@ -43,8 +43,8 @@ export const SVGImporter: React.FC<SVGImporterProps> = ({
       // Validate file type
       if (!file.name.toLowerCase().endsWith(".svg")) {
         setStatus("error");
-        setErrorMessage("Please select an SVG file (.svg)");
-        onError?.("Please select an SVG file (.svg)");
+        setErrorMessage("请选择 SVG 文件（.svg）");
+        onError?.("请选择 SVG 文件（.svg）");
         return;
       }
 
@@ -66,8 +66,8 @@ export const SVGImporter: React.FC<SVGImporterProps> = ({
         const validation = bridge.validateSVG(svgContent);
         if (!validation.valid) {
           setStatus("error");
-          setErrorMessage(validation.error || "Invalid SVG content");
-          onError?.(validation.error || "Invalid SVG content");
+          setErrorMessage(validation.error || "SVG 内容无效");
+          onError?.(validation.error || "SVG 内容无效");
           return;
         }
 
@@ -81,8 +81,8 @@ export const SVGImporter: React.FC<SVGImporterProps> = ({
 
         if (!svgClip) {
           setStatus("error");
-          setErrorMessage("Failed to import SVG");
-          onError?.("Failed to import SVG");
+          setErrorMessage("SVG 导入失败");
+          onError?.("SVG 导入失败");
           return;
         }
 
@@ -96,7 +96,7 @@ export const SVGImporter: React.FC<SVGImporterProps> = ({
         }, 2000);
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : "Failed to read SVG file";
+          error instanceof Error ? error.message : "SVG 文件读取失败";
         setStatus("error");
         setErrorMessage(message);
         onError?.(message);
@@ -201,20 +201,20 @@ export const SVGImporter: React.FC<SVGImporterProps> = ({
           {/* Status text */}
           <div className="text-center">
             {status === "loading" ? (
-              <p className="text-[10px] text-text-secondary">Importing...</p>
+              <p className="text-[10px] text-text-secondary">正在导入…</p>
             ) : status === "success" ? (
               <p className="text-[10px] text-green-500">
-                SVG imported successfully
+                SVG 导入成功
               </p>
             ) : status === "error" ? (
               <p className="text-[10px] text-red-500">{errorMessage}</p>
             ) : (
               <>
                 <p className="text-[10px] text-text-primary font-medium">
-                  Import SVG
+                  导入 SVG
                 </p>
                 <p className="text-[9px] text-text-muted">
-                  Click or drag & drop
+                  点击或拖放文件
                 </p>
               </>
             )}
@@ -248,7 +248,7 @@ export const SVGImporter: React.FC<SVGImporterProps> = ({
       {/* Supported formats info */}
       <div className="flex items-center gap-2 text-[9px] text-text-muted">
         <FileImage size={12} />
-        <span>Supported format: SVG (.svg)</span>
+        <span>支持格式：SVG（.svg）</span>
       </div>
     </div>
   );

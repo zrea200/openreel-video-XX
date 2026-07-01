@@ -80,7 +80,7 @@ const useAutoSave = () => {
 const useEngineInitialization = () => {
   const { initialize, initialized, initializing, initError } = useEngineStore();
   const [bridgesReady, setBridgesReady] = useState(false);
-  const [initStatus, setInitStatus] = useState("Starting...");
+  const [initStatus, setInitStatus] = useState("正在启动…");
   const [localError, setLocalError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const useEngineInitialization = () => {
       try {
         const currentState = useEngineStore.getState();
         if (!currentState.initialized && !currentState.initializing) {
-          setInitStatus("Initializing video engine...");
+          setInitStatus("正在初始化视频引擎…");
           await initialize();
         } else if (currentState.initializing) {
           await new Promise<void>((resolve) => {
@@ -108,23 +108,23 @@ const useEngineInitialization = () => {
         const engineState = useEngineStore.getState();
         if (!engineState.initialized) {
           throw new Error(
-            engineState.initError || "Engine initialization failed",
+            engineState.initError || "引擎初始化失败",
           );
         }
 
-        setInitStatus("Initializing media bridge...");
+        setInitStatus("正在初始化媒体桥接…");
         await initializeMediaBridge();
         if (!isMounted) return;
 
-        setInitStatus("Initializing playback bridge...");
+        setInitStatus("正在初始化播放桥接…");
         await initializePlaybackBridge();
         if (!isMounted) return;
 
-        setInitStatus("Initializing render bridge...");
+        setInitStatus("正在初始化渲染桥接…");
         await initializeRenderBridge();
         if (!isMounted) return;
 
-        setInitStatus("Initializing effects bridge...");
+        setInitStatus("正在初始化特效桥接…");
         const projectState = useProjectStore.getState();
         const { width, height } = projectState.project.settings;
         try {
@@ -137,7 +137,7 @@ const useEngineInitialization = () => {
         }
         if (!isMounted) return;
 
-        setInitStatus("Initializing transition bridge...");
+        setInitStatus("正在初始化转场桥接…");
         try {
           initializeTransitionBridge(width, height);
         } catch (transitionError) {
@@ -153,10 +153,10 @@ const useEngineInitialization = () => {
         console.error("Failed to initialize engines/bridges:", error);
         if (isMounted) {
           setLocalError(
-            error instanceof Error ? error.message : "Unknown error",
+            error instanceof Error ? error.message : "未知错误",
           );
           setInitStatus(
-            `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
+            `错误：${error instanceof Error ? error.message : "未知错误"}`,
           );
         }
       }
@@ -461,7 +461,7 @@ export const EditorInterface: React.FC = () => {
           className="bg-bg-1 min-w-0 min-h-0 overflow-hidden"
           style={{ gridArea: "inspector" }}
         >
-          <PanelErrorBoundary name="Inspector">
+          <PanelErrorBoundary name="检查器">
             <InspectorPanel />
           </PanelErrorBoundary>
         </div>
@@ -478,7 +478,7 @@ export const EditorInterface: React.FC = () => {
         >
           {panels.audioMixer?.visible && (
             <div className="shrink-0 border-b border-border">
-              <PanelErrorBoundary name="Audio Mixer">
+              <PanelErrorBoundary name="音频混音器">
                 <AudioMixer
                   visible
                   onClose={() => setPanelVisible("audioMixer", false)}
@@ -489,14 +489,14 @@ export const EditorInterface: React.FC = () => {
 
           <div className="flex-1 min-h-0 flex">
             <div className="flex-1 min-w-0 min-h-0">
-              <PanelErrorBoundary name="Timeline">
+              <PanelErrorBoundary name="时间轴">
                 <Timeline />
               </PanelErrorBoundary>
             </div>
 
             {keyframeEditorOpen && (
               <div className="shrink-0 min-w-0 border-l border-border">
-                <PanelErrorBoundary name="Keyframe Editor">
+                <PanelErrorBoundary name="关键帧编辑器">
                   <KeyframeEditorPanel
                     clip={selectedClip}
                     onClose={() => setKeyframeEditorOpen(false)}

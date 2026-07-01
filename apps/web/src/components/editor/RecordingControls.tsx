@@ -61,7 +61,7 @@ export const RecordingControls: React.FC<RecordingControlsProps> = ({
             <button
               onClick={onResume}
               className="p-3 bg-primary hover:bg-primary-hover rounded-xl transition-colors"
-              title="Resume recording"
+              title="继续录制"
             >
               <Play size={20} className="text-white" />
             </button>
@@ -69,7 +69,7 @@ export const RecordingControls: React.FC<RecordingControlsProps> = ({
             <button
               onClick={onPause}
               className="p-3 bg-warning/20 hover:bg-warning/30 rounded-xl transition-colors"
-              title="Pause recording"
+              title="暂停录制"
             >
               <Pause size={20} className="text-warning" />
             </button>
@@ -78,7 +78,7 @@ export const RecordingControls: React.FC<RecordingControlsProps> = ({
           <button
             onClick={onStop}
             className="p-3 bg-red-600 hover:bg-red-700 rounded-xl transition-colors"
-            title="Stop recording"
+            title="停止录制"
           >
             <Square size={20} className="text-white fill-white" />
           </button>
@@ -86,7 +86,7 @@ export const RecordingControls: React.FC<RecordingControlsProps> = ({
           <button
             onClick={onCancel}
             className="p-3 bg-background-tertiary hover:bg-background-elevated rounded-xl transition-colors"
-            title="Cancel recording"
+            title="取消录制"
           >
             <X size={20} className="text-text-muted" />
           </button>
@@ -97,7 +97,7 @@ export const RecordingControls: React.FC<RecordingControlsProps> = ({
         <button
           onClick={minimizeControls}
           className="p-2 text-text-muted hover:text-text-primary rounded-lg hover:bg-background-tertiary transition-colors"
-          title="Minimize controls"
+          title="最小化控制栏"
         >
           <Minimize2 size={16} />
         </button>

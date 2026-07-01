@@ -207,7 +207,7 @@ export class BeatSyncBridge {
         progress: {
           phase: "complete",
           percent: 100,
-          message: `Synced ${previewTimings.length} clips to beats`,
+          message: `已将 ${previewTimings.length} 个片段同步到节拍`,
         },
       });
 
@@ -215,7 +215,7 @@ export class BeatSyncBridge {
     } catch (error) {
       this.setState({
         isProcessing: false,
-        error: error instanceof Error ? error.message : "Failed to apply sync",
+        error: error instanceof Error ? error.message : "应用同步失败",
       });
       return false;
     }

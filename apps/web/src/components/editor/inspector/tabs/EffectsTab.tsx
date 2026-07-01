@@ -116,7 +116,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
     <>
       {showVideoControls && selectedTimelineClip && (appliedEditingTemplates.length > 0 || (selectedTimelineClip.effects && selectedTimelineClip.effects.length > 0)) && (
         <InspectorSection
-          title={`Applied (${appliedEditingTemplates.length + (selectedTimelineClip.effects?.filter((e: { metadata?: { templateSource?: unknown } }) => !e.metadata?.templateSource).length || 0)})`}
+          title={`已应用 (${appliedEditingTemplates.length + (selectedTimelineClip.effects?.filter((e: { metadata?: { templateSource?: unknown } }) => !e.metadata?.templateSource).length || 0)})`}
           sectionId="applied-effects"
           defaultOpen={true}
         >
@@ -165,7 +165,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
                               : "text-text-muted hover:text-text-primary"
                           }`}
                         >
-                          Edit
+                          编辑
                         </button>
                       )}
                       <button
@@ -175,7 +175,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
                             application.applicationId,
                           );
                           if (!removed) {
-                            toast.error("Could not remove recipe", "The recipe could not be removed from this clip.");
+                            toast.error("无法移除配方", "无法从此片段移除该配方。");
                             return;
                           }
                           setRecipeControlValues((current) => {
@@ -218,7 +218,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
                           }
                           className="h-6 px-2.5 rounded border border-border text-[9px] font-medium text-text-secondary hover:text-text-primary transition-colors"
                         >
-                          Reset
+                          重置
                         </button>
                         <button
                           onClick={() =>
@@ -230,7 +230,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
                           }
                           className="h-6 px-2.5 rounded bg-primary text-[9px] font-semibold text-black hover:bg-primary/85 transition-colors"
                         >
-                          Update
+                          更新
                         </button>
                       </div>
                     </div>
@@ -253,7 +253,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
                     </p>
                   </div>
                   <span className={`text-[9px] font-medium ${effect.enabled !== false ? "text-green-400" : "text-text-muted"}`}>
-                    {effect.enabled !== false ? "On" : "Off"}
+                    {effect.enabled !== false ? "开" : "关"}
                   </span>
                 </div>
               ))}
@@ -262,7 +262,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
       )}
 
       {clipType === "video" && (
-        <InspectorSection title="Background Removal" sectionId="background-removal" defaultOpen={false}>
+        <InspectorSection title="背景移除" sectionId="background-removal" defaultOpen={false}>
           <BackgroundRemovalSection clipId={clipId} />
         </InspectorSection>
       )}
@@ -276,7 +276,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
         clipType === "sticker") &&
         selectedClip && (
           <InspectorSection
-            title="Particle Effects"
+            title="粒子特效"
             sectionId="particle-effects"
             defaultOpen={false}
           >
@@ -290,11 +290,11 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
 
       {/* Chroma Key - Using ChromaKeyEngine - Only for video/image */}
       {showVideoControls && (
-        <InspectorSection title="Chroma Key (Green Screen)">
+        <InspectorSection title="色度键（绿幕）">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-text-secondary">
-                Enable
+                启用
               </span>
               <Switch
                 checked={chromaKeyEnabled}
@@ -305,7 +305,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
               <>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] text-text-secondary">
-                    Key Color
+                    键控颜色
                   </span>
                   <input
                     type="color"
@@ -315,7 +315,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
                   />
                 </div>
                 <LabeledSlider
-                  label="Tolerance"
+                  label="容差"
                   value={tolerance}
                   onChange={handleToleranceChange}
                   unit="%"
@@ -328,20 +328,20 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
 
       {/* Motion Tracking - Using MotionTrackingEngine - Only for video/image */}
       {showVideoControls && (
-        <InspectorSection title="Motion Tracking" sectionId="motion-tracking">
+        <InspectorSection title="运动跟踪" sectionId="motion-tracking">
           <MotionTrackingSection clipId={clipId} />
         </InspectorSection>
       )}
 
       {showVideoEffects && (
-        <InspectorSection title="Video Effects" sectionId="video-effects">
+        <InspectorSection title="视频特效" sectionId="video-effects">
           <VideoEffectsSection clipId={clipId} />
         </InspectorSection>
       )}
 
       {showVideoEffects && (
         <InspectorSection
-          title="Green Screen"
+          title="绿幕抠像"
           sectionId="green-screen"
           defaultOpen={false}
         >
@@ -352,7 +352,7 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
       {/* Picture-in-Picture Section */}
       {showVideoControls && (
         <InspectorSection
-          title="Picture-in-Picture"
+          title="画中画"
           sectionId="pip"
           defaultOpen={false}
         >
@@ -361,26 +361,26 @@ export const EffectsTab: React.FC<EffectsTabProps> = ({
       )}
 
       {showVideoControls && (
-        <InspectorSection title="Masking" sectionId="masking" defaultOpen={false}>
+        <InspectorSection title="遮罩" sectionId="masking" defaultOpen={false}>
           <MaskSection clipId={clipId} />
         </InspectorSection>
       )}
 
       {showVideoControls && (
-        <InspectorSection title="Nested Sequences" defaultOpen={false}>
+        <InspectorSection title="嵌套序列" defaultOpen={false}>
           <NestedSequenceSection clipId={clipId} />
         </InspectorSection>
       )}
 
       {showVideoControls && (
-        <InspectorSection title="Adjustment Layers" defaultOpen={false}>
+        <InspectorSection title="调整图层" defaultOpen={false}>
           <AdjustmentLayerSection clipId={clipId} />
         </InspectorSection>
       )}
 
       {showTextSection && (
         <InspectorSection
-          title="Text Behind Subject"
+          title="文字置于主体后方"
           sectionId="text-behind-subject"
           defaultOpen={false}
         >

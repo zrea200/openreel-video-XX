@@ -42,22 +42,22 @@ const PRESET_CONFIGS: {
 }[] = [
   {
     id: "subtle",
-    name: "Subtle",
+    name: "轻微",
     settings: { threshold: -35, reduction: 0.4, attack: 0.15, release: 0.5 },
   },
   {
     id: "moderate",
-    name: "Moderate",
+    name: "适中",
     settings: { threshold: -30, reduction: 0.6, attack: 0.1, release: 0.3 },
   },
   {
     id: "aggressive",
-    name: "Aggressive",
+    name: "强力",
     settings: { threshold: -25, reduction: 0.8, attack: 0.05, release: 0.2 },
   },
   {
     id: "podcast",
-    name: "Podcast",
+    name: "播客",
     settings: {
       threshold: -28,
       reduction: 0.75,
@@ -101,7 +101,7 @@ const findClipById = (project: Project, clipId: string): Clip | null => {
 };
 
 const getTrackLabel = (track: Track): string => {
-  const prefix = track.type === "video" ? "Video" : "Audio";
+  const prefix = track.type === "video" ? "视频" : "音频";
   return track.name || `${prefix} ${track.id.slice(-4)}`;
 };
 
@@ -121,7 +121,7 @@ const buildTriggerTrackBuffer = async (
   });
 
   if (overlappingClips.length === 0) {
-    throw new Error("No overlapping trigger clips were found for this clip.");
+    throw new Error("未找到与此片段重叠的触发片段。");
   }
 
   const decodeContext = new AudioContext();
@@ -184,7 +184,7 @@ const buildTriggerTrackBuffer = async (
     }
 
     if (scheduledSources === 0) {
-      throw new Error("No decodable trigger audio was found on the selected source track.");
+      throw new Error("所选源轨道上无可解码的触发音频。");
     }
 
     return offlineContext.startRendering();
@@ -290,7 +290,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
     );
 
     if (!sourceTrack) {
-      setErrorMessage("Select a valid trigger source track.");
+      setErrorMessage("请选择有效的触发源轨道。");
       return;
     }
 
@@ -312,7 +312,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
 
       if (keyframes.length === 0) {
         throw new Error(
-          "No speech crossed the trigger threshold. Lower the threshold or choose a louder source track.",
+          "没有语音超过触发阈值。请降低阈值或选择音量更大的源轨道。",
         );
       }
 
@@ -320,13 +320,13 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
       const applied = setClipAudioDucking(audioTargetClip.id, persisted, keyframes);
 
       if (!applied) {
-        throw new Error("Failed to persist ducking on this clip.");
+        throw new Error("无法在此片段上持久化闪避效果。");
       }
 
       window.dispatchEvent(new CustomEvent("openreel:preview-invalidate"));
     } catch (error) {
       setErrorMessage(
-        error instanceof Error ? error.message : "Failed to apply ducking.",
+        error instanceof Error ? error.message : "应用闪避失败。",
       );
     } finally {
       setIsApplying(false);
@@ -337,7 +337,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
     const cleared = clearClipAudioDucking(audioTargetClip?.id ?? clipId);
 
     if (!cleared) {
-      setErrorMessage("Failed to remove ducking from this clip.");
+      setErrorMessage("无法从此片段移除闪避效果。");
       return;
     }
 
@@ -352,10 +352,10 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
         <VolumeX size={16} className="text-primary" />
         <div className="flex-1">
           <span className="text-[11px] font-medium text-text-primary">
-            Audio Ducking
+            音频闪避
           </span>
           <p className="text-[9px] text-text-muted">
-            Auto-lower music when speech plays
+            有人声时自动压低背景音乐
           </p>
         </div>
       </div>
@@ -368,7 +368,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
             }`}
           />
           <span className="text-[10px] font-medium text-text-primary">
-            {showControls ? "Ducking Enabled" : "Ducking Disabled"}
+            {showControls ? "闪避已启用" : "闪避已关闭"}
           </span>
         </div>
         <button
@@ -390,7 +390,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
           <div className="space-y-2">
             <label className="text-[10px] font-medium text-text-secondary flex items-center gap-2">
               <Mic size={12} />
-              Trigger Source (Voice Track)
+              触发源（人声轨道）
             </label>
             {availableSourceTracks.length > 0 ? (
               <div className="space-y-1">
@@ -423,7 +423,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                   className="mx-auto mb-1 text-text-muted opacity-50"
                 />
                 <p className="text-[10px] text-text-muted">
-                  Add another audio or video track with speech to use as trigger
+                  添加另一条含对白的音频或视频轨道作为触发源
                 </p>
               </div>
             )}
@@ -434,7 +434,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
               <div className="space-y-2">
                 <label className="text-[10px] font-medium text-text-secondary flex items-center gap-2">
                   <Music size={12} />
-                  Ducking Presets
+                  闪避预设
                 </label>
                 <div className="grid grid-cols-2 gap-1">
                   {PRESET_CONFIGS.map((preset) => (
@@ -453,7 +453,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-[10px] text-text-secondary">
-                      Detection Threshold
+                      检测阈值
                     </label>
                     <span className="text-[10px] font-mono text-text-primary">
                       {settings.threshold} dB
@@ -469,14 +469,14 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                     }
                   />
                   <p className="text-[8px] text-text-muted">
-                    Voice level that triggers ducking
+                    触发闪避的人声音量
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-[10px] text-text-secondary">
-                      Volume Reduction
+                      音量衰减
                     </label>
                     <span className="text-[10px] font-mono text-text-primary">
                       {Math.round(settings.reduction * 100)}%
@@ -492,7 +492,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                     }
                   />
                   <p className="text-[8px] text-text-muted">
-                    How much to lower background music
+                    背景音乐压低幅度
                   </p>
                 </div>
               </div>
@@ -506,7 +506,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                 ) : (
                   <ChevronRight size={12} />
                 )}
-                Timing Controls
+                时序控制
               </button>
 
               {showAdvanced && (
@@ -514,7 +514,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <label className="text-[10px] text-text-secondary">
-                        Attack
+                        起音
                       </label>
                       <span className="text-[10px] font-mono text-text-primary">
                         {settings.attack.toFixed(2)}s
@@ -530,14 +530,14 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                       }
                     />
                     <p className="text-[8px] text-text-muted">
-                      How fast volume drops when voice starts
+                      人声开始时音量下降速度
                     </p>
                   </div>
 
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <label className="text-[10px] text-text-secondary">
-                        Release
+                        释音
                       </label>
                       <span className="text-[10px] font-mono text-text-primary">
                         {settings.release.toFixed(2)}s
@@ -553,14 +553,14 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                       }
                     />
                     <p className="text-[8px] text-text-muted">
-                      How fast volume returns after voice stops
+                      人声结束后音量恢复速度
                     </p>
                   </div>
 
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <label className="text-[10px] text-text-secondary">
-                        Hold Time
+                        保持时间
                       </label>
                       <span className="text-[10px] font-mono text-text-primary">
                         {settings.holdTime.toFixed(2)}s
@@ -576,7 +576,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                       }
                     />
                     <p className="text-[8px] text-text-muted">
-                      Minimum time to stay ducked between words
+                      字与字之间保持闪避的最短时间
                     </p>
                   </div>
                 </div>
@@ -591,12 +591,12 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                   {isApplying ? (
                     <>
                       <RefreshCw size={14} className="animate-spin" />
-                      Analyzing...
+                      正在分析…
                     </>
                   ) : (
                     <>
                       <VolumeX size={14} />
-                      Apply Ducking
+                      应用闪避
                     </>
                   )}
                 </button>
@@ -605,7 +605,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                   <div className="flex items-center gap-2 p-2 bg-green-500/10 border border-green-500/20 rounded-lg">
                     <Check size={12} className="text-green-400" />
                     <span className="text-[10px] text-green-400">
-                      Ducking Applied
+                      闪避已应用
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -618,14 +618,14 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
                         size={10}
                         className={isApplying ? "animate-spin" : undefined}
                       />
-                      {isApplying ? "Updating..." : "Update"}
+                      {isApplying ? "更新中…" : "更新"}
                     </button>
                     <button
                       onClick={handleRemoveDucking}
                       disabled={isApplying}
                       className="py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-[10px] text-red-400 hover:bg-red-500/20 transition-colors"
                     >
-                      Remove
+                      移除
                     </button>
                   </div>
                 </div>
@@ -644,7 +644,7 @@ export const AudioDuckingSection: React.FC<AudioDuckingSectionProps> = ({
 
       <div className="pt-2 border-t border-border">
         <p className="text-[9px] text-text-muted text-center">
-          Automatically reduces music volume when voice is detected
+          检测到人声时自动降低背景音乐音量
         </p>
       </div>
     </div>

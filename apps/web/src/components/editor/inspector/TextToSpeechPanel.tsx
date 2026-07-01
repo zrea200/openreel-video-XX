@@ -106,7 +106,7 @@ export const TextToSpeechPanel: React.FC = () => {
 
   const warnUnsavedAudio = useCallback(() => {
     if (hasUnsavedAudio) {
-      toast.warning("Unsaved audio discarded", "Save to media or download next time to keep it.");
+      toast.warning("未保存的音频已丢弃", "下次请保存到媒体库或下载以保留。");
     }
   }, [hasUnsavedAudio]);
 
@@ -134,15 +134,15 @@ export const TextToSpeechPanel: React.FC = () => {
           <Mic size={16} className="text-primary" />
           <div>
             <span className="text-[11px] font-medium text-text-primary">
-              Text to Speech
+              文字转语音
             </span>
-            <p className="text-[9px] text-text-muted">AI voice generation</p>
+            <p className="text-[9px] text-text-muted">AI 语音生成</p>
           </div>
         </div>
         <button
           onClick={() => openSettings("api-keys")}
           className="p-1.5 rounded-md hover:bg-background-tertiary text-text-muted hover:text-text-primary transition-colors"
-          title="API Key Settings"
+          title="API 密钥设置"
         >
           <Settings size={14} />
         </button>
@@ -150,7 +150,7 @@ export const TextToSpeechPanel: React.FC = () => {
 
       <div className="space-y-2">
         <label className="text-[10px] font-medium text-text-secondary">
-          Provider
+          提供商
         </label>
         <div className="flex gap-1.5">
           {TTS_PROVIDERS.map((p) => {
@@ -172,7 +172,7 @@ export const TextToSpeechPanel: React.FC = () => {
                       ? "bg-background-tertiary text-text-muted border border-border opacity-60 cursor-default"
                       : "bg-background-tertiary text-text-secondary hover:text-text-primary border border-border"
                 }`}
-                title={isDisabled ? "Add ElevenLabs API key in Settings" : p.description}
+                title={isDisabled ? "请在设置中添加 ElevenLabs API 密钥" : p.description}
               >
                 {p.label}
               </button>
@@ -187,12 +187,12 @@ export const TextToSpeechPanel: React.FC = () => {
 
       <div className="space-y-2">
         <label className="text-[10px] font-medium text-text-secondary">
-          Text
+          文本
         </label>
         <textarea
           value={text}
           onChange={(e) => { setText(e.target.value); setEnhancedPreview(null); }}
-          placeholder="Enter the text you want to convert to speech..."
+          placeholder="输入要转换为语音的文字…"
           className="w-full h-24 px-3 py-2 text-[11px] bg-background-tertiary rounded-lg border border-border focus:border-primary focus:outline-none resize-none"
           maxLength={maxChars}
         />
@@ -206,7 +206,7 @@ export const TextToSpeechPanel: React.FC = () => {
               />
               <label className="text-[9px] text-text-muted flex items-center gap-1 cursor-pointer" onClick={() => setEnhanceText(!enhanceText)}>
                 <Sparkles size={10} className={enhanceText ? "text-amber-400" : ""} />
-                Enhance for TTS
+                为 TTS 优化文本
               </label>
             </div>
           ) : (
@@ -237,7 +237,7 @@ export const TextToSpeechPanel: React.FC = () => {
       {provider === "piper" && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-[10px] font-medium text-text-secondary">Speed</label>
+            <label className="text-[10px] font-medium text-text-secondary">语速</label>
             <span className="text-[10px] text-text-muted">{speed.toFixed(1)}x</span>
           </div>
           <Slider min={0.5} max={2.0} step={0.1} value={[speed]} onValueChange={(value) => setSpeed(value[0])} />
@@ -252,12 +252,16 @@ export const TextToSpeechPanel: React.FC = () => {
       {error && (
         <div className="p-2 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center justify-between gap-2">
           <p className="text-[10px] text-red-400">{error}</p>
-          {(error.includes("API key") || error.includes("Session locked") || error.includes("Unlock")) && (
+          {(error.includes("API 密钥") ||
+            error.includes("API key") ||
+            error.includes("会话已锁定") ||
+            error.includes("Session locked") ||
+            error.includes("解锁")) && (
             <button
               onClick={() => openSettings("api-keys")}
               className="shrink-0 px-2 py-1 rounded text-[9px] font-medium bg-red-500/20 text-red-300 hover:bg-red-500/30 transition-colors"
             >
-              Open Settings
+              打开设置
             </button>
           )}
         </div>
@@ -276,9 +280,9 @@ export const TextToSpeechPanel: React.FC = () => {
           className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500 text-white rounded-lg text-[11px] font-medium transition-all hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isEnhancing ? (
-            <><Loader2 size={14} className="animate-spin" /> Enhancing...</>
+            <><Loader2 size={14} className="animate-spin" /> 正在优化…</>
           ) : (
-            <><Sparkles size={14} /> Enhance Text</>
+            <><Sparkles size={14} /> 优化文本</>
           )}
         </button>
       )}
@@ -289,9 +293,9 @@ export const TextToSpeechPanel: React.FC = () => {
         className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg text-[11px] font-medium transition-all hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isGenerating ? (
-          <><Loader2 size={14} className="animate-spin" /> Generating...</>
+          <><Loader2 size={14} className="animate-spin" /> 正在生成…</>
         ) : (
-          <><Volume2 size={14} /> Generate Speech</>
+          <><Volume2 size={14} /> 生成语音</>
         )}
       </button>
 
@@ -299,7 +303,7 @@ export const TextToSpeechPanel: React.FC = () => {
         <div className="flex items-center gap-1.5 px-2 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-lg">
           <AlertTriangle size={12} className="text-amber-400 shrink-0" />
           <p className="text-[9px] text-amber-400">
-            Unsaved audio — save to media, add to timeline, or download to keep it.
+            音频未保存 — 请保存到媒体库、添加到时间轴或下载以保留。
           </p>
         </div>
       )}
@@ -318,7 +322,7 @@ export const TextToSpeechPanel: React.FC = () => {
       )}
 
       <p className="text-[9px] text-text-muted text-center">
-        Powered by {provider === "elevenlabs" ? "ElevenLabs" : "Piper TTS"}
+        由 {provider === "elevenlabs" ? "ElevenLabs" : "Piper TTS"} 提供支持
         {provider === "elevenlabs" && ` · ${getSelectedModelName()}`}
       </p>
     </div>

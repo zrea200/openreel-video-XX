@@ -49,7 +49,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
 
     const mediaItem = getMediaItem(clip.mediaId);
     if (!mediaItem?.blob) {
-      setError("Media not found or not loaded");
+      setError("未找到媒体或媒体未加载");
       return;
     }
 
@@ -58,7 +58,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
     setHighlights([]);
 
     try {
-      setPhase("Transcribing audio...");
+      setPhase("正在转写音频…");
       setProgress(5);
 
       const transcriptionService = getTranscriptionService() || initializeTranscriptionService({
@@ -77,10 +77,10 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
       );
 
       if (transcript.length === 0) {
-        throw new Error("No transcript words found");
+        throw new Error("未找到转写文字");
       }
 
-      setPhase("Decoding audio...");
+      setPhase("正在解码音频…");
       setProgress(25);
 
       const arrayBuffer = await mediaItem.blob.arrayBuffer();
@@ -91,8 +91,8 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
         audioBuffer,
         transcript,
         preferences,
-        (phaseName, prog) => {
-          setPhase(phaseName);
+        (_phase, prog, message) => {
+          setPhase(message);
           setProgress(25 + Math.round(prog * 0.75));
         },
       );
@@ -100,7 +100,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
       setHighlights(results);
       setSelected(new Set(results.map((_, i) => i)));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Analysis failed");
+      setError(err instanceof Error ? err.message : "分析失败");
     } finally {
       setIsProcessing(false);
       setPhase("");
@@ -137,7 +137,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
     <div className="space-y-3">
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <label className="text-[10px] text-text-secondary">Clips</label>
+          <label className="text-[10px] text-text-secondary">片段数</label>
           <input
             type="number"
             min={1}
@@ -148,7 +148,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
             }
             className="w-12 px-1 py-0.5 text-[10px] bg-background-secondary border border-border rounded text-text-primary"
           />
-          <label className="text-[10px] text-text-secondary">Max</label>
+          <label className="text-[10px] text-text-secondary">最长</label>
           <input
             type="number"
             min={1}
@@ -175,7 +175,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
           ) : (
             <>
               <Sparkles size={14} />
-              Find Highlights
+              查找高光片段
             </>
           )}
         </button>
@@ -305,7 +305,7 @@ export const HighlightExtractorPanel: React.FC<HighlightExtractorPanelProps> = (
             className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded text-[11px] font-medium transition-colors disabled:opacity-50"
           >
             <Check size={14} />
-            Apply {selected.size} Highlight{selected.size !== 1 ? "s" : ""}
+            应用 {selected.size} 个高光片段
           </button>
         </div>
       )}

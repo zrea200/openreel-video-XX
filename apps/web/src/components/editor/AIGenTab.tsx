@@ -102,7 +102,7 @@ export const AIGenTab: React.FC = () => {
 
   const navigateAway = useCallback((next: FeatureId) => {
     if (activeFeature === "tts" && next !== "tts" && ttsHasUnsaved) {
-      toast.warning("Unsaved audio discarded", "Save to media or download next time to keep it.");
+      toast.warning("未保存的音频已丢弃", "下次请保存到媒体库或下载以保留音频。");
     }
     setActiveFeature(next);
   }, [activeFeature, ttsHasUnsaved]);
@@ -138,7 +138,7 @@ export const AIGenTab: React.FC = () => {
           className="flex items-center gap-2 px-4 py-3 text-text-secondary hover:text-text-primary transition-colors border-b border-border bg-background-secondary shrink-0"
         >
           <ChevronRight size={14} className="rotate-180" />
-          <span className="text-[11px] font-medium">Back to AI Tools</span>
+          <span className="text-[11px] font-medium">返回 AI 工具</span>
         </button>
         <ScrollArea className="flex-1 w-full">
           <div className="p-4 w-full min-w-0 overflow-hidden">{renderActivePanel()}</div>
@@ -154,15 +154,15 @@ export const AIGenTab: React.FC = () => {
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 mb-3">
             <Wand2 size={24} className="text-primary" />
           </div>
-          <h2 className="text-sm font-semibold text-text-primary">AI-Powered Tools</h2>
-          <p className="text-[11px] text-text-muted mt-1">Automate your editing with intelligent features</p>
+          <h2 className="text-sm font-semibold text-text-primary">AI 智能工具</h2>
+          <p className="text-[11px] text-text-muted mt-1">用智能功能自动化编辑流程</p>
         </div>
 
-        <FeatureSection title="Content Generation" icon={Wand2}>
+        <FeatureSection title="内容生成" icon={Wand2}>
           <FeatureCard
             icon={Mic}
-            title="Text to Speech"
-            description="Generate natural voiceovers from text"
+            title="文字转语音"
+            description="将文字生成自然流畅的配音"
             iconColor="text-blue-400"
             iconBg="bg-blue-500/20"
             activeBorder="border-blue-500/50"
@@ -173,8 +173,8 @@ export const AIGenTab: React.FC = () => {
           />
           <FeatureCard
             icon={Subtitles}
-            title="Auto Captions"
-            description="Automatically generate subtitles from audio"
+            title="自动字幕"
+            description="从音频自动生成字幕"
             iconColor="text-purple-400"
             iconBg="bg-purple-500/20"
             activeBorder="border-purple-500/50"
@@ -185,11 +185,11 @@ export const AIGenTab: React.FC = () => {
           />
         </FeatureSection>
 
-        <FeatureSection title="Templates & Presets" icon={FileStack}>
+        <FeatureSection title="模板与预设" icon={FileStack}>
           <FeatureCard
             icon={Layers}
-            title="Project Templates"
-            description="Start with pre-built project structures"
+            title="项目模板"
+            description="从预制项目结构快速开始"
             iconColor="text-green-400"
             iconBg="bg-green-500/20"
             activeBorder="border-green-500/50"
@@ -200,8 +200,8 @@ export const AIGenTab: React.FC = () => {
           />
           <FeatureCard
             icon={Palette}
-            title="Filter Presets"
-            description="Apply cinematic color grades instantly"
+            title="滤镜预设"
+            description="一键应用电影感调色"
             iconColor="text-orange-400"
             iconBg="bg-orange-500/20"
             activeBorder="border-orange-500/50"
@@ -212,11 +212,11 @@ export const AIGenTab: React.FC = () => {
           />
         </FeatureSection>
 
-        <FeatureSection title="Media Library" icon={Volume2}>
+        <FeatureSection title="媒体库" icon={Volume2}>
           <FeatureCard
             icon={Music}
-            title="Music & Sound Effects"
-            description="Browse royalty-free audio for your projects"
+            title="音乐与音效"
+            description="浏览免版税音频素材"
             iconColor="text-pink-400"
             iconBg="bg-pink-500/20"
             activeBorder="border-pink-500/50"
@@ -227,11 +227,11 @@ export const AIGenTab: React.FC = () => {
           />
         </FeatureSection>
 
-        <FeatureSection title="Tools" icon={Video}>
+        <FeatureSection title="工具" icon={Video}>
           <FeatureCard
             icon={Video}
-            title="Multi-Camera Editing"
-            description="Sync and switch between multiple angles"
+            title="多机位剪辑"
+            description="同步并在多个机位间切换"
             iconColor="text-cyan-400"
             iconBg="bg-cyan-500/20"
             activeBorder="border-cyan-500/50"
@@ -244,7 +244,7 @@ export const AIGenTab: React.FC = () => {
 
         <div className="pt-2 border-t border-border">
           <p className="text-[9px] text-text-muted text-center">
-            More AI features coming soon — image generation, auto-edit, and more
+            更多 AI 功能即将推出——图像生成、自动剪辑等
           </p>
         </div>
       </div>

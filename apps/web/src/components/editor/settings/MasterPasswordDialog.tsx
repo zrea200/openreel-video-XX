@@ -53,22 +53,22 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
 
     if (mode === "setup") {
       if (password.length < 8) {
-        setError("Password must be at least 8 characters");
+        setError("密码至少 8 个字符");
         return;
       }
       if (password !== confirmPassword) {
-        setError("Passwords do not match");
+        setError("两次输入的密码不一致");
         return;
       }
     }
 
     if (mode === "change") {
       if (newPassword.length < 8) {
-        setError("New password must be at least 8 characters");
+        setError("新密码至少 8 个字符");
         return;
       }
       if (newPassword !== confirmPassword) {
-        setError("New passwords do not match");
+        setError("两次输入的新密码不一致");
         return;
       }
     }
@@ -84,27 +84,27 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
       } else {
         setError(
           mode === "unlock"
-            ? "Incorrect password"
-            : "Operation failed. Check your current password.",
+            ? "密码错误"
+            : "操作失败，请检查当前密码。",
         );
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(err instanceof Error ? err.message : "发生错误");
     } finally {
       setLoading(false);
     }
   }, [mode, password, newPassword, confirmPassword, onSubmit, resetForm]);
 
   const titles = {
-    setup: "Set Master Password",
-    unlock: "Unlock Settings",
-    change: "Change Master Password",
+    setup: "设置主密码",
+    unlock: "解锁设置",
+    change: "更改主密码",
   };
 
   const descriptions = {
-    setup: "Create a master password to encrypt your API keys. This password is never stored — only a verification hash is kept.",
-    unlock: "Enter your master password to access encrypted API keys.",
-    change: "Change your master password. All stored keys will be re-encrypted.",
+    setup: "创建主密码以加密 API 密钥。密码不会存储，仅保留校验哈希。",
+    unlock: "输入主密码以访问已加密的 API 密钥。",
+    change: "更改主密码后，所有已存密钥将重新加密。",
   };
 
   return (
@@ -122,14 +122,14 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
           {mode === "change" && (
             <div className="space-y-2">
               <label className="text-sm font-medium text-text-secondary">
-                Current Password
+                当前密码
               </label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter current password"
+                  placeholder="输入当前密码"
                   autoFocus
                   className="pr-10"
                 />
@@ -147,7 +147,7 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
           {(mode === "setup" || mode === "unlock") && (
             <div className="space-y-2">
               <label className="text-sm font-medium text-text-secondary">
-                {mode === "setup" ? "Password" : "Master Password"}
+                {mode === "setup" ? "密码" : "主密码"}
               </label>
               <div className="relative">
                 <Input
@@ -156,8 +156,8 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={
                     mode === "setup"
-                      ? "Min. 8 characters"
-                      : "Enter master password"
+                      ? "至少 8 个字符"
+                      : "输入主密码"
                   }
                   autoFocus
                   className="pr-10"
@@ -177,7 +177,7 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
             <>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-text-secondary">
-                  {mode === "change" ? "New Password" : "Confirm Password"}
+                  {mode === "change" ? "新密码" : "确认密码"}
                 </label>
                 <div className="relative">
                   <Input
@@ -190,8 +190,8 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
                     }
                     placeholder={
                       mode === "change"
-                        ? "Min. 8 characters"
-                        : "Repeat password"
+                        ? "至少 8 个字符"
+                        : "再次输入密码"
                     }
                     className="pr-10"
                   />
@@ -208,13 +208,13 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
               {mode === "change" && (
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-text-secondary">
-                    Confirm New Password
+                    确认新密码
                   </label>
                   <Input
                     type={showNewPassword ? "text" : "password"}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Repeat new password"
+                    placeholder="再次输入新密码"
                   />
                 </div>
               )}
@@ -232,9 +232,8 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
             <div className="flex items-start gap-2 text-xs text-text-muted bg-background-secondary px-3 py-2 rounded-lg">
               <ShieldCheck size={14} className="mt-0.5 shrink-0 text-primary" />
               <span>
-                Your password is used to derive an encryption key via PBKDF2
-                (100k iterations). API keys are encrypted with AES-256-GCM.
-                If you forget this password, stored keys cannot be recovered.
+                密码经 PBKDF2（10 万次迭代）派生加密密钥，API 密钥使用 AES-256-GCM
+                加密。若忘记密码，已存密钥无法恢复。
               </span>
             </div>
           )}
@@ -246,16 +245,16 @@ export const MasterPasswordDialog: React.FC<MasterPasswordDialogProps> = ({
               onClick={handleClose}
               disabled={loading}
             >
-              Cancel
+              取消
             </Button>
             <Button type="submit" disabled={loading}>
               {loading
-                ? "Processing..."
+                ? "处理中…"
                 : mode === "setup"
-                  ? "Set Password"
+                  ? "设置密码"
                   : mode === "unlock"
-                    ? "Unlock"
-                    : "Change Password"}
+                    ? "解锁"
+                    : "更改密码"}
             </Button>
           </DialogFooter>
         </form>

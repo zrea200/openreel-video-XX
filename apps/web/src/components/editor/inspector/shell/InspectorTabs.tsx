@@ -20,7 +20,7 @@ export const InspectorTabs: React.FC<InspectorTabsProps> = ({ tabs, activeId, on
   return (
     <div
       role="tablist"
-      aria-label="Inspector tabs"
+      aria-label="检查器标签页"
       className="flex items-center gap-0.5 px-2 border-b border-border overflow-x-auto scrollbar-none shrink-0"
     >
       {tabs.map((tab, index) => {

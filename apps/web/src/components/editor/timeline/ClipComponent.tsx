@@ -246,17 +246,17 @@ export const ClipComponent: React.FC<ClipComponentProps> = ({
 
       if (!clipA || !clipB) {
         toast.warning(
-          "No adjacent clip",
+          "无相邻片段",
           edge === "left"
-            ? "Drop on the right edge or add a clip before this one."
-            : "Drop on the left edge or add a clip after this one.",
+            ? "请拖到右边缘，或在此片段前添加片段。"
+            : "请拖到左边缘，或在此片段后添加片段。",
         );
         return;
       }
 
       const bridge = getTransitionBridge();
       if (!bridge.isInitialized()) {
-        toast.error("Transition engine not ready", "Try again in a moment.");
+        toast.error("转场引擎未就绪", "请稍后再试。");
         return;
       }
       const defaultParams = bridge.getDefaultParams(transitionType);
@@ -272,15 +272,15 @@ export const ClipComponent: React.FC<ClipComponentProps> = ({
         if (transition) {
           projectState.addClipTransition(transition);
           toast.success(
-            "Transition applied",
-            `${transitionType} • 1.0s`,
+            "转场已应用",
+            `${transitionType} · 1.0s`,
           );
           return;
         }
       }
       toast.error(
-        "Transition failed",
-        result.error || "Could not create transition",
+        "转场失败",
+        result.error || "无法创建转场",
       );
     },
     [clip.id],
@@ -327,12 +327,12 @@ export const ClipComponent: React.FC<ClipComponentProps> = ({
       if (effectType) {
         const result = useProjectStore.getState().addVideoEffect(clip.id, effectType);
         if (result) {
-          toast.success("Effect applied", `${effectType} added`);
+          toast.success("效果已应用", `已添加 ${effectType}`);
           // Auto-select the clip so the user sees the new effect in
           // the inspector.
           useUIStore.getState().select({ id: clip.id, type: "clip" });
         } else {
-          toast.error("Effect failed", "Could not apply effect");
+          toast.error("效果应用失败", "无法应用效果");
         }
         return;
       }
@@ -397,7 +397,7 @@ export const ClipComponent: React.FC<ClipComponentProps> = ({
     // all the per-frame moves (and any companion clips) into one step.
     const projectStore = useProjectStore.getState();
     projectStore.beginHistoryGroup(
-      multiDragSnapshotRef.current.length > 0 ? "Move clips" : "Move clip",
+      multiDragSnapshotRef.current.length > 0 ? "移动多个片段" : "移动片段",
     );
 
     let animationFrameId: number | null = null;
@@ -668,7 +668,7 @@ export const ClipComponent: React.FC<ClipComponentProps> = ({
           <div className="absolute -inset-px rounded-lg border border-amber-300/80 shadow-[0_0_18px_rgba(251,191,36,0.55)] pointer-events-none animate-pulse" />
           <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.08)_28%,rgba(251,191,36,0.28)_50%,rgba(255,255,255,0.08)_72%,transparent_100%)] pointer-events-none animate-pulse" />
           <div className="absolute top-1 right-1 rounded-full bg-black/70 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] text-amber-200 pointer-events-none">
-            {effectApplicationLabel ?? "Applying effect"}
+            {effectApplicationLabel ?? "正在应用效果"}
           </div>
         </>
       )}

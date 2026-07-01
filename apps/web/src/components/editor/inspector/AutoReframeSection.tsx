@@ -27,6 +27,18 @@ interface AutoReframeSectionProps {
   onReframeComplete?: (result: ReframeResult) => void;
 }
 
+const PLATFORM_LABELS: Record<PlatformPreset, string> = {
+  youtube: "YouTube",
+  tiktok: "TikTok",
+  "instagram-reels": "Instagram Reels",
+  "instagram-feed": "Instagram 动态",
+  "instagram-stories": "Instagram 快拍",
+  "youtube-shorts": "YouTube Shorts",
+  facebook: "Facebook",
+  twitter: "Twitter",
+  linkedin: "LinkedIn",
+};
+
 const PLATFORM_ICONS: Record<PlatformPreset, React.ReactNode> = {
   youtube: <Monitor size={14} />,
   tiktok: <Smartphone size={14} />,
@@ -115,11 +127,11 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
   const handleAnalyze = useCallback(async () => {
     setIsProcessing(true);
     setProgress(0);
-    setProgressMessage("Initializing...");
+    setProgressMessage("正在初始化…");
 
     try {
       if (!isInitialized) {
-        setProgressMessage("Loading AI engine...");
+        setProgressMessage("正在加载 AI 引擎…");
         setProgress(10);
         await handleInitialize();
       }
@@ -129,12 +141,12 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
         throw new Error("Engine not available");
       }
 
-      setProgressMessage("Configuring reframe settings...");
+      setProgressMessage("正在配置重构图设置…");
       setProgress(30);
 
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      setProgressMessage("Applying smart crop configuration...");
+      setProgressMessage("正在应用智能裁剪配置…");
       setProgress(60);
 
       const targetConfig =
@@ -142,7 +154,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
 
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      setProgressMessage("Updating project settings...");
+      setProgressMessage("正在更新项目设置…");
       setProgress(80);
 
       await updateProjectDimensions({
@@ -150,13 +162,13 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
         height: targetConfig.height,
       });
 
-      setProgressMessage("Finalizing...");
+      setProgressMessage("正在完成…");
       setProgress(90);
 
       await new Promise((resolve) => setTimeout(resolve, 200));
 
       setProgress(100);
-      setProgressMessage("Complete!");
+      setProgressMessage("完成！");
       setIsApplied(true);
 
       const result: ReframeResult = {
@@ -164,23 +176,23 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
         outputWidth: targetConfig.width,
         outputHeight: targetConfig.height,
         success: true,
-        message: `Configured for ${targetConfig.name} (${targetConfig.width}x${targetConfig.height})`,
+        message: `已配置为 ${targetConfig.name}（${targetConfig.width}×${targetConfig.height}）`,
       };
 
       onReframeComplete?.(result);
 
       const platformName = selectedPlatform
-        ? PLATFORM_PRESETS[selectedPlatform].name
+        ? PLATFORM_LABELS[selectedPlatform]
         : reframeSettings.targetAspectRatio;
       toast.success(
-        "Auto Reframe Applied",
-        `Project resized to ${platformName} (${targetConfig.width}x${targetConfig.height})`,
+        "自动重构已应用",
+        `项目已调整为 ${platformName}（${targetConfig.width}×${targetConfig.height}）`,
       );
     } catch (error) {
       console.error("Auto-reframe failed:", error);
       toast.error(
-        "Auto Reframe Failed",
-        error instanceof Error ? error.message : "Unknown error",
+        "自动重构失败",
+        error instanceof Error ? error.message : "未知错误",
       );
       setIsApplied(false);
     } finally {
@@ -200,7 +212,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
       <div className="space-y-3">
         <div>
           <label className="text-[10px] text-text-secondary block mb-2">
-            Platform Presets
+            平台预设
           </label>
           <div className="grid grid-cols-3 gap-1">
             {(Object.keys(PLATFORM_PRESETS) as PlatformPreset[]).map(
@@ -216,7 +228,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
                 >
                   {PLATFORM_ICONS[platform]}
                   <span className="truncate">
-                    {PLATFORM_PRESETS[platform].name}
+                    {PLATFORM_LABELS[platform]}
                   </span>
                 </button>
               ),
@@ -226,7 +238,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
 
         <div>
           <label className="text-[10px] text-text-secondary block mb-2">
-            Aspect Ratio
+            宽高比
           </label>
           <div className="grid grid-cols-3 gap-1">
             {(Object.keys(ASPECT_RATIO_PRESETS) as AspectRatioPreset[])
@@ -251,7 +263,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
         <div>
           <div className="flex items-center justify-between mb-1">
             <label className="text-[10px] text-text-secondary">
-              Tracking Speed
+              跟踪速度
             </label>
             <span className="text-[10px] text-text-muted font-mono">
               {Math.round(reframeSettings.trackingSpeed * 100)}%
@@ -272,7 +284,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
 
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="text-[10px] text-text-secondary">Smoothing</label>
+            <label className="text-[10px] text-text-secondary">平滑度</label>
             <span className="text-[10px] text-text-muted font-mono">
               {Math.round(reframeSettings.smoothing * 100)}%
             </span>
@@ -291,7 +303,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
         <div>
           <div className="flex items-center justify-between mb-1">
             <label className="text-[10px] text-text-secondary">
-              Center Bias
+              居中偏好
             </label>
             <span className="text-[10px] text-text-muted font-mono">
               {Math.round(reframeSettings.centerBias * 100)}%
@@ -312,7 +324,7 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
 
         <div className="flex items-center justify-between">
           <label className="text-[10px] text-text-secondary">
-            Follow Subject
+            跟随主体
           </label>
           <button
             onClick={() =>
@@ -361,23 +373,23 @@ export const AutoReframeSection: React.FC<AutoReframeSectionProps> = ({
           {isInitializing || isProcessing ? (
             <>
               <Loader2 size={14} className="animate-spin" />
-              {isInitializing ? "Initializing..." : "Analyzing..."}
+              {isInitializing ? "正在初始化…" : "正在分析…"}
             </>
           ) : isApplied ? (
             <>
               <CheckCircle size={14} />
-              Applied - Click to Reanalyze
+              已应用 - 点击重新分析
             </>
           ) : (
             <>
               <Play size={14} />
-              Analyze & Reframe
+              分析并重构
             </>
           )}
         </button>
 
         <div className="text-[9px] text-text-muted text-center">
-          Output:{" "}
+          输出：{" "}
           {ASPECT_RATIO_PRESETS[reframeSettings.targetAspectRatio].width} x{" "}
           {ASPECT_RATIO_PRESETS[reframeSettings.targetAspectRatio].height}
         </div>

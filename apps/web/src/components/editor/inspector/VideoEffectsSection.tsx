@@ -34,23 +34,23 @@ const EffectItem: React.FC<{
   const [isExpanded, setIsExpanded] = React.useState(true);
 
   const effectLabels: Record<VideoEffectType, string> = {
-    brightness: "Brightness",
-    contrast: "Contrast",
-    saturation: "Saturation",
-    hue: "Hue",
-    blur: "Blur",
-    sharpen: "Sharpen",
-    vignette: "Vignette",
-    grain: "Grain",
-    temperature: "Temperature",
-    tint: "Tint",
-    tonal: "Tonal",
-    chromaKey: "Chroma Key",
-    shadow: "Drop Shadow",
-    glow: "Glow",
-    "motion-blur": "Motion Blur",
-    "radial-blur": "Radial Blur",
-    "chromatic-aberration": "Chromatic Aberration",
+    brightness: "亮度",
+    contrast: "对比度",
+    saturation: "饱和度",
+    hue: "色相",
+    blur: "模糊",
+    sharpen: "锐化",
+    vignette: "暗角",
+    grain: "颗粒",
+    temperature: "色温",
+    tint: "色调",
+    tonal: "影调",
+    chromaKey: "色度键",
+    shadow: "投影",
+    glow: "发光",
+    "motion-blur": "运动模糊",
+    "radial-blur": "径向模糊",
+    "chromatic-aberration": "色差",
   };
 
   const renderParams = () => {
@@ -58,7 +58,7 @@ const EffectItem: React.FC<{
       case "brightness":
         return (
           <EffectSlider
-            label="Value"
+            label="数值"
             value={(effect.params.value as number) || 0}
             onChange={(v) => onUpdate(effect.id, { value: v })}
             min={-100}
@@ -68,7 +68,7 @@ const EffectItem: React.FC<{
       case "contrast":
         return (
           <EffectSlider
-            label="Value"
+            label="数值"
             value={((effect.params.value as number) || 1) * 100}
             onChange={(v) => onUpdate(effect.id, { value: v / 100 })}
             min={0}
@@ -79,7 +79,7 @@ const EffectItem: React.FC<{
       case "saturation":
         return (
           <EffectSlider
-            label="Value"
+            label="数值"
             value={((effect.params.value as number) || 1) * 100}
             onChange={(v) => onUpdate(effect.id, { value: v / 100 })}
             min={0}
@@ -90,7 +90,7 @@ const EffectItem: React.FC<{
       case "blur":
         return (
           <EffectSlider
-            label="Radius"
+            label="半径"
             value={(effect.params.radius as number) || 0}
             onChange={(v) => onUpdate(effect.id, { radius: v })}
             min={0}
@@ -102,7 +102,7 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Amount"
+              label="强度"
               value={(effect.params.amount as number) || 0}
               onChange={(v) => onUpdate(effect.id, { amount: v })}
               min={0}
@@ -110,7 +110,7 @@ const EffectItem: React.FC<{
               unit="%"
             />
             <EffectSlider
-              label="Radius"
+              label="半径"
               value={(effect.params.radius as number) || 1}
               onChange={(v) => onUpdate(effect.id, { radius: v })}
               min={0.1}
@@ -123,14 +123,14 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Amount"
+              label="强度"
               value={(effect.params.amount as number) || 0}
               onChange={(v) => onUpdate(effect.id, { amount: v })}
               min={0}
               max={100}
             />
             <EffectSlider
-              label="Midpoint"
+              label="中点"
               value={((effect.params.midpoint as number) || 0.5) * 100}
               onChange={(v) => onUpdate(effect.id, { midpoint: v / 100 })}
               min={0}
@@ -138,7 +138,7 @@ const EffectItem: React.FC<{
               unit="%"
             />
             <EffectSlider
-              label="Feather"
+              label="羽化"
               value={((effect.params.feather as number) || 0.3) * 100}
               onChange={(v) => onUpdate(effect.id, { feather: v / 100 })}
               min={0}
@@ -151,14 +151,14 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Amount"
+              label="强度"
               value={(effect.params.amount as number) || 0}
               onChange={(v) => onUpdate(effect.id, { amount: v })}
               min={0}
               max={100}
             />
             <EffectSlider
-              label="Size"
+              label="大小"
               value={(effect.params.size as number) || 1}
               onChange={(v) => onUpdate(effect.id, { size: v })}
               min={0.5}
@@ -170,7 +170,7 @@ const EffectItem: React.FC<{
       case "temperature":
         return (
           <EffectSlider
-            label="Value"
+            label="数值"
             value={(effect.params.value as number) || 0}
             onChange={(v) => onUpdate(effect.id, { value: v })}
             min={-100}
@@ -180,7 +180,7 @@ const EffectItem: React.FC<{
       case "tint":
         return (
           <EffectSlider
-            label="Value"
+            label="数值"
             value={(effect.params.value as number) || 0}
             onChange={(v) => onUpdate(effect.id, { value: v })}
             min={-100}
@@ -191,7 +191,7 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Offset X"
+              label="X 偏移"
               value={(effect.params.offsetX as number) || 5}
               onChange={(v) => onUpdate(effect.id, { offsetX: v })}
               min={-100}
@@ -199,7 +199,7 @@ const EffectItem: React.FC<{
               unit="px"
             />
             <EffectSlider
-              label="Offset Y"
+              label="Y 偏移"
               value={(effect.params.offsetY as number) || 5}
               onChange={(v) => onUpdate(effect.id, { offsetY: v })}
               min={-100}
@@ -207,7 +207,7 @@ const EffectItem: React.FC<{
               unit="px"
             />
             <EffectSlider
-              label="Blur"
+              label="模糊"
               value={(effect.params.blur as number) || 10}
               onChange={(v) => onUpdate(effect.id, { blur: v })}
               min={0}
@@ -215,7 +215,7 @@ const EffectItem: React.FC<{
               unit="px"
             />
             <EffectSlider
-              label="Opacity"
+              label="不透明度"
               value={((effect.params.opacity as number) || 0.8) * 100}
               onChange={(v) => onUpdate(effect.id, { opacity: v / 100 })}
               min={0}
@@ -228,7 +228,7 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Radius"
+              label="半径"
               value={(effect.params.radius as number) || 10}
               onChange={(v) => onUpdate(effect.id, { radius: v })}
               min={0}
@@ -236,7 +236,7 @@ const EffectItem: React.FC<{
               unit="px"
             />
             <EffectSlider
-              label="Intensity"
+              label="强度"
               value={((effect.params.intensity as number) || 1) * 100}
               onChange={(v) => onUpdate(effect.id, { intensity: v / 100 })}
               min={0}
@@ -249,7 +249,7 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Angle"
+              label="角度"
               value={(effect.params.angle as number) || 0}
               onChange={(v) => onUpdate(effect.id, { angle: v })}
               min={0}
@@ -257,7 +257,7 @@ const EffectItem: React.FC<{
               unit="°"
             />
             <EffectSlider
-              label="Distance"
+              label="距离"
               value={(effect.params.distance as number) || 20}
               onChange={(v) => onUpdate(effect.id, { distance: v })}
               min={0}
@@ -270,14 +270,14 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Amount"
+              label="强度"
               value={(effect.params.amount as number) || 20}
               onChange={(v) => onUpdate(effect.id, { amount: v })}
               min={0}
               max={100}
             />
             <EffectSlider
-              label="Center X"
+              label="中心 X"
               value={(effect.params.centerX as number) || 50}
               onChange={(v) => onUpdate(effect.id, { centerX: v })}
               min={0}
@@ -285,7 +285,7 @@ const EffectItem: React.FC<{
               unit="%"
             />
             <EffectSlider
-              label="Center Y"
+              label="中心 Y"
               value={(effect.params.centerY as number) || 50}
               onChange={(v) => onUpdate(effect.id, { centerY: v })}
               min={0}
@@ -298,7 +298,7 @@ const EffectItem: React.FC<{
         return (
           <>
             <EffectSlider
-              label="Amount"
+              label="强度"
               value={(effect.params.amount as number) || 5}
               onChange={(v) => onUpdate(effect.id, { amount: v })}
               min={0}
@@ -307,7 +307,7 @@ const EffectItem: React.FC<{
               unit="px"
             />
             <EffectSlider
-              label="Angle"
+              label="角度"
               value={(effect.params.angle as number) || 0}
               onChange={(v) => onUpdate(effect.id, { angle: v })}
               min={0}
@@ -346,7 +346,7 @@ const EffectItem: React.FC<{
         <button
           onClick={() => onToggle(effect.id, !effect.enabled)}
           className="p-1 hover:bg-background-secondary rounded transition-colors"
-          title={effect.enabled ? "Disable effect" : "Enable effect"}
+          title={effect.enabled ? "禁用特效" : "启用特效"}
         >
           {effect.enabled ? (
             <Eye size={12} className="text-text-secondary" />
@@ -357,7 +357,7 @@ const EffectItem: React.FC<{
         <button
           onClick={() => onRemove(effect.id)}
           className="p-1 hover:bg-red-500/20 rounded transition-colors text-text-muted hover:text-red-400"
-          title="Remove effect"
+          title="移除特效"
         >
           <RotateCcw size={12} />
         </button>
@@ -372,21 +372,29 @@ const EFFECT_TYPES: {
   label: string;
   category: string;
 }[] = [
-  { type: "brightness", label: "Brightness", category: "Basic" },
-  { type: "contrast", label: "Contrast", category: "Basic" },
-  { type: "saturation", label: "Saturation", category: "Basic" },
-  { type: "temperature", label: "Temperature", category: "Color" },
-  { type: "tint", label: "Tint", category: "Color" },
-  { type: "blur", label: "Blur", category: "Blur" },
-  { type: "motion-blur", label: "Motion Blur", category: "Blur" },
-  { type: "radial-blur", label: "Radial Blur", category: "Blur" },
-  { type: "sharpen", label: "Sharpen", category: "Creative" },
-  { type: "vignette", label: "Vignette", category: "Creative" },
-  { type: "grain", label: "Film Grain", category: "Creative" },
-  { type: "shadow", label: "Drop Shadow", category: "Stylize" },
-  { type: "glow", label: "Glow", category: "Stylize" },
-  { type: "chromatic-aberration", label: "Chromatic Aberration", category: "Stylize" },
+  { type: "brightness", label: "亮度", category: "Basic" },
+  { type: "contrast", label: "对比度", category: "Basic" },
+  { type: "saturation", label: "饱和度", category: "Basic" },
+  { type: "temperature", label: "色温", category: "Color" },
+  { type: "tint", label: "色调", category: "Color" },
+  { type: "blur", label: "模糊", category: "Blur" },
+  { type: "motion-blur", label: "运动模糊", category: "Blur" },
+  { type: "radial-blur", label: "径向模糊", category: "Blur" },
+  { type: "sharpen", label: "锐化", category: "Creative" },
+  { type: "vignette", label: "暗角", category: "Creative" },
+  { type: "grain", label: "胶片颗粒", category: "Creative" },
+  { type: "shadow", label: "投影", category: "Stylize" },
+  { type: "glow", label: "发光", category: "Stylize" },
+  { type: "chromatic-aberration", label: "色差", category: "Stylize" },
 ];
+
+const EFFECT_CATEGORY_LABELS: Record<string, string> = {
+  Basic: "基础",
+  Color: "色彩",
+  Blur: "模糊",
+  Creative: "创意",
+  Stylize: "风格化",
+};
 
 const EFFECT_CATEGORIES = [...new Set(EFFECT_TYPES.map((e) => e.category))];
 
@@ -397,14 +405,14 @@ const EffectTypeSelector: React.FC<{
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="w-full py-2 bg-primary/10 border border-primary/30 rounded-lg text-[10px] text-primary hover:bg-primary/20 transition-colors">
-          + Add Effect
+          + 添加特效
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-48 max-h-64 overflow-y-auto">
         {EFFECT_CATEGORIES.map((category) => (
           <React.Fragment key={category}>
             <DropdownMenuLabel className="text-[9px] uppercase tracking-wider text-text-muted">
-              {category}
+              {EFFECT_CATEGORY_LABELS[category] ?? category}
             </DropdownMenuLabel>
             {EFFECT_TYPES
               .filter((e) => e.category === category)
@@ -493,7 +501,7 @@ export const VideoEffectsSection: React.FC<VideoEffectsSectionProps> = ({
     <div className="space-y-3">
       {effects.length === 0 ? (
         <p className="text-[10px] text-text-muted text-center py-2">
-          No effects applied
+          未应用特效
         </p>
       ) : (
         <div className="space-y-2">
