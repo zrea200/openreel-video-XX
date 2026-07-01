@@ -52,6 +52,18 @@ const StickerCard: React.FC<StickerCardProps> = ({ sticker, onAdd }) => (
   </button>
 );
 
+const EMOJI_CATEGORY_LABELS: Record<string, string> = {
+  smileys: "表情",
+  people: "人物",
+  animals: "动物",
+  food: "食物",
+  travel: "旅行",
+  activities: "活动",
+  objects: "物品",
+  symbols: "符号",
+  flags: "旗帜",
+};
+
 export const StickerPickerPanel: React.FC = () => {
   const addTrack = useProjectStore((state) => state.addTrack);
   const project = useProjectStore((state) => state.project);
@@ -143,10 +155,10 @@ export const StickerPickerPanel: React.FC = () => {
         <Smile size={16} className="text-primary" />
         <div>
           <span className="text-[11px] font-medium text-text-primary">
-            Stickers & Emojis
+            贴纸与表情
           </span>
           <p className="text-[9px] text-text-muted">
-            Add fun elements to your video
+            为视频添加趣味元素
           </p>
         </div>
       </div>
@@ -161,7 +173,7 @@ export const StickerPickerPanel: React.FC = () => {
           }`}
         >
           <Smile size={12} />
-          Emojis
+          表情
         </button>
         <button
           onClick={() => setActiveTab("stickers")}
@@ -172,7 +184,7 @@ export const StickerPickerPanel: React.FC = () => {
           }`}
         >
           <Sticker size={12} />
-          Stickers
+          贴纸
         </button>
       </div>
 
@@ -184,7 +196,7 @@ export const StickerPickerPanel: React.FC = () => {
         <Input
           type="text"
           placeholder={
-            activeTab === "emojis" ? "Search emojis..." : "Search stickers..."
+            activeTab === "emojis" ? "搜索表情…" : "搜索贴纸…"
           }
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -205,7 +217,7 @@ export const StickerPickerPanel: React.FC = () => {
               }`}
             >
               <span>{cat.emojis[0]?.emoji || "😀"}</span>
-              <span>{cat.name}</span>
+              <span>{EMOJI_CATEGORY_LABELS[cat.id] ?? cat.name}</span>
             </button>
           ))}
         </div>
@@ -240,7 +252,7 @@ export const StickerPickerPanel: React.FC = () => {
                 size={24}
                 className="mx-auto mb-2 text-text-muted opacity-50"
               />
-              <p className="text-[10px] text-text-muted">No emojis found</p>
+              <p className="text-[10px] text-text-muted">未找到表情</p>
             </div>
           ) : (
             currentEmojis.map((emoji) => (
@@ -262,9 +274,9 @@ export const StickerPickerPanel: React.FC = () => {
                 size={24}
                 className="mx-auto mb-2 text-text-muted opacity-50"
               />
-              <p className="text-[10px] text-text-muted">No stickers yet</p>
+              <p className="text-[10px] text-text-muted">暂无贴纸</p>
               <p className="text-[9px] text-text-muted mt-1">
-                Import custom stickers below
+                可在下方导入自定义贴纸
               </p>
             </div>
           ) : (
@@ -301,14 +313,14 @@ export const StickerPickerPanel: React.FC = () => {
           className="w-full flex items-center justify-center gap-2 py-2 text-[10px] text-text-secondary hover:text-text-primary bg-background-tertiary rounded-lg transition-colors"
         >
           <Plus size={12} />
-          <span>Import Custom Sticker</span>
+          <span>导入自定义贴纸</span>
         </button>
       </div>
 
       <p className="text-[9px] text-text-muted text-center">
         {activeTab === "emojis"
-          ? `${stickerLibrary.getAllEmojis().length} emojis available`
-          : `${allStickers.length} stickers available`}
+          ? `共 ${stickerLibrary.getAllEmojis().length} 个表情`
+          : `共 ${allStickers.length} 个贴纸`}
       </p>
     </div>
   );

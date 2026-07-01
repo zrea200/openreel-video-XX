@@ -33,32 +33,40 @@ interface EffectDef {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+const EFFECT_CATEGORY_LABELS: Record<EffectCategory, string> = {
+  Basic: "基础",
+  Color: "色彩",
+  Blur: "模糊",
+  Creative: "创意",
+  Stylize: "风格化",
+};
+
 const EFFECTS: EffectDef[] = [
   {
     type: "brightness",
-    label: "Brightness",
-    description: "Lift midtones and highlights",
+    label: "亮度",
+    description: "提升中间调与高光",
     category: "Basic",
     previewStyle: (p) => ({ filter: `brightness(${lerp(0.9, 1.6, p)})` }),
   },
   {
     type: "contrast",
-    label: "Contrast",
-    description: "Punchier shadows and highlights",
+    label: "对比度",
+    description: "增强阴影与高光层次",
     category: "Basic",
     previewStyle: (p) => ({ filter: `contrast(${lerp(0.8, 1.8, p)})` }),
   },
   {
     type: "saturation",
-    label: "Saturation",
-    description: "Boost or mute color intensity",
+    label: "饱和度",
+    description: "增强或降低色彩强度",
     category: "Basic",
     previewStyle: (p) => ({ filter: `saturate(${lerp(0.5, 2.0, p)})` }),
   },
   {
     type: "temperature",
-    label: "Temperature",
-    description: "Warm / cool color shift",
+    label: "色温",
+    description: "暖色 / 冷色偏移",
     category: "Color",
     previewStyle: (p) => ({
       filter: `sepia(${lerp(0, 0.6, p)}) hue-rotate(${lerp(-12, 12, p)}deg)`,
@@ -66,8 +74,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "tint",
-    label: "Tint",
-    description: "Magenta / green color shift",
+    label: "色调",
+    description: "洋红 / 绿色偏移",
     category: "Color",
     previewStyle: (p) => ({
       filter: `hue-rotate(${lerp(0, 60, p)}deg)`,
@@ -75,8 +83,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "hue",
-    label: "Hue",
-    description: "Rotate the color wheel",
+    label: "色相",
+    description: "旋转色轮",
     category: "Color",
     previewStyle: (p) => ({
       filter: `hue-rotate(${lerp(0, 360, p)}deg)`,
@@ -84,15 +92,15 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "blur",
-    label: "Blur",
-    description: "Soft gaussian defocus",
+    label: "模糊",
+    description: "高斯柔焦",
     category: "Blur",
     previewStyle: (p) => ({ filter: `blur(${lerp(0, 6, p)}px)` }),
   },
   {
     type: "motion-blur",
-    label: "Motion Blur",
-    description: "Directional smear",
+    label: "动态模糊",
+    description: "方向性拖影",
     category: "Blur",
     previewStyle: (p) => ({
       filter: `blur(${lerp(0, 3, p)}px)`,
@@ -101,8 +109,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "radial-blur",
-    label: "Radial Blur",
-    description: "Zoom-style radial motion",
+    label: "径向模糊",
+    description: "缩放式径向动态模糊",
     category: "Blur",
     previewStyle: (p) => ({
       filter: `blur(${lerp(0, 4, p)}px)`,
@@ -111,8 +119,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "sharpen",
-    label: "Sharpen",
-    description: "Unsharp-mask edge enhance",
+    label: "锐化",
+    description: "反遮罩边缘增强",
     category: "Creative",
     previewStyle: (p) => ({
       filter: `contrast(${lerp(1, 1.4, p)}) brightness(${lerp(1, 1.05, p)})`,
@@ -120,8 +128,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "vignette",
-    label: "Vignette",
-    description: "Darkened edges for focus",
+    label: "暗角",
+    description: "边缘压暗以突出主体",
     category: "Creative",
     previewStyle: (p) => ({
       boxShadow: `inset 0 0 ${lerp(0, 50, p)}px ${lerp(0, 25, p)}px rgba(0,0,0,0.65)`,
@@ -129,8 +137,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "grain",
-    label: "Film Grain",
-    description: "Analog film texture",
+    label: "胶片颗粒",
+    description: "模拟胶片质感",
     category: "Creative",
     previewStyle: (p) => ({
       filter: `contrast(${lerp(1, 1.1, p)})`,
@@ -139,8 +147,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "shadow",
-    label: "Drop Shadow",
-    description: "Cast a soft shadow",
+    label: "投影",
+    description: "添加柔和阴影",
     category: "Stylize",
     previewStyle: (p) => ({
       filter: `drop-shadow(${lerp(0, 4, p)}px ${lerp(0, 4, p)}px ${lerp(0, 8, p)}px rgba(0,0,0,0.6))`,
@@ -148,8 +156,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "glow",
-    label: "Glow",
-    description: "Bright outer halo",
+    label: "发光",
+    description: "明亮外沿光晕",
     category: "Stylize",
     previewStyle: (p) => ({
       filter: `brightness(${lerp(1, 1.15, p)}) drop-shadow(0 0 ${lerp(0, 12, p)}px var(--accent))`,
@@ -157,8 +165,8 @@ const EFFECTS: EffectDef[] = [
   },
   {
     type: "chromatic-aberration",
-    label: "Chromatic Aberration",
-    description: "RGB-channel split offset",
+    label: "色差",
+    description: "RGB 通道分离偏移",
     category: "Stylize",
     previewStyle: (p) => ({
       filter: `hue-rotate(${lerp(0, 6, p)}deg)`,
@@ -209,8 +217,8 @@ const renderThumb = (
 const TRANSITIONS: TransitionDef[] = [
   {
     type: "crossfade",
-    label: "Crossfade",
-    description: "Smooth opacity blend",
+    label: "交叉淡化",
+    description: "平滑透明度过渡",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(thumb, { opacity: 1 - p }, "oklch(0.55 0.14 295)")}
@@ -220,8 +228,8 @@ const TRANSITIONS: TransitionDef[] = [
   },
   {
     type: "dipToBlack",
-    label: "Dip to Black",
-    description: "Fade through black",
+    label: "淡入黑场",
+    description: "经黑场过渡",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(thumb, { opacity: p < 0.5 ? 1 - p * 2 : 0 }, "oklch(0.55 0.14 295)")}
@@ -235,8 +243,8 @@ const TRANSITIONS: TransitionDef[] = [
   },
   {
     type: "dipToWhite",
-    label: "Dip to White",
-    description: "Fade through white",
+    label: "淡入白场",
+    description: "经白场过渡",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(thumb, { opacity: p < 0.5 ? 1 - p * 2 : 0 }, "oklch(0.55 0.14 295)")}
@@ -250,8 +258,8 @@ const TRANSITIONS: TransitionDef[] = [
   },
   {
     type: "wipe",
-    label: "Wipe",
-    description: "Hard edge sweeps across",
+    label: "划像",
+    description: "硬边扫过切换",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(thumb, { clipPath: `inset(0 ${p * 100}% 0 0)` }, "oklch(0.55 0.14 295)")}
@@ -261,8 +269,8 @@ const TRANSITIONS: TransitionDef[] = [
   },
   {
     type: "slide",
-    label: "Slide",
-    description: "New clip slides in",
+    label: "滑入",
+    description: "新片段滑入画面",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(thumb, { transform: `translateX(${-p * 100}%)` }, "oklch(0.55 0.14 295)")}
@@ -272,8 +280,8 @@ const TRANSITIONS: TransitionDef[] = [
   },
   {
     type: "push",
-    label: "Push",
-    description: "Outgoing clip is shoved off",
+    label: "推挤",
+    description: "旧片段被推出画面",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(thumb, { transform: `translateX(${-p * 100}%)` }, "oklch(0.55 0.14 295)")}
@@ -283,8 +291,8 @@ const TRANSITIONS: TransitionDef[] = [
   },
   {
     type: "zoom",
-    label: "Zoom",
-    description: "Scale up and dissolve",
+    label: "缩放",
+    description: "放大并溶解切换",
     renderPreview: (p, thumb) => (
       <>
         {renderThumb(
@@ -361,7 +369,7 @@ const EffectCard: React.FC<{
       onDoubleClick={onApply}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      title={`Drag onto a clip to apply • double-click to apply to selected clip`}
+      title={`拖到片段上应用 • 双击应用到选中片段`}
       className="group relative flex flex-col items-stretch rounded-lg border border-border bg-bg-2 overflow-hidden text-left cursor-grab active:cursor-grabbing hover:border-accent transition-colors"
     >
       <div className="relative aspect-video bg-bg-3 overflow-hidden">
@@ -384,7 +392,7 @@ const EffectCard: React.FC<{
           />
         )}
         <span className="absolute bottom-1 right-1 text-[8.5px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-black/55 text-white/85 backdrop-blur-sm">
-          {def.category}
+          {EFFECT_CATEGORY_LABELS[def.category]}
         </span>
       </div>
       <div className="px-2 py-1.5 border-t border-border">
@@ -442,7 +450,7 @@ const TransitionCard: React.FC<{
       onDragStart={handleDragStart}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      title="Drag onto a clip's edge (or between two clips) to apply"
+      title="拖到片段边缘（或两片段之间）应用"
       className="group relative flex flex-col items-stretch rounded-lg border border-border bg-bg-2 overflow-hidden text-left cursor-grab active:cursor-grabbing hover:border-accent transition-colors"
     >
       <div className="relative aspect-video bg-bg-3 overflow-hidden">
@@ -521,7 +529,8 @@ export const EffectsPanel: React.FC = () => {
       (e) =>
         e.label.toLowerCase().includes(q) ||
         e.description.toLowerCase().includes(q) ||
-        e.category.toLowerCase().includes(q),
+        e.category.toLowerCase().includes(q) ||
+        EFFECT_CATEGORY_LABELS[e.category].includes(query.trim()),
     );
   }, [query]);
 
@@ -530,8 +539,8 @@ export const EffectsPanel: React.FC = () => {
       const selectedIds = getSelectedClipIds();
       if (selectedIds.length === 0) {
         toast.warning(
-          "No clip selected",
-          "Drag the effect onto a clip in the timeline, or select a clip and double-click.",
+          "未选中片段",
+          "请将特效拖到时间轴片段上，或先选中片段后双击。",
         );
         return;
       }
@@ -539,8 +548,8 @@ export const EffectsPanel: React.FC = () => {
         addVideoEffect(id, type);
       }
       toast.success(
-        "Effect applied",
-        `${type} added to ${selectedIds.length} clip${selectedIds.length > 1 ? "s" : ""}`,
+        "特效已应用",
+        `已为 ${selectedIds.length} 个片段添加 ${type}`,
       );
     },
     [getSelectedClipIds, addVideoEffect],
@@ -558,7 +567,7 @@ export const EffectsPanel: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search effects"
+            placeholder="搜索特效"
             className="pl-8 h-8 text-[11px] bg-bg-2 border-border"
           />
         </div>
@@ -571,7 +580,7 @@ export const EffectsPanel: React.FC = () => {
             return (
               <section key={cat}>
                 <div className="text-[9.5px] uppercase tracking-wider text-fg-muted mb-1.5">
-                  {cat}
+                  {EFFECT_CATEGORY_LABELS[cat]}
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {items.map((def) => (
@@ -588,7 +597,7 @@ export const EffectsPanel: React.FC = () => {
           })}
           {filtered.length === 0 && (
             <div className="text-center text-[10.5px] text-fg-muted py-6">
-              No effects match "{query}".
+              没有与「{query}」匹配的特效。
             </div>
           )}
         </div>
@@ -623,7 +632,7 @@ export const TransitionsPanel: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search transitions"
+            placeholder="搜索转场"
             className="pl-8 h-8 text-[11px] bg-bg-2 border-border"
           />
         </div>
@@ -637,7 +646,7 @@ export const TransitionsPanel: React.FC = () => {
           </div>
           {filtered.length === 0 && (
             <div className="text-center text-[10.5px] text-fg-muted py-6">
-              No transitions match "{query}".
+              没有与「{query}」匹配的转场。
             </div>
           )}
         </div>

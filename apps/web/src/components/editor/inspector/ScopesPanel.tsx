@@ -481,7 +481,7 @@ export const ScopesPanel: React.FC<ScopesPanelProps> = ({
     if (isLoading) {
       return (
         <div className="flex items-center justify-center h-40 text-text-muted text-xs">
-          Generating scope data...
+          正在生成示波器数据…
         </div>
       );
     }
@@ -489,7 +489,7 @@ export const ScopesPanel: React.FC<ScopesPanelProps> = ({
     if (!frameImage) {
       return (
         <div className="flex items-center justify-center h-40 text-text-muted text-xs">
-          No frame to analyze
+          无可分析帧
         </div>
       );
     }
@@ -501,13 +501,13 @@ export const ScopesPanel: React.FC<ScopesPanelProps> = ({
             <WaveformRenderer data={waveformData} showRGB={showRGBWaveform} />
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-text-muted">
-                {showRGBWaveform ? "RGB Parade" : "Luminance"}
+                {showRGBWaveform ? "RGB 分量" : "亮度"}
               </span>
               <button
                 onClick={() => setShowRGBWaveform(!showRGBWaveform)}
                 className="text-[10px] text-text-secondary hover:text-text-primary transition-colors"
               >
-                {showRGBWaveform ? "Show Luma" : "Show RGB"}
+                {showRGBWaveform ? "显示亮度" : "显示 RGB"}
               </button>
             </div>
           </div>
@@ -537,19 +537,19 @@ export const ScopesPanel: React.FC<ScopesPanelProps> = ({
           active={activeView === "waveform"}
           onClick={() => handleViewChange("waveform")}
           icon={<Activity size={12} />}
-          label="Waveform"
+          label="波形"
         />
         <ViewToggleButton
           active={activeView === "vectorscope"}
           onClick={() => handleViewChange("vectorscope")}
           icon={<Circle size={12} />}
-          label="Vectorscope"
+          label="矢量示波器"
         />
         <ViewToggleButton
           active={activeView === "histogram"}
           onClick={() => handleViewChange("histogram")}
           icon={<BarChart3 size={12} />}
-          label="Histogram"
+          label="直方图"
         />
       </div>
 
@@ -559,11 +559,11 @@ export const ScopesPanel: React.FC<ScopesPanelProps> = ({
       {/* Info Text */}
       <p className="text-[9px] text-text-muted">
         {activeView === "waveform" &&
-          "Waveform shows luminance distribution across the frame width."}
+          "波形图显示画面宽度方向的亮度分布。"}
         {activeView === "vectorscope" &&
-          "Vectorscope shows color saturation and hue distribution."}
+          "矢量示波器显示色彩饱和度与色相分布。"}
         {activeView === "histogram" &&
-          "Histogram shows RGB and luminance value distribution."}
+          "直方图显示 RGB 与亮度数值分布。"}
       </p>
     </div>
   );

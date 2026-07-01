@@ -148,7 +148,7 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
   if (!clip) {
     return (
       <div className="text-center py-8 text-text-muted text-xs">
-        No clip selected
+        未选中片段
       </div>
     );
   }
@@ -165,7 +165,7 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
         <div className="flex items-center gap-2">
           <Route size={14} className="text-primary" />
           <span className="text-xs font-medium text-text-primary">
-            Motion Path
+            运动路径
           </span>
         </div>
         <Switch checked={isEnabled} onCheckedChange={handleEnableToggle} />
@@ -175,7 +175,7 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
         <>
           <div className="p-3 bg-background-tertiary rounded-lg space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] text-text-secondary">Show Path</span>
+              <span className="text-[10px] text-text-secondary">显示路径</span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleShowPathToggle(!showPath)}
@@ -192,7 +192,7 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
 
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-text-secondary">
-                Auto Orient
+                自动朝向
               </span>
               <Switch
                 checked={autoOrient}
@@ -201,7 +201,7 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] text-text-secondary">Path Type</span>
+              <span className="text-[10px] text-text-secondary">路径类型</span>
               <div className="grid grid-cols-3 gap-1">
                 {(["linear", "bezier", "catmull-rom"] as const).map((type) => (
                   <button
@@ -213,7 +213,11 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
                         : "bg-background-elevated border border-border text-text-secondary hover:text-text-primary"
                     }`}
                   >
-                    {type === "catmull-rom" ? "Smooth" : type}
+                    {type === "catmull-rom"
+                      ? "平滑"
+                      : type === "linear"
+                        ? "线性"
+                        : "贝塞尔"}
                   </button>
                 ))}
               </div>
@@ -223,24 +227,24 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
           <div className="flex items-center justify-between p-3 bg-background-tertiary rounded-lg">
             <div>
               <span className="text-[10px] text-text-secondary">
-                Path Points
+                路径点
               </span>
               <p className="text-sm font-medium text-text-primary">
-                {pointCount} points
+                {pointCount} 个点
               </p>
             </div>
             <div className="flex items-center gap-1">
               <button
                 onClick={handleAddPoint}
                 className="p-1.5 rounded bg-primary/20 text-primary hover:bg-primary/30 transition-colors"
-                title="Add point"
+                title="添加点"
               >
                 <Plus size={12} />
               </button>
               <button
                 onClick={handleClearPath}
                 className="p-1.5 rounded bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
-                title="Clear path"
+                title="清除路径"
               >
                 <Trash2 size={12} />
               </button>
@@ -257,24 +261,22 @@ export const MotionPathSection: React.FC<MotionPathSectionProps> = ({
             size="sm"
           >
             <Route size={14} className="mr-2" />
-            {isEditing ? "Exit Edit Mode" : "Edit Path on Canvas"}
+            {isEditing ? "退出编辑" : "在画布上编辑路径"}
           </Button>
 
           {isEditing && (
             <div className="p-2 bg-primary/10 border border-primary/30 rounded-lg">
               <p className="text-[9px] text-primary">
-                <span className="font-medium">Editing:</span> Click on the path
-                to add points. Drag points to move them. Right-click to remove.
-                Drag handles to adjust curves.
+                <span className="font-medium">编辑中：</span>
+                点击路径添加点，拖动移动点，右键删除，拖动手柄调整曲线。
               </p>
             </div>
           )}
 
           <div className="p-2 bg-background-tertiary/50 border border-border rounded-lg">
             <p className="text-[9px] text-text-muted">
-              <span className="text-text-secondary font-medium">Tip:</span>{" "}
-              Motion paths animate the clip's position along a curved path over
-              time. Use bezier handles for smooth curves.
+              <span className="text-text-secondary font-medium">提示：</span>
+              运动路径让片段沿曲线随时间移动，可用贝塞尔手柄获得平滑曲线。
             </p>
           </div>
         </>

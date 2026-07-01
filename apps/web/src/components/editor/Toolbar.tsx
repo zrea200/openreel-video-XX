@@ -83,6 +83,30 @@ interface ExportState {
   complete: boolean;
 }
 
+const EXPORT_PHASE_LABELS: Record<string, string> = {
+  initializing: "正在初始化…",
+  preparing: "正在准备…",
+  rendering: "正在渲染…",
+  encoding: "正在编码…",
+  muxing: "正在封装…",
+  writing: "正在写入…",
+  finalizing: "正在收尾…",
+  exporting: "正在导出…",
+  processing: "正在处理…",
+  audio: "正在导出音频…",
+  video: "正在导出视频…",
+};
+
+function formatExportPhase(phase: string): string {
+  if (!phase) return "";
+  if (phase === "complete") return "完成！";
+  const normalized = phase.toLowerCase().replace(/[.\s_]+/g, "");
+  for (const [key, label] of Object.entries(EXPORT_PHASE_LABELS)) {
+    if (normalized.includes(key)) return label;
+  }
+  return phase.endsWith("…") || phase.endsWith("...") ? phase : `${phase}…`;
+}
+
 export const Toolbar: React.FC = () => {
   const { project, undo, redo, renameProject } = useProjectStore();
   const {
@@ -229,12 +253,12 @@ export const Toolbar: React.FC = () => {
         setExportState((prev) => ({
           ...prev,
           progress: value.progress * 100,
-          phase: value.phase === "complete" ? "Complete!" : `${value.phase}...`,
+          phase: value.phase === "complete" ? "完成！" : formatExportPhase(value.phase),
         }));
       }
 
       if (finalResult?.success) {
-        setExportState((prev) => ({ ...prev, complete: true, phase: "Saved!" }));
+        setExportState((prev) => ({ ...prev, complete: true, phase: "已保存！" }));
         track(AnalyticsEvents.PROJECT_EXPORTED, {
           format: videoSettings.format ?? "mp4",
           codec: videoSettings.codec ?? "h264",
@@ -244,7 +268,7 @@ export const Toolbar: React.FC = () => {
           duration: project.timeline?.duration ?? 0,
         });
       } else {
-        throw new Error(finalResult?.error?.message || "Export failed");
+        throw new Error(finalResult?.error?.message || "导出失败");
       }
     },
     [project, track],
@@ -265,7 +289,7 @@ export const Toolbar: React.FC = () => {
       }).showSaveFilePicker({
         suggestedName: filename,
         types: [{
-          description: "Media file",
+          description: "媒体文件",
           accept: { [mime]: [`.${ext}`] },
         }],
       });
@@ -342,7 +366,7 @@ export const Toolbar: React.FC = () => {
           setExportState({
             isExporting: true,
             progress: 0,
-            phase: "Initializing...",
+            phase: "正在初始化…",
             error: null,
             complete: false,
           });
@@ -369,7 +393,7 @@ export const Toolbar: React.FC = () => {
             setExportState((prev) => ({
               ...prev,
               progress: value.progress * 100,
-              phase: value.phase === "complete" ? "Complete!" : `${value.phase}...`,
+              phase: value.phase === "complete" ? "完成！" : formatExportPhase(value.phase),
             }));
           }
 
@@ -386,14 +410,14 @@ export const Toolbar: React.FC = () => {
               document.body.removeChild(a);
               URL.revokeObjectURL(url);
             }
-            setExportState((prev) => ({ ...prev, complete: true, phase: "Saved!" }));
+            setExportState((prev) => ({ ...prev, complete: true, phase: "已保存！" }));
             track(AnalyticsEvents.PROJECT_EXPORTED, {
               format: "wav",
               duration: project.timeline?.duration ?? 0,
             });
           } else {
             try { await writable.abort(); } catch {}
-            throw new Error(finalResult?.error?.message || "Export failed");
+            throw new Error(finalResult?.error?.message || "导出失败");
           }
         } else {
           const base = {
@@ -421,7 +445,7 @@ export const Toolbar: React.FC = () => {
           setExportState({
             isExporting: true,
             progress: 0,
-            phase: "Initializing...",
+            phase: "正在初始化…",
             error: null,
             complete: false,
           });
@@ -439,7 +463,7 @@ export const Toolbar: React.FC = () => {
         setExportState((prev) => ({
           ...prev,
           isExporting: false,
-          error: error instanceof Error ? error.message : "Export failed",
+          error: error instanceof Error ? error.message : "导出失败",
         }));
       }
     },
@@ -469,7 +493,7 @@ export const Toolbar: React.FC = () => {
         setExportState({
           isExporting: true,
           progress: 0,
-          phase: "Initializing...",
+          phase: "正在初始化…",
           error: null,
           complete: false,
         });
@@ -509,7 +533,7 @@ export const Toolbar: React.FC = () => {
         setExportState((prev) => ({
           ...prev,
           isExporting: false,
-          error: error instanceof Error ? error.message : "Export failed",
+          error: error instanceof Error ? error.message : "导出失败",
         }));
       }
     },
@@ -521,8 +545,8 @@ export const Toolbar: React.FC = () => {
     async (screenBlob: Blob, webcamBlob?: Blob) => {
       if (!screenBlob || screenBlob.size === 0) {
         toast.error(
-          "Recording failed",
-          "No video data was captured. Please try again.",
+          "录制失败",
+          "未捕获到视频数据，请重试。",
         );
         return;
       }
@@ -542,7 +566,7 @@ export const Toolbar: React.FC = () => {
         importCount++;
       } else {
         errors.push(
-          screenResult.error?.message || "Failed to import screen recording",
+          screenResult.error?.message || "屏幕录制导入失败",
         );
       }
 
@@ -555,20 +579,20 @@ export const Toolbar: React.FC = () => {
           importCount++;
         } else {
           errors.push(
-            webcamResult.error?.message || "Failed to import webcam recording",
+            webcamResult.error?.message || "摄像头录制导入失败",
           );
         }
       }
 
       if (importCount > 0) {
         toast.success(
-          `${importCount} recording${importCount > 1 ? "s" : ""} imported!`,
+          `已导入 ${importCount} 个录制文件`,
           webcamBlob && webcamBlob.size > 0
-            ? "Screen and webcam added to assets. Use the timeline to composite them."
-            : "Screen recording added to assets.",
+            ? "屏幕与摄像头素材已加入媒体库，可在时间轴上合成。"
+            : "屏幕录制已加入媒体库。",
         );
       } else if (errors.length > 0) {
-        toast.error("Import failed", errors.join(". "));
+        toast.error("导入失败", errors.join("。"));
       }
     },
     [importMedia],
@@ -587,9 +611,9 @@ export const Toolbar: React.FC = () => {
     separator?: boolean;
   }> = [
     {
-      label: "MP4 Standard",
+      label: "MP4 标准",
       icon: Zap,
-      desc: `${projectRes} H.264 - Web & social`,
+      desc: `${projectRes} H.264 · 网页与社交`,
       type: "mp4",
       recommended: true,
     },
@@ -604,28 +628,28 @@ export const Toolbar: React.FC = () => {
       ? []
       : [
           {
-            label: "4K Standard",
+            label: "4K 标准",
             icon: FileVideo,
-            desc: "3840×2160 - YouTube 4K",
+            desc: "3840×2160 · YouTube 4K",
             type: "4k" as ExportType,
           },
         ]),
     {
-      label: "1080p High Quality",
+      label: "1080p 高质量",
       icon: FileVideo,
-      desc: "1920×1080 30fps - High bitrate",
+      desc: "1920×1080 30fps · 高码率",
       type: "1080p-high",
     },
     {
       label: "1080p 60fps",
       icon: FileVideo,
-      desc: "1920×1080 - Smooth playback",
+      desc: "1920×1080 · 流畅播放",
       type: "1080p-60",
     },
     {
-      label: "Audio Only (WAV)",
+      label: "仅音频（WAV）",
       icon: Music,
-      desc: "Uncompressed audio",
+      desc: "无损音频",
       type: "wav",
     },
   ];
@@ -863,7 +887,7 @@ export const Toolbar: React.FC = () => {
                 className="relative inline-flex items-center gap-1.5 px-3.5 py-[5px] rounded-md bg-accent text-accent-fg font-semibold text-[12.5px] shadow-glow hover:bg-accent-strong transition-colors"
               >
                 <Upload size={13} />
-                <span>Export</span>
+                <span>导出</span>
                 <ChevronDown size={12} className={`transition-transform ${isExportOpen ? "rotate-180" : ""}`} />
               </button>
             </DropdownMenuTrigger>
@@ -898,7 +922,7 @@ export const Toolbar: React.FC = () => {
                           {option.label}
                           {option.recommended && (
                             <span className="ml-2 text-[10px] bg-accent-soft text-accent px-1.5 py-0.5 rounded">
-                              Best match
+                              推荐
                             </span>
                           )}
                         </div>
@@ -907,7 +931,7 @@ export const Toolbar: React.FC = () => {
                         </div>
                         {exportEstimates.get(option.type) && (
                           <div className="text-[10px] text-fg-3 mt-1">
-                            Est. {exportEstimates.get(option.type)?.formatted}
+                            约 {exportEstimates.get(option.type)?.formatted}
                           </div>
                         )}
                       </div>
@@ -925,10 +949,10 @@ export const Toolbar: React.FC = () => {
                   </div>
                   <div className="flex-1">
                     <div className="text-sm font-medium text-accent">
-                      Custom export…
+                      自定义导出…
                     </div>
                     <div className="text-xs text-fg-muted mt-0.5">
-                      Full settings with AI upscaling
+                      完整设置，支持 AI 放大
                     </div>
                   </div>
                   <MoreHorizontal size={14} className="text-fg-muted" />

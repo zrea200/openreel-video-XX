@@ -160,11 +160,11 @@ export function useElevenLabsApi(options: UseElevenLabsApiOptions): UseElevenLab
     if (!response.ok) {
       if (response.status === 429) {
         throw new Error(
-          "Rate limit reached. Please wait a minute. Free service is limited to 10 req/min.",
+          "已达到速率限制，请稍候再试。免费服务限制为每分钟 10 次请求。",
         );
       }
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.detail || errorData.error || "Failed to generate speech");
+      throw new Error(errorData.detail || errorData.error || "语音生成失败");
     }
 
     return response.blob();
@@ -172,12 +172,12 @@ export function useElevenLabsApi(options: UseElevenLabsApiOptions): UseElevenLab
 
   const generateWithElevenLabs = useCallback(async (inputText: string, voiceId: string, signal?: AbortSignal): Promise<Blob> => {
     if (!isSessionUnlocked()) {
-      throw new Error("Session locked. Unlock in Settings > API Keys first.");
+      throw new Error("会话已锁定，请先在「设置 > API 密钥」中解锁。");
     }
 
     const apiKey = await getSecret("elevenlabs");
     if (!apiKey) {
-      throw new Error("ElevenLabs API key not found. Add it in Settings > API Keys.");
+      throw new Error("未找到 ElevenLabs API 密钥，请在「设置 > API 密钥」中添加。");
     }
 
     const response = await apiFetch(
@@ -211,12 +211,12 @@ export function useElevenLabsApi(options: UseElevenLabsApiOptions): UseElevenLab
     const llmProvider = defaultLlmProvider;
 
     if (!isSessionUnlocked()) {
-      throw new Error("Session locked. Unlock in Settings > API Keys to use text enhancement.");
+      throw new Error("会话已锁定，请先在「设置 > API 密钥」中解锁以使用文字优化。");
     }
 
     const apiKey = await getSecret(llmProvider);
     if (!apiKey) {
-      throw new Error(`${llmProvider === "openai" ? "OpenAI" : "Anthropic"} API key not found. Add it in Settings > API Keys.`);
+      throw new Error(`未找到 ${llmProvider === "openai" ? "OpenAI" : "Anthropic"} API 密钥，请在「设置 > API 密钥」中添加。`);
     }
 
     if (llmProvider === "anthropic") {

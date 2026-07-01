@@ -1,128 +1,104 @@
 export interface MoGraphTourStep {
   id: string;
-  target: string | null;
   title: string;
   description: string;
+  targetSelector: string;
+  position: "top" | "bottom" | "left" | "right";
   tips?: string[];
-  position: "center" | "top" | "bottom" | "left" | "right";
-  action?: "highlight" | "demo";
 }
 
 export const MOGRAPH_TOUR_STEPS: MoGraphTourStep[] = [
   {
-    id: "intro",
-    target: null,
-    title: "Motion Graphics & Animation",
+    id: "welcome",
+    title: "欢迎使用动效编辑",
     description:
-      "Learn how to create professional animations with keyframes, motion paths, and particle effects.",
-    position: "center",
-  },
-  {
-    id: "keyframes-inspector",
-    target: "[data-tour='inspector']",
-    title: "Keyframe Animation",
-    description:
-      "Select any clip and expand the Keyframes section in the Inspector. Add keyframes to animate position, scale, rotation, and opacity over time.",
-    tips: [
-      "Click the diamond icon to add a keyframe at current time",
-      "Each property can have its own animation curve",
-      "Choose from 30+ easing presets for smooth motion",
-    ],
-    position: "left",
-  },
-  {
-    id: "keyframes-timeline",
-    target: "[data-tour='timeline']",
-    title: "Timeline Keyframe View",
-    description:
-      "Click the expand arrow on any track header to reveal keyframe sub-tracks. Drag keyframe diamonds to adjust timing visually.",
-    tips: [
-      "Diamond markers show keyframe positions",
-      "Drag horizontally to change timing",
-      "Click the curve between keyframes to edit easing",
-    ],
-    position: "top",
-  },
-  {
-    id: "keyframe-editor",
-    target: "[data-tour='toolbar']",
-    title: "Graph Editor",
-    description:
-      "Open the Keyframe Editor panel from the toolbar for precise control. Edit value curves, copy/paste keyframes, and fine-tune animations.",
-    tips: [
-      "Drag keyframe points to adjust time and value",
-      "Select multiple keyframes with Shift+click",
-      "Apply easing presets to selected keyframes",
-    ],
+      "OpenReel 的动效工具可让您为视频添加专业级动态图形。本引导将带您了解核心功能。",
+    targetSelector: "[data-tour='preview']",
     position: "bottom",
+    tips: [
+      "动效片段可叠加在视频上",
+      "支持关键帧动画",
+      "实时预览效果",
+    ],
   },
   {
-    id: "motion-path",
-    target: "[data-tour='preview']",
-    title: "Motion Paths",
+    id: "add-graphics",
+    title: "添加图形与文字",
     description:
-      "Create smooth movement along custom paths. Enable Motion Path mode to draw bezier curves directly on the preview canvas.",
+      "使用时间轴工具栏添加形状、文字、贴纸和 SVG 图形。点击 + 按钮选择要添加的图形类型。",
+    targetSelector: "[data-tour='add-clip']",
+    position: "top",
     tips: [
-      "Click on the canvas to add path points",
-      "Drag control handles to curve the path",
-      "Elements follow the path as they animate",
-      "Great for flying logos and dynamic text",
+      "形状：矩形、圆形、三角形等",
+      "文字：可自定义字体与样式",
+      "贴纸：表情与装饰元素",
     ],
-    position: "left",
   },
   {
-    id: "particle-effects",
-    target: "[data-tour='inspector']",
-    title: "Particle Effects",
+    id: "transform",
+    title: "变换属性",
     description:
-      "Add cinematic particle effects like confetti, sparkles, dust, and explosions. Find them in the Inspector's Particle Effects section.",
-    tips: [
-      "Choose from preset effects or customize",
-      "Adjust particle count, speed, and colors",
-      "Set timing for when effects appear",
-      "Combine with keyframes for dramatic reveals",
-    ],
+      "选中图形片段后，在检查器的「变换」标签中调整位置、缩放、旋转与不透明度。",
+    targetSelector: "[data-tour='inspector']",
     position: "left",
+    tips: [
+      "拖动预览中的控制点可快速变换",
+      "按住 Shift 可等比缩放",
+      "数值可精确输入",
+    ],
   },
   {
-    id: "emphasis-animations",
-    target: "[data-tour='inspector']",
-    title: "Emphasis Animations",
+    id: "keyframes",
+    title: "关键帧动画",
     description:
-      "Make elements pop with attention-grabbing animations. Pulse, bounce, shake, wiggle, and more - perfect for highlighting important content.",
+      "在「动画」标签中为任意属性添加关键帧。在时间轴上移动播放头并修改属性，即可创建流畅动画。",
+    targetSelector: "[data-tour='timeline']",
+    position: "top",
     tips: [
-      "24 built-in emphasis presets",
-      "Set duration and loop count",
-      "Combine with entrance/exit animations",
+      "点击菱形按钮添加关键帧",
+      "右键关键帧可调整缓动",
+      "支持复制与粘贴关键帧",
     ],
-    position: "left",
   },
   {
-    id: "text-animations",
-    target: "[data-tour='inspector']",
-    title: "Text Animation Presets",
+    id: "text-styling",
+    title: "文字样式",
     description:
-      "Animate text with professional presets. Characters can fade in, slide, bounce, or appear with typewriter effects.",
-    tips: [
-      "19 text animation styles available",
-      "Per-character or per-word animation",
-      "Customize timing and easing",
-    ],
+      "文字片段拥有丰富的样式选项：字体、颜色、描边、阴影与背景。在检查器的「样式」标签中自定义外观。",
+    targetSelector: "[data-tour='inspector']",
     position: "left",
+    tips: [
+      "从 Google Fonts 选择字体",
+      "添加描边增强可读性",
+      "使用阴影营造层次感",
+    ],
+  },
+  {
+    id: "effects",
+    title: "特效与混合",
+    description:
+      "为图形片段应用模糊、发光等特效。混合模式可控制图层与下方内容的叠加方式。",
+    targetSelector: "[data-tour='inspector']",
+    position: "left",
+    tips: [
+      "模糊适合景深效果",
+      "发光可突出重要元素",
+      "尝试不同混合模式",
+    ],
   },
   {
     id: "complete",
-    target: null,
-    title: "Start Animating!",
+    title: "准备开拍！",
     description:
-      "You're ready to create professional motion graphics. Select a clip and start experimenting with keyframes and effects.",
+      "您已掌握动效编辑基础。尽情尝试，打造精彩动态图形吧！",
+    targetSelector: "[data-tour='preview']",
+    position: "bottom",
     tips: [
-      "Press K to add a keyframe at playhead",
-      "Use ? to see all keyboard shortcuts",
-      "Combine effects for unique animations",
+      "按 ? 查看键盘快捷键",
+      "导出时动效会一并渲染",
+      "有问题可查阅文档",
     ],
-    position: "center",
   },
 ];
 
-export const MOGRAPH_TOUR_KEY = "openreel-mograph-tour-complete";
+export const MOGRAPH_TOUR_KEY = "openreel-mograph-onboarding-complete-zh-v1";

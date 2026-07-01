@@ -748,10 +748,10 @@ export const Timeline: React.FC = () => {
     >
       {/* ── Timeline toolbar (mockup pattern: compact 30px icons) ── */}
       <div className="flex items-center px-3 py-1.5 gap-0.5 bg-bg-1 border-b border-border shrink-0 relative z-[100]">
-        <TLTool onClick={undo} disabled={!canUndo()} title="Undo (⌘Z)">
+        <TLTool onClick={undo} disabled={!canUndo()} title="撤销 (⌘Z)">
           <Undo2 size={14} />
         </TLTool>
-        <TLTool onClick={redo} disabled={!canRedo()} title="Redo (⇧⌘Z)">
+        <TLTool onClick={redo} disabled={!canRedo()} title="重做 (⇧⌘Z)">
           <Redo2 size={14} />
         </TLTool>
 
@@ -760,14 +760,14 @@ export const Timeline: React.FC = () => {
         <TLTool
           onClick={handleSplit}
           disabled={selectedClipIds.length !== 1}
-          title="Split (S)"
+          title="分割 (S)"
         >
           <Scissors size={14} />
         </TLTool>
         <TLTool
           onClick={handleDelete}
           disabled={selectedClipIds.length === 0}
-          title="Delete (Del)"
+          title="删除 (Del)"
         >
           <Trash2 size={14} />
         </TLTool>
@@ -777,8 +777,8 @@ export const Timeline: React.FC = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
-              data-tip="Add track"
-              title="Add track"
+              data-tip="添加轨道"
+              title="添加轨道"
               className="w-[30px] h-[30px] grid place-items-center rounded-md text-fg-2 hover:bg-hover hover:text-fg transition-colors relative"
             >
               <Plus size={14} />
@@ -788,24 +788,24 @@ export const Timeline: React.FC = () => {
           <DropdownMenuContent side="top" align="start" sideOffset={8} className="w-48">
             <DropdownMenuItem onClick={() => addTrack("video")}>
               <Film size={16} className="text-clip-video" />
-              <span>Video Track</span>
+              <span>视频轨道</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => addTrack("audio")}>
               <Music size={16} className="text-clip-audio" />
-              <span>Audio Track</span>
+              <span>音频轨道</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => addTrack("image")}>
               <Image size={16} className="text-clip-music" />
-              <span>Image Track</span>
+              <span>图片轨道</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => addTrack("text")}>
               <Type size={16} className="text-clip-text" />
-              <span>Text Track</span>
+              <span>文字轨道</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => addTrack("graphics")}>
               <Shapes size={16} className="text-clip-music" />
-              <span>Graphics Track</span>
+              <span>图形轨道</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -813,8 +813,8 @@ export const Timeline: React.FC = () => {
         <Popover open={showLayersPanel} onOpenChange={setShowLayersPanel}>
           <PopoverTrigger asChild>
             <button
-              data-tip="Track layers"
-              title="Manage track layers"
+              data-tip="轨道图层"
+              title="管理轨道图层"
               className={`w-[30px] h-[30px] grid place-items-center rounded-md transition-colors ${
                 showLayersPanel
                   ? "bg-accent-soft text-accent"
@@ -831,12 +831,12 @@ export const Timeline: React.FC = () => {
             className="w-64 p-0 bg-bg-1 border-border"
           >
             <div className="flex items-center justify-between px-3 py-2.5 border-b border-border bg-bg-2">
-              <span className="text-xs font-semibold text-fg">Track Layers</span>
+              <span className="text-xs font-semibold text-fg">轨道图层</span>
             </div>
             <div className="p-2 max-h-60 overflow-y-auto">
               {tracks.length === 0 ? (
                 <p className="text-xs text-fg-muted text-center py-6">
-                  No tracks yet
+                  暂无轨道
                 </p>
               ) : (
                 <div className="space-y-0.5">
@@ -862,7 +862,7 @@ export const Timeline: React.FC = () => {
                             }
                             disabled={index === 0}
                             className="p-1.5 rounded-md hover:bg-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                            title="Move up"
+                            title="上移"
                           >
                             <ChevronUp size={12} />
                           </button>
@@ -873,7 +873,7 @@ export const Timeline: React.FC = () => {
                             }
                             disabled={index === tracks.length - 1}
                             className="p-1.5 rounded-md hover:bg-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                            title="Move down"
+                            title="下移"
                           >
                             <ChevronDown size={12} />
                           </button>
@@ -900,7 +900,7 @@ export const Timeline: React.FC = () => {
           <TLTool
             onClick={toggleSnap}
             active={snapSettings.enabled}
-            title={snapSettings.enabled ? "Snap on (N)" : "Snap off (N)"}
+            title={snapSettings.enabled ? "吸附开 (N)" : "吸附关 (N)"}
           >
             <Magnet size={14} />
           </TLTool>
@@ -913,7 +913,7 @@ export const Timeline: React.FC = () => {
               useTimelineStore.setState({ trackHeights: {} });
             }}
             active={trackHeight >= 60}
-            title="Large tracks"
+            title="大轨道"
           >
             <Rows3 size={14} />
           </TLTool>
@@ -923,7 +923,7 @@ export const Timeline: React.FC = () => {
               useTimelineStore.setState({ trackHeights: {} });
             }}
             active={trackHeight < 60}
-            title="Compact tracks"
+            title="紧凑轨道"
           >
             <Rows2 size={14} />
           </TLTool>
@@ -931,13 +931,13 @@ export const Timeline: React.FC = () => {
           <div className="w-px h-4 bg-border mx-1.5" />
 
           <div className="flex items-center gap-1.5 ml-1">
-            <TLTool onClick={zoomOut} title="Zoom out">
+            <TLTool onClick={zoomOut} title="缩小">
               <span className="text-[15px] font-medium leading-none">−</span>
             </TLTool>
             <span className="text-[10px] w-12 text-center font-mono text-fg-3 tabular-nums">
               {Math.round(pixelsPerSecond)}px/s
             </span>
-            <TLTool onClick={zoomIn} title="Zoom in">
+            <TLTool onClick={zoomIn} title="放大">
               <span className="text-[15px] font-medium leading-none">+</span>
             </TLTool>
           </div>
@@ -947,8 +947,8 @@ export const Timeline: React.FC = () => {
             active={timelineMaximized}
             title={
               timelineMaximized
-                ? "Restore layout"
-                : "Maximize timeline (more room)"
+                ? "恢复布局"
+                : "最大化时间轴（腾出更多空间）"
             }
           >
             {timelineMaximized ? (
@@ -1095,7 +1095,7 @@ export const Timeline: React.FC = () => {
                             t.clips.some(c => c.mediaId === newItem.id)
                           );
                         if (track) {
-                          toast.success(`Added to ${track.name}`, file.name);
+                          toast.success(`已添加到 ${track.name}`, file.name);
                         }
                       }
                     }

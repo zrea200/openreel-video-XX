@@ -24,7 +24,7 @@ interface PiPPreset {
 const PIP_PRESETS: PiPPreset[] = [
   {
     id: "top-left",
-    name: "Top Left",
+    name: "左上",
     icon: "corner",
     transform: {
       position: { x: -0.35, y: -0.35 },
@@ -33,7 +33,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "top-right",
-    name: "Top Right",
+    name: "右上",
     icon: "corner",
     transform: {
       position: { x: 0.35, y: -0.35 },
@@ -42,7 +42,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "bottom-left",
-    name: "Bottom Left",
+    name: "左下",
     icon: "corner",
     transform: {
       position: { x: -0.35, y: 0.35 },
@@ -51,7 +51,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "bottom-right",
-    name: "Bottom Right",
+    name: "右下",
     icon: "corner",
     transform: {
       position: { x: 0.35, y: 0.35 },
@@ -60,7 +60,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "split-left",
-    name: "Split Left",
+    name: "左分屏",
     icon: "split",
     transform: {
       position: { x: -0.25, y: 0 },
@@ -69,7 +69,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "split-right",
-    name: "Split Right",
+    name: "右分屏",
     icon: "split",
     transform: {
       position: { x: 0.25, y: 0 },
@@ -78,7 +78,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "split-top",
-    name: "Split Top",
+    name: "上分屏",
     icon: "split",
     transform: {
       position: { x: 0, y: -0.25 },
@@ -87,7 +87,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "split-bottom",
-    name: "Split Bottom",
+    name: "下分屏",
     icon: "split",
     transform: {
       position: { x: 0, y: 0.25 },
@@ -96,7 +96,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "center-small",
-    name: "Center Small",
+    name: "居中（小）",
     icon: "center",
     transform: {
       position: { x: 0, y: 0 },
@@ -105,7 +105,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "center-medium",
-    name: "Center Medium",
+    name: "居中（中）",
     icon: "center",
     transform: {
       position: { x: 0, y: 0 },
@@ -114,7 +114,7 @@ const PIP_PRESETS: PiPPreset[] = [
   },
   {
     id: "fullscreen",
-    name: "Full Screen",
+    name: "全屏",
     icon: "center",
     transform: {
       position: { x: 0, y: 0 },
@@ -348,17 +348,17 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
         <PictureInPicture2 size={16} className="text-primary" />
         <div className="flex-1">
           <span className="text-[11px] font-medium text-text-primary">
-            Picture-in-Picture
+            画中画
           </span>
           <p className="text-[9px] text-text-muted">
-            Position and scale video overlay
+            调整视频叠加层的位置与缩放
           </p>
         </div>
       </div>
 
       <div className="space-y-2">
         <span className="text-[10px] font-medium text-text-secondary">
-          Corner Positions
+          四角位置
         </span>
         <div className="grid grid-cols-4 gap-1">
           {cornerPresets.map((preset) => (
@@ -374,7 +374,7 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
 
       <div className="space-y-2">
         <span className="text-[10px] font-medium text-text-secondary">
-          Split Screen
+          分屏
         </span>
         <div className="grid grid-cols-4 gap-1">
           {splitPresets.map((preset) => (
@@ -390,7 +390,7 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
 
       <div className="space-y-2">
         <span className="text-[10px] font-medium text-text-secondary">
-          Center & Full
+          居中与全屏
         </span>
         <div className="grid grid-cols-3 gap-1">
           {centerPresets.map((preset) => (
@@ -408,24 +408,24 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
         onClick={() => setShowAdvanced(!showAdvanced)}
         className="w-full py-1.5 text-[10px] text-text-secondary hover:text-text-primary bg-background-tertiary rounded-lg transition-colors"
       >
-        {showAdvanced ? "Hide" : "Show"} Advanced Controls
+        {showAdvanced ? "隐藏" : "显示"}高级控制
       </button>
 
       {showAdvanced && (
         <div className="space-y-3 pt-2 border-t border-border">
           <div className="space-y-2">
             <span className="text-[10px] font-medium text-text-secondary">
-              Position
+              位置
             </span>
             <ControlSlider
-              label="X Position"
+              label="X 位置"
               value={currentTransform.position.x}
               onChange={(v) => handlePositionChange("x", v)}
               min={-1}
               max={1}
             />
             <ControlSlider
-              label="Y Position"
+              label="Y 位置"
               value={currentTransform.position.y}
               onChange={(v) => handlePositionChange("y", v)}
               min={-1}
@@ -435,24 +435,24 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
 
           <div className="space-y-2">
             <span className="text-[10px] font-medium text-text-secondary">
-              Scale
+              缩放
             </span>
             <ControlSlider
-              label="Uniform Scale"
+              label="统一缩放"
               value={currentTransform.scale.x}
               onChange={(v) => handleScaleChange("both", v)}
               min={0.1}
               max={2}
             />
             <ControlSlider
-              label="X Scale"
+              label="X 缩放"
               value={currentTransform.scale.x}
               onChange={(v) => handleScaleChange("x", v)}
               min={0.1}
               max={2}
             />
             <ControlSlider
-              label="Y Scale"
+              label="Y 缩放"
               value={currentTransform.scale.y}
               onChange={(v) => handleScaleChange("y", v)}
               min={0.1}
@@ -462,10 +462,10 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
 
           <div className="space-y-2">
             <span className="text-[10px] font-medium text-text-secondary">
-              Appearance
+              外观
             </span>
             <ControlSlider
-              label="Border Radius"
+              label="圆角"
               value={currentTransform.borderRadius || 0}
               onChange={handleBorderRadiusChange}
               min={0}
@@ -473,7 +473,7 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
               unit="px"
             />
             <ControlSlider
-              label="Opacity"
+              label="不透明度"
               value={currentTransform.opacity}
               onChange={handleOpacityChange}
               min={0}
@@ -488,11 +488,11 @@ export const PiPSection: React.FC<PiPSectionProps> = ({ clipId }) => {
         className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] text-text-secondary hover:text-text-primary bg-background-tertiary rounded-lg transition-colors"
       >
         <RotateCcw size={12} />
-        Reset to Default
+        恢复默认
       </button>
 
       <p className="text-[9px] text-text-muted text-center">
-        Drag clip in preview to fine-tune position
+        可在预览中拖动片段微调位置
       </p>
     </div>
   );

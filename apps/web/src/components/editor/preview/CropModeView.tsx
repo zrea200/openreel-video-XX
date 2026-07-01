@@ -32,7 +32,7 @@ type DragHandle =
   | null;
 
 const ASPECT_RATIOS = [
-  { label: "Free", value: null },
+  { label: "自由", value: null },
   { label: "9:16", value: 9 / 16 },
   { label: "16:9", value: 16 / 9 },
   { label: "1:1", value: 1 },
@@ -358,7 +358,7 @@ export const CropModeView: React.FC<CropModeViewProps> = ({
       <div className="flex items-center justify-between p-3 bg-background border-b border-border">
         <div className="flex items-center gap-3">
           <span className="text-xs font-medium text-text-primary">
-            Crop Video
+            裁剪画面
           </span>
           <div className="flex items-center gap-1">
             {ASPECT_RATIOS.map((ratio) => (
@@ -380,7 +380,7 @@ export const CropModeView: React.FC<CropModeViewProps> = ({
             onClick={handleReset}
             disabled={isLoading}
             className="p-1 text-text-muted hover:bg-background-secondary rounded transition-colors"
-            title="Reset crop"
+            title="重置裁剪"
           >
             <Maximize2 size={14} />
           </button>
@@ -392,7 +392,7 @@ export const CropModeView: React.FC<CropModeViewProps> = ({
             className="px-3 py-1.5 text-xs bg-background-tertiary hover:bg-background-secondary text-text-primary rounded transition-colors flex items-center gap-1.5"
           >
             <X size={14} />
-            Cancel
+            取消
           </button>
           <button
             onClick={() => {
@@ -403,7 +403,7 @@ export const CropModeView: React.FC<CropModeViewProps> = ({
             className="px-3 py-1.5 text-xs bg-primary hover:bg-primary/90 text-black font-medium rounded transition-colors flex items-center gap-1.5"
           >
             <Check size={14} />
-            Apply
+            应用
           </button>
         </div>
       </div>
@@ -412,7 +412,7 @@ export const CropModeView: React.FC<CropModeViewProps> = ({
       <div className="flex-1 flex items-center justify-center p-4 overflow-hidden relative">
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background-secondary">
-            <div className="text-text-muted text-sm">Loading video...</div>
+            <div className="text-text-muted text-sm">加载中…</div>
           </div>
         )}
 
@@ -430,7 +430,7 @@ export const CropModeView: React.FC<CropModeViewProps> = ({
               ref={imageDisplayRef}
               className="w-full h-full"
               style={{ objectFit: "contain" }}
-              alt="Crop preview"
+              alt="裁剪预览"
             />
           ) : (
             <video

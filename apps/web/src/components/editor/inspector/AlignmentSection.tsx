@@ -52,52 +52,52 @@ export const AlignmentSection: React.FC<AlignmentSectionProps> = ({
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <span className="text-[10px] text-text-muted w-16">Horizontal</span>
+        <span className="text-[10px] text-text-muted w-16">水平</span>
         <div className="flex gap-1">
           <button
             className={buttonClass}
             onClick={() => handleAlign("x", 0)}
-            title="Align Left"
+            title="左对齐"
           >
             <AlignHorizontalJustifyStart size={14} />
           </button>
           <button
             className={buttonClass}
             onClick={() => handleAlign("x", 0.5)}
-            title="Center Horizontally"
+            title="水平居中"
           >
             <AlignHorizontalJustifyCenter size={14} />
           </button>
           <button
             className={buttonClass}
             onClick={() => handleAlign("x", 1)}
-            title="Align Right"
+            title="右对齐"
           >
             <AlignHorizontalJustifyEnd size={14} />
           </button>
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-[10px] text-text-muted w-16">Vertical</span>
+        <span className="text-[10px] text-text-muted w-16">垂直</span>
         <div className="flex gap-1">
           <button
             className={buttonClass}
             onClick={() => handleAlign("y", 0)}
-            title="Align Top"
+            title="顶对齐"
           >
             <AlignVerticalJustifyStart size={14} />
           </button>
           <button
             className={buttonClass}
             onClick={() => handleAlign("y", 0.5)}
-            title="Center Vertically"
+            title="垂直居中"
           >
             <AlignVerticalJustifyCenter size={14} />
           </button>
           <button
             className={buttonClass}
             onClick={() => handleAlign("y", 1)}
-            title="Align Bottom"
+            title="底对齐"
           >
             <AlignVerticalJustifyEnd size={14} />
           </button>
@@ -106,9 +106,9 @@ export const AlignmentSection: React.FC<AlignmentSectionProps> = ({
       <button
         className="w-full py-1.5 text-[10px] rounded-md bg-background-tertiary border border-border hover:border-primary/50 hover:bg-primary/5 transition-all text-text-secondary hover:text-primary"
         onClick={handleCenterBoth}
-        title="Center on Canvas"
+        title="画布居中"
       >
-        Center on Canvas
+        在画布上居中
       </button>
     </div>
   );

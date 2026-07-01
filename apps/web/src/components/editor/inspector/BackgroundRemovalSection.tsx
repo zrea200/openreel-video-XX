@@ -28,10 +28,10 @@ const BACKGROUND_MODES: {
   label: string;
   icon: React.ReactNode;
 }[] = [
-  { value: "blur", label: "Blur", icon: <Droplets size={14} /> },
-  { value: "color", label: "Color", icon: <Palette size={14} /> },
-  { value: "image", label: "Image", icon: <ImageIcon size={14} /> },
-  { value: "transparent", label: "Transparent", icon: <User size={14} /> },
+  { value: "blur", label: "模糊", icon: <Droplets size={14} /> },
+  { value: "color", label: "纯色", icon: <Palette size={14} /> },
+  { value: "image", label: "图片", icon: <ImageIcon size={14} /> },
+  { value: "transparent", label: "透明", icon: <User size={14} /> },
 ];
 
 const PRESET_COLORS = [
@@ -99,33 +99,33 @@ export const BackgroundRemovalSection: React.FC<
     setIsProcessing(true);
 
     try {
-      updateTaskProgress(taskId, 10, "Initializing AI model...");
+      updateTaskProgress(taskId, 10, "正在初始化 AI 模型…");
 
       if (!isInitialized) {
         await handleInitialize();
       }
 
-      updateTaskProgress(taskId, 30, "Preparing background detection...");
+      updateTaskProgress(taskId, 30, "正在准备背景检测…");
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      updateTaskProgress(taskId, 60, "Configuring effect pipeline...");
+      updateTaskProgress(taskId, 60, "正在配置效果管线…");
       await new Promise((resolve) => setTimeout(resolve, 400));
 
-      updateTaskProgress(taskId, 90, "Finalizing setup...");
+      updateTaskProgress(taskId, 90, "正在完成设置…");
       await new Promise((resolve) => setTimeout(resolve, 300));
 
       updateSettings({ enabled: true });
       completeTask(taskId);
       toast.success(
-        "Background Removal Ready",
-        "Effect will be applied during playback",
+        "背景移除已就绪",
+        "播放时将应用此效果",
       );
     } catch (error) {
       failTask(
         taskId,
-        error instanceof Error ? error.message : "Unknown error",
+        error instanceof Error ? error.message : "未知错误",
       );
-      toast.error("Processing Failed", "Could not enable background removal");
+      toast.error("处理失败", "无法启用背景移除");
     } finally {
       setIsProcessing(false);
     }
@@ -143,7 +143,7 @@ export const BackgroundRemovalSection: React.FC<
   const handleToggleEnabled = useCallback(() => {
     if (settings.enabled) {
       updateSettings({ enabled: false });
-      toast.info("Background Removal Disabled");
+      toast.info("背景移除已关闭");
     } else {
       processBackgroundRemoval();
     }
@@ -164,9 +164,9 @@ export const BackgroundRemovalSection: React.FC<
           {isInitializing || isProcessing ? (
             <Loader2 size={12} className="animate-spin" />
           ) : settings.enabled ? (
-            "On"
+            "开"
           ) : (
-            "Off"
+            "关"
           )}
         </button>
       </div>
@@ -175,7 +175,7 @@ export const BackgroundRemovalSection: React.FC<
         <div className="space-y-3 p-3 bg-background-tertiary rounded-lg">
           <div>
             <label className="text-[10px] text-text-secondary block mb-2">
-              Background Mode
+              背景模式
             </label>
             <div className="grid grid-cols-4 gap-1">
               {BACKGROUND_MODES.map((mode) => (
@@ -201,7 +201,7 @@ export const BackgroundRemovalSection: React.FC<
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="text-[10px] text-text-secondary">
-                  Blur Amount
+                  模糊强度
                 </label>
                 <span className="text-[10px] text-text-muted font-mono">
                   {settings.blurAmount}px
@@ -222,7 +222,7 @@ export const BackgroundRemovalSection: React.FC<
           {settings.mode === "color" && (
             <div>
               <label className="text-[10px] text-text-secondary block mb-2">
-                Background Color
+                背景颜色
               </label>
               <div className="grid grid-cols-8 gap-1 mb-2">
                 {PRESET_COLORS.map((color) => (
@@ -252,7 +252,7 @@ export const BackgroundRemovalSection: React.FC<
           {settings.mode === "image" && (
             <div>
               <label className="text-[10px] text-text-secondary block mb-2">
-                Background Image
+                背景图片
               </label>
               <button
                 onClick={() => {
@@ -275,11 +275,11 @@ export const BackgroundRemovalSection: React.FC<
                 className="w-full py-2 bg-background-secondary hover:bg-background-primary text-text-primary rounded text-[10px] transition-colors flex items-center justify-center gap-2"
               >
                 <ImageIcon size={14} />
-                Choose Image
+                选择图片
               </button>
               {settings.backgroundImageUrl && (
                 <div className="mt-2 text-[9px] text-text-muted truncate">
-                  Image loaded
+                  图片已加载
                 </div>
               )}
             </div>
@@ -288,7 +288,7 @@ export const BackgroundRemovalSection: React.FC<
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-[10px] text-text-secondary">
-                Edge Smoothing
+                边缘平滑
               </label>
               <span className="text-[10px] text-text-muted font-mono">
                 {settings.edgeBlur}
@@ -308,7 +308,7 @@ export const BackgroundRemovalSection: React.FC<
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-[10px] text-text-secondary">
-                Detection Threshold
+                检测阈值
               </label>
               <span className="text-[10px] text-text-muted font-mono">
                 {Math.round(settings.threshold * 100)}%
@@ -328,8 +328,7 @@ export const BackgroundRemovalSection: React.FC<
           <div className="flex items-start gap-2 p-2 bg-primary/10 rounded border border-primary/20">
             <Info size={14} className="text-primary flex-shrink-0 mt-0.5" />
             <p className="text-[9px] text-text-muted">
-              Background removal is processed in real-time. For best results,
-              export your video after previewing.
+              背景移除为实时处理。预览满意后导出可获得最佳效果。
             </p>
           </div>
         </div>

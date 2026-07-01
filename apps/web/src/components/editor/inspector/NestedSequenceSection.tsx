@@ -189,10 +189,10 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
         <Layers size={16} className="text-primary" />
         <div className="flex-1">
           <span className="text-[11px] font-medium text-text-primary">
-            Nested Sequences
+            嵌套序列
           </span>
           <p className="text-[9px] text-text-muted">
-            Create compound clips from selections
+            从选中片段创建复合片段
           </p>
         </div>
       </div>
@@ -206,7 +206,7 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
             </span>
           </div>
           <div className="flex gap-2 text-[9px] text-text-muted">
-            <span>{currentCompound.content.clips.length} clips</span>
+            <span>{currentCompound.content.clips.length} 个片段</span>
             <span>•</span>
             <span>{formatDuration(currentCompound.content.duration)}</span>
           </div>
@@ -216,14 +216,14 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
               className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-background-tertiary rounded text-[10px] text-text-secondary hover:text-text-primary transition-colors"
             >
               <Maximize2 size={10} />
-              Flatten
+              解嵌
             </button>
             <button
               onClick={() => handleDuplicate(currentCompound.id)}
               className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-background-tertiary rounded text-[10px] text-text-secondary hover:text-text-primary transition-colors"
             >
               <Copy size={10} />
-              Duplicate
+              复制
             </button>
           </div>
         </div>
@@ -232,10 +232,10 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium text-text-secondary">
-            Create Compound Clip
+            创建复合片段
           </span>
           <span className="text-[9px] text-text-muted">
-            {selectedClips.length} clips selected
+            已选 {selectedClips.length} 个片段
           </span>
         </div>
         <button
@@ -248,11 +248,11 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
           }`}
         >
           <Plus size={14} />
-          Create Compound Clip
+          创建复合片段
         </button>
         {selectedClips.length < 2 && (
           <p className="text-[9px] text-text-muted text-center">
-            Select 2+ clips to create a compound clip
+            请选中 2 个及以上片段以创建复合片段
           </p>
         )}
       </div>
@@ -260,7 +260,7 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
       {allCompoundClips.length > 0 && (
         <div className="space-y-2">
           <span className="text-[10px] font-medium text-text-secondary">
-            Compound Clips Library
+            复合片段库
           </span>
           <div className="space-y-1.5">
             {allCompoundClips.map((compound) => {
@@ -309,18 +309,18 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
                       </span>
                     )}
                     <span className="text-[9px] text-text-muted">
-                      {instanceCount} instance{instanceCount !== 1 ? "s" : ""}
+                      {instanceCount} 个实例
                     </span>
                   </div>
 
                   {isExpanded && (
                     <div className="px-2 pb-2 space-y-2">
                       <div className="flex gap-2 text-[9px] text-text-muted pl-5">
-                        <span>{compound.content.clips.length} clips</span>
+                        <span>{compound.content.clips.length} 个片段</span>
                         <span>•</span>
                         <span>{formatDuration(compound.content.duration)}</span>
                         <span>•</span>
-                        <span>{compound.content.tracks.length} tracks</span>
+                        <span>{compound.content.tracks.length} 条轨道</span>
                       </div>
 
                       <div className="flex gap-1 pl-5">
@@ -353,7 +353,7 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
                                 handleStartRename(compound);
                               }}
                               className="p-1.5 bg-background-secondary rounded text-text-muted hover:text-text-primary transition-colors"
-                              title="Rename"
+                              title="重命名"
                             >
                               <Edit3 size={10} />
                             </button>
@@ -363,7 +363,7 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
                                 handleDuplicate(compound.id);
                               }}
                               className="p-1.5 bg-background-secondary rounded text-text-muted hover:text-text-primary transition-colors"
-                              title="Duplicate"
+                              title="复制"
                             >
                               <Copy size={10} />
                             </button>
@@ -380,8 +380,8 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
                               }`}
                               title={
                                 instanceCount > 0
-                                  ? "Cannot delete - has instances"
-                                  : "Delete"
+                                  ? "无法删除 — 仍有实例在使用"
+                                  : "删除"
                               }
                             >
                               <Trash2 size={10} />
@@ -400,7 +400,7 @@ export const NestedSequenceSection: React.FC<NestedSequenceSectionProps> = ({
 
       <div className="pt-2 border-t border-border">
         <p className="text-[9px] text-text-muted text-center">
-          Group clips into reusable compound clips
+          将多个片段组合为可复用的复合片段
         </p>
       </div>
     </div>

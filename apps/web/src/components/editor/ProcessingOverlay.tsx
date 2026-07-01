@@ -4,6 +4,7 @@ import { Progress, ScrollArea } from "@openreel/ui";
 import {
   useProcessingStore,
   PROCESSING_TYPE_LABELS,
+  PROCESSING_STATUS_LABELS,
   type ProcessingTask,
 } from "../../services/processing-manager";
 
@@ -43,7 +44,9 @@ const TaskItem: React.FC<{ task: ProcessingTask }> = ({ task }) => {
             {PROCESSING_TYPE_LABELS[task.type]}
           </span>
           <span className={`text-[10px] ${getStatusColor()}`}>
-            {task.status === "processing" ? `${task.progress}%` : task.status}
+            {task.status === "processing"
+              ? `${task.progress}%`
+              : PROCESSING_STATUS_LABELS[task.status]}
           </span>
         </div>
         {task.status === "processing" && (
@@ -86,11 +89,10 @@ export const ProcessingOverlay: React.FC = () => {
           </div>
           <div>
             <h3 className="text-sm font-semibold text-text-primary">
-              Processing Effects
+              正在处理效果
             </h3>
             <p className="text-xs text-text-muted">
-              {activeTasks.length} task{activeTasks.length !== 1 ? "s" : ""} in
-              progress
+              {activeTasks.length} 个任务进行中
             </p>
           </div>
         </div>
@@ -98,7 +100,7 @@ export const ProcessingOverlay: React.FC = () => {
         <div className="mb-4">
           <div className="flex items-center justify-between mb-1">
             <span className="text-[10px] text-text-secondary">
-              Overall Progress
+              总体进度
             </span>
             <span className="text-[10px] text-text-muted font-mono">
               {progress}%
@@ -116,7 +118,7 @@ export const ProcessingOverlay: React.FC = () => {
         </ScrollArea>
 
         <p className="text-[10px] text-text-muted text-center mt-4">
-          Please wait while effects are being applied...
+          请稍候，正在应用效果…
         </p>
       </div>
     </div>

@@ -156,7 +156,7 @@ const buildRecommendationSampleBuffer = (
   const sampleRanges = getRecommendationSampleRanges(audioBuffer.duration);
 
   if (sampleRanges.length === 0) {
-    throw new Error("Clip audio range is empty");
+    throw new Error("片段音频范围为空");
   }
 
   if (
@@ -164,7 +164,7 @@ const buildRecommendationSampleBuffer = (
     sampleRanges[0].start <= 0 &&
     sampleRanges[0].end >= audioBuffer.duration
   ) {
-    onProgress?.({ progress: 0.4, message: "Analyzing clip audio" });
+    onProgress?.({ progress: 0.4, message: "正在分析片段音频" });
     return {
       sampleBuffer: audioBuffer,
       sampleCount: 1,
@@ -174,7 +174,7 @@ const buildRecommendationSampleBuffer = (
   const segments = sampleRanges.map((sampleRange, index) => {
     onProgress?.({
       progress: (index + 1) / (sampleRanges.length + 1),
-      message: `Sampling clip audio (${index + 1}/${sampleRanges.length})`,
+      message: `正在采样片段音频 (${index + 1}/${sampleRanges.length})`,
     });
 
     return extractAudioSegment(
@@ -208,7 +208,7 @@ const buildRecommendationSampleBuffer = (
 
   onProgress?.({
     progress: 0.85,
-    message: `Analyzing ${segments.length} clip samples`,
+    message: `正在分析 ${segments.length} 个片段样本`,
   });
 
   return {
@@ -235,8 +235,8 @@ export const buildRecommendationProfile = (
     progress: 1,
     message:
       sampleCount > 1
-        ? `Analyzed ${sampleCount} clip samples`
-        : "Analyzed clip audio",
+        ? `已分析 ${sampleCount} 个片段样本`
+        : "已分析片段音频",
   });
 
   return {
@@ -344,7 +344,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
 
         if (!updateResult.success) {
           throw new Error(
-            updateResult.error ?? "Failed to update noise reduction",
+            updateResult.error ?? "更新降噪失败",
           );
         }
 
@@ -358,7 +358,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
       const applyResult = bridge.applyNoiseReduction(audioTargetClipId, nextConfig);
 
       if (!applyResult.success || !applyResult.effectId) {
-        throw new Error(applyResult.error ?? "Failed to apply noise reduction");
+        throw new Error(applyResult.error ?? "应用降噪失败");
       }
 
       setEffectId(applyResult.effectId);
@@ -379,7 +379,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           setErrorMessage(
             error instanceof Error
               ? error.message
-              : "Failed to apply noise reduction",
+              : "应用降噪失败",
           );
           return;
         }
@@ -432,7 +432,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
         .find((candidate) => candidate.id === audioTargetClipId);
 
       if (!clip) {
-        throw new Error("Clip not found");
+        throw new Error("未找到片段");
       }
 
       const mediaItem = project.mediaLibrary.items.find(
@@ -440,13 +440,13 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
       );
 
       if (!mediaItem?.blob) {
-        throw new Error("No audio data available for this clip");
+        throw new Error("此片段无可用音频数据");
       }
 
       let audioContext: AudioContext | null = null;
 
       try {
-        updateAnalysisProgress({ progress: 0.03, message: "Preparing clip analysis" });
+        updateAnalysisProgress({ progress: 0.03, message: "正在准备片段分析" });
         audioContext = new AudioContext();
         const audioBuffer = await loadAudioBuffer(
           audioContext,
@@ -458,7 +458,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
         );
 
         if (!audioBuffer) {
-          throw new Error("Failed to decode audio for analysis");
+          throw new Error("音频解码失败，无法分析");
         }
 
         const clipStart = Math.max(0, clip.inPoint || 0);
@@ -468,7 +468,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
         );
 
         if (clipEnd <= clipStart) {
-          throw new Error("Clip audio range is empty");
+          throw new Error("片段音频范围为空");
         }
 
         const analysisContext = new OfflineAudioContext(
@@ -484,7 +484,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           analysisContext,
         );
 
-        updateAnalysisProgress({ progress: 0.84, message: "Analyzing noise signature" });
+        updateAnalysisProgress({ progress: 0.84, message: "正在分析噪声特征" });
         const recommendationProfile = buildRecommendationProfile(
           audioTargetClipId,
           clipBuffer,
@@ -497,14 +497,14 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           },
         );
 
-        updateAnalysisProgress({ progress: 0.93, message: "Learning custom cleanup profile" });
+        updateAnalysisProgress({ progress: 0.93, message: "正在学习自定义清理配置" });
 
         const analyzedProfile = await autoLearnNoiseProfile(
           clipBuffer,
           analysisContext,
         );
 
-        updateAnalysisProgress({ progress: 1, message: "Recommendation ready" });
+        updateAnalysisProgress({ progress: 1, message: "推荐已就绪" });
 
         if (!analyzedProfile) {
           return {
@@ -561,7 +561,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
         setActivePresetId(presetId);
         setConfig(nextConfig);
         const nextEffectId = applyNoiseReductionConfig(nextConfig);
-        let message = `${getNoiseReductionPreset(presetId).label} applied to this clip.`;
+        let message = `已将「${getNoiseReductionPreset(presetId).label}」应用到此片段。`;
 
         try {
           const { learnedProfile } = await analyzeNoiseForClip();
@@ -580,9 +580,9 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           };
           setConfig(profiledConfig);
           applyNoiseReductionConfig(profiledConfig, nextEffectId);
-          message = `${getNoiseReductionPreset(presetId).label} learned and applied to this clip.`;
+          message = `已学习并将「${getNoiseReductionPreset(presetId).label}」应用到此片段。`;
         } catch {
-          message = `${getNoiseReductionPreset(presetId).label} applied to this clip.`;
+          message = `已将「${getNoiseReductionPreset(presetId).label}」应用到此片段。`;
         }
 
         setAnalysisProgress(null);
@@ -596,7 +596,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
         setErrorMessage(
           error instanceof Error
             ? error.message
-            : "Failed to apply noise reduction preset",
+            : "应用降噪预设失败",
         );
       }
     },
@@ -620,7 +620,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
     setErrorMessage(null);
     setRecommendation(null);
     setAppliedMessage(null);
-    setAnalysisProgress({ progress: 0.02, message: "Preparing clip analysis" });
+    setAnalysisProgress({ progress: 0.02, message: "正在准备片段分析" });
 
     try {
       const { recommendationProfile, learnedProfile } = await analyzeNoiseForClip();
@@ -646,7 +646,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Failed to analyze this clip",
+          : "分析此片段失败",
       );
       setAnalysisProgress(null);
 
@@ -671,7 +671,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
       applyNoiseReductionConfig(recommendation.config);
       setRecommendation(null);
       setAppliedMessage(
-        `${getNoiseReductionPreset(recommendation.presetId).label} applied to this clip.`,
+        `已将「${getNoiseReductionPreset(recommendation.presetId).label}」应用到此片段。`,
       );
       setLearningState("success");
       setTimeout(() => {
@@ -682,7 +682,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Failed to apply recommended cleanup",
+          : "应用推荐清理失败",
       );
     }
   }, [applyNoiseReductionConfig, recommendation]);
@@ -710,7 +710,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           />
           <Volume2 size={12} className="text-text-muted" />
           <span className="text-[10px] font-medium text-text-primary">
-            Noise Reduction
+            降噪
           </span>
         </button>
         <button
@@ -732,8 +732,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
       {isOpen && (
         <div className="p-3 space-y-3">
           <p className="text-[9px] leading-relaxed text-text-muted">
-            Reduce white noise, wind, hum, room tone, and background music while
-            keeping speech or the wanted audio in front.
+            降低白噪声、风噪、嗡嗡声、房间底噪与背景音乐，同时保留对白或目标音频。
           </p>
 
           <div className="grid grid-cols-2 gap-2">
@@ -763,7 +762,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           <div className="rounded-lg border border-border/70 bg-background-secondary/60 px-2 py-2 text-[9px] text-text-muted">
             <div className="flex items-center justify-between gap-2">
               <span>
-                Current mode: <span className="text-text-primary">{activePreset.label}</span>
+                当前模式：<span className="text-text-primary">{activePreset.label}</span>
               </span>
               <span
                 className={`rounded-full px-2 py-0.5 text-[8px] font-medium ${
@@ -772,7 +771,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
                     : "bg-background-tertiary text-text-muted"
                 }`}
               >
-                {enabled ? "Applied" : "Off"}
+                {enabled ? "已应用" : "关闭"}
               </span>
             </div>
             <div className="mt-1">{activePreset.description}</div>
@@ -787,27 +786,27 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
             <div className="space-y-2 rounded-lg border border-primary/40 bg-primary/10 px-3 py-3">
               <div className="flex items-center gap-2 text-primary">
                 <Wand2 size={12} />
-                <span className="text-[10px] font-medium">Recommendation ready</span>
+                <span className="text-[10px] font-medium">推荐已就绪</span>
               </div>
               <p className="text-[9px] leading-relaxed text-text-secondary">
-                Detected noise best matches {recommendationPreset.label.toLowerCase()}.
+                检测到的噪声最匹配「{recommendationPreset.label}」。
                 {recommendation.hasLearnedProfile
-                  ? ` Apply ${Math.round(recommendation.config.reduction * 100)}% cleanup at ${recommendation.config.threshold.toFixed(0)} dB to save this profile on the clip.`
-                  : ` Apply ${Math.round(recommendation.config.reduction * 100)}% cleanup at ${recommendation.config.threshold.toFixed(0)} dB. A custom profile could not be isolated, so this recommendation uses the best preset match for the clip.`}
+                  ? ` 应用 ${Math.round(recommendation.config.reduction * 100)}% 清理（阈值 ${recommendation.config.threshold.toFixed(0)} dB）并将此配置保存到片段。`
+                  : ` 应用 ${Math.round(recommendation.config.reduction * 100)}% 清理（阈值 ${recommendation.config.threshold.toFixed(0)} dB）。无法分离出自定义配置，因此使用与片段最匹配的预设。`}
               </p>
               <button
                 onClick={handleApplyRecommendation}
                 disabled={learningState === "applying"}
                 className="w-full rounded-lg bg-primary px-3 py-2 text-[10px] font-medium text-white transition-colors hover:bg-primary-hover disabled:cursor-wait disabled:opacity-70"
               >
-                {learningState === "applying" ? "Applying..." : "Apply Recommended Cleanup"}
+                {learningState === "applying" ? "正在应用…" : "应用推荐清理"}
               </button>
             </div>
           )}
 
           <div className="space-y-2 rounded-lg border border-border/70 bg-background-secondary/60 px-2 py-2">
             <div className="text-[9px] font-medium text-text-primary">
-              A/B Preview
+              A/B 预览
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -819,7 +818,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
                     : "border-border bg-background-secondary text-text-secondary hover:border-primary/50"
                 } disabled:cursor-not-allowed disabled:opacity-50`}
               >
-                Hear Original
+                听原声
               </button>
               <button
                 onClick={() => handleSetPreviewMode("cleaned")}
@@ -830,16 +829,16 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
                     : "border-border bg-background-secondary text-text-secondary hover:border-primary/50"
                 } disabled:cursor-not-allowed disabled:opacity-50`}
               >
-                Hear Cleaned
+                听处理后
               </button>
             </div>
             <p className="text-[9px] leading-relaxed text-text-muted">
-              Preview only. Export still uses the cleaned audio effect chain.
+              仅用于预览。导出仍使用处理后的音频效果链。
             </p>
           </div>
 
           <Slider
-            label="Threshold"
+            label="阈值"
             value={config.threshold}
             onChange={(v) => handleConfigChange("threshold", v)}
             min={-80}
@@ -848,7 +847,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           />
 
           <Slider
-            label="Reduction"
+            label="衰减量"
             value={config.reduction * 100}
             onChange={(v) => handleConfigChange("reduction", v / 100)}
             min={0}
@@ -857,7 +856,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           />
 
           <Slider
-            label="Attack"
+            label="起音"
             value={config.attack ?? 10}
             onChange={(v) => handleConfigChange("attack", v)}
             min={0}
@@ -866,7 +865,7 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
           />
 
           <Slider
-            label="Release"
+            label="释音"
             value={config.release ?? 100}
             onChange={(v) => handleConfigChange("release", v)}
             min={0}
@@ -892,32 +891,32 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
             {learningState === "learning" ? (
               <>
                 <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                Analyzing...
+                正在分析…
               </>
             ) : learningState === "applying" ? (
               <>
                 <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                Applying cleanup...
+                正在应用清理…
               </>
             ) : learningState === "ready" ? (
               <>
                 <Check size={12} />
-                Recommendation Ready
+                推荐已就绪
               </>
             ) : learningState === "success" ? (
               <>
                 <Check size={12} />
-                Cleanup Applied
+                清理已应用
               </>
             ) : learningState === "error" ? (
               <>
                 <AlertCircle size={12} />
-                Analysis Failed
+                分析失败
               </>
             ) : (
               <>
                 <Wand2 size={12} />
-                Analyze & Recommend
+                分析并推荐
               </>
             )}
           </button>
@@ -945,9 +944,9 @@ export const NoiseReductionSection: React.FC<NoiseReductionSectionProps> = ({
 
           {config.profile && !recommendation && learningState !== "error" && (
             <div className="text-[9px] text-text-muted text-center">
-              Learned noise profile is active on this clip.
+              此片段已启用学习的噪声配置。
               <br />
-              Auto-tuned with {activePreset.label.toLowerCase()} and reused for export cleanup.
+              已用「{activePreset.label}」自动调参，导出时复用。
             </div>
           )}
         </div>

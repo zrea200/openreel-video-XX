@@ -151,9 +151,7 @@ export class ScreenRecorderService {
 
   async startRecording(options: RecordingOptions): Promise<void> {
     if (!this.screenStream) {
-      throw new Error(
-        "Screen stream not initialized. Call requestPermissions first.",
-      );
+      throw new Error("屏幕流未初始化，请先请求权限。");
     }
 
     this.screenChunks = [];

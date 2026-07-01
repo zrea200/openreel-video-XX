@@ -38,10 +38,10 @@ export async function extractHighlights(
 ): Promise<HighlightResult[]> {
   const prefs = { ...DEFAULT_PREFERENCES, ...preferences };
 
-  onProgress?.("analyze", 10, "Analyzing audio energy...");
+  onProgress?.("analyze", 10, "正在分析音频能量…");
   const analysis = analyzeAudioForHighlights(audioBuffer, transcript);
 
-  onProgress?.("analyze", 30, "Preparing data for AI...");
+  onProgress?.("analyze", 30, "正在准备 AI 数据…");
   const energyData = analysis.segments
     .filter((seg) => !seg.isSilence)
     .map((seg: AudioSegmentMetrics) => ({
@@ -51,7 +51,7 @@ export async function extractHighlights(
       peakDb: seg.peakDb,
     }));
 
-  onProgress?.("ai", 40, "Sending to AI for highlight detection...");
+  onProgress?.("ai", 40, "正在发送给 AI 检测高光…");
 
   const response = await fetch(`${API_BASE}/highlights`, {
     method: "POST",
@@ -73,9 +73,9 @@ export async function extractHighlights(
     throw new Error((errorData as { error?: string }).error || `API error: ${response.status}`);
   }
 
-  onProgress?.("ai", 80, "Processing AI response...");
+  onProgress?.("ai", 80, "正在处理 AI 响应…");
   const data = (await response.json()) as { highlights: HighlightResult[] };
 
-  onProgress?.("done", 100, "Highlights ready");
+  onProgress?.("done", 100, "高光片段已就绪");
   return data.highlights;
 }

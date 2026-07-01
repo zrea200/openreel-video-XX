@@ -42,7 +42,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
 
     setIsAnalyzing(true);
     setProgress(0);
-    setProgressMessage("Initializing...");
+    setProgressMessage("初始化…");
 
     try {
       const bridge = getSilenceCutBridge();
@@ -55,15 +55,15 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
 
       if (result.silentRegions.length === 0) {
         toast.info(
-          "No Silence Detected",
-          "No silent sections found with current settings. Try lowering the threshold.",
+          "未检测到静音",
+          "当前设置下未发现静音片段，可尝试降低阈值。",
         );
       }
     } catch (error) {
       console.error("Silence analysis failed:", error);
       toast.error(
-        "Analysis Failed",
-        error instanceof Error ? error.message : "Unknown error",
+        "分析失败",
+        error instanceof Error ? error.message : "未知错误",
       );
     } finally {
       setIsAnalyzing(false);
@@ -75,7 +75,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
 
     setIsCutting(true);
     setProgress(0);
-    setProgressMessage("Preparing...");
+    setProgressMessage("准备中…");
 
     try {
       const bridge = getSilenceCutBridge();
@@ -89,19 +89,20 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
       );
 
       if (result.success) {
+        const count = analysisResult.silentRegions.length;
         toast.success(
-          "Silence Removed",
-          `Removed ${analysisResult.silentRegions.length} silent section${analysisResult.silentRegions.length > 1 ? "s" : ""}`,
+          "静音已移除",
+          `已移除 ${count} 段静音`,
         );
         setAnalysisResult(null);
       } else {
-        toast.error("Cut Failed", result.error ?? "Unknown error");
+        toast.error("剪切失败", result.error ?? "未知错误");
       }
     } catch (error) {
       console.error("Cut silence failed:", error);
       toast.error(
-        "Cut Failed",
-        error instanceof Error ? error.message : "Unknown error",
+        "剪切失败",
+        error instanceof Error ? error.message : "未知错误",
       );
     } finally {
       setIsCutting(false);
@@ -119,7 +120,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
           <div className="flex items-center justify-between mb-1">
             <label className="text-[10px] text-text-secondary flex items-center gap-1">
               <Volume2 size={10} />
-              Silence Threshold
+              静音阈值
             </label>
             <span className="text-[10px] text-text-muted font-mono">
               {settings.threshold} dB
@@ -133,14 +134,14 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
             onValueChange={(value) => updateSettings({ threshold: value[0] })}
           />
           <p className="text-[8px] text-text-muted mt-1">
-            Lower values detect more silence
+            数值越低，检测到的静音越多
           </p>
         </div>
 
         <div>
           <div className="flex items-center justify-between mb-1">
             <label className="text-[10px] text-text-secondary">
-              Min Duration
+              最短时长
             </label>
             <span className="text-[10px] text-text-muted font-mono">
               {settings.minSilenceDuration.toFixed(1)}s
@@ -156,7 +157,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
             }
           />
           <p className="text-[8px] text-text-muted mt-1">
-            Minimum silence length to detect
+            判定为静音的最短时长
           </p>
         </div>
 
@@ -164,7 +165,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-[10px] text-text-secondary">
-                Pad Before
+                前留白
               </label>
               <span className="text-[10px] text-text-muted font-mono">
                 {settings.paddingBefore.toFixed(1)}s
@@ -183,7 +184,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-[10px] text-text-secondary">
-                Pad After
+                后留白
               </label>
               <span className="text-[10px] text-text-muted font-mono">
                 {settings.paddingAfter.toFixed(1)}s
@@ -205,7 +206,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
           <div className="p-2 bg-background-secondary rounded border border-primary/20">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] text-text-secondary">
-                Silent Sections Found
+                检测到静音段
               </span>
               <span className="text-sm font-bold text-primary">
                 {analysisResult.silentRegions.length}
@@ -213,17 +214,17 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-text-secondary">
-                Total Silence
+                静音总时长
               </span>
               <span className="text-[10px] text-text-primary">
-                {analysisResult.totalSilenceDuration.toFixed(1)}s of{" "}
-                {analysisResult.clipDuration.toFixed(1)}s (
+                {analysisResult.totalSilenceDuration.toFixed(1)}s /{" "}
+                {analysisResult.clipDuration.toFixed(1)}s（
                 {Math.round(
                   (analysisResult.totalSilenceDuration /
                     analysisResult.clipDuration) *
                     100,
                 )}
-                %)
+                %）
               </span>
             </div>
           </div>
@@ -259,12 +260,12 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
             {isAnalyzing ? (
               <>
                 <Loader2 size={14} className="animate-spin" />
-                Analyzing...
+                分析中…
               </>
             ) : (
               <>
                 <Search size={14} />
-                {analysisResult ? "Re-analyze" : "Analyze"}
+                {analysisResult ? "重新分析" : "分析"}
               </>
             )}
           </button>
@@ -278,12 +279,12 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
               {isCutting ? (
                 <>
                   <Loader2 size={14} className="animate-spin" />
-                  Cutting...
+                  剪切中…
                 </>
               ) : (
                 <>
                   <Scissors size={14} />
-                  Cut {analysisResult.silentRegions.length}
+                  剪切 {analysisResult.silentRegions.length} 段
                 </>
               )}
             </button>
@@ -291,7 +292,7 @@ export const AutoCutSilenceSection: React.FC<AutoCutSilenceSectionProps> = ({
         </div>
 
         <p className="text-[9px] text-text-muted text-center">
-          Tip: Use Ctrl+Z to undo all cuts at once
+          提示：可用 Ctrl+Z 一次性撤销全部剪切
         </p>
       </div>
     </div>

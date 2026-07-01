@@ -65,27 +65,27 @@ const PRESETS: {
   label: string;
   icon: React.ReactNode;
 }[] = [
-  { id: "none", label: "None", icon: null },
-  { id: "fade", label: "Fade", icon: <Eye size={12} /> },
-  { id: "slide-left", label: "Slide Left", icon: <ArrowLeft size={12} /> },
-  { id: "slide-right", label: "Slide Right", icon: <ArrowRight size={12} /> },
-  { id: "slide-up", label: "Slide Up", icon: <ArrowUp size={12} /> },
-  { id: "slide-down", label: "Slide Down", icon: <ArrowDown size={12} /> },
-  { id: "zoom-in", label: "Zoom In", icon: <ZoomIn size={12} /> },
-  { id: "zoom-out", label: "Zoom Out", icon: <ZoomOut size={12} /> },
-  { id: "rotate", label: "Rotate", icon: <RotateCw size={12} /> },
-  { id: "blur", label: "Blur", icon: <Droplets size={12} /> },
-  { id: "iris-circle", label: "Iris Circle", icon: <Circle size={12} /> },
-  { id: "iris-rectangle", label: "Iris Rect", icon: <Square size={12} /> },
-  { id: "iris-diamond", label: "Iris Diamond", icon: <Diamond size={12} /> },
-  { id: "iris-star", label: "Iris Star", icon: <Star size={12} /> },
+  { id: "none", label: "无", icon: null },
+  { id: "fade", label: "淡入淡出", icon: <Eye size={12} /> },
+  { id: "slide-left", label: "左滑", icon: <ArrowLeft size={12} /> },
+  { id: "slide-right", label: "右滑", icon: <ArrowRight size={12} /> },
+  { id: "slide-up", label: "上滑", icon: <ArrowUp size={12} /> },
+  { id: "slide-down", label: "下滑", icon: <ArrowDown size={12} /> },
+  { id: "zoom-in", label: "放大", icon: <ZoomIn size={12} /> },
+  { id: "zoom-out", label: "缩小", icon: <ZoomOut size={12} /> },
+  { id: "rotate", label: "旋转", icon: <RotateCw size={12} /> },
+  { id: "blur", label: "模糊", icon: <Droplets size={12} /> },
+  { id: "iris-circle", label: "圆形划像", icon: <Circle size={12} /> },
+  { id: "iris-rectangle", label: "矩形划像", icon: <Square size={12} /> },
+  { id: "iris-diamond", label: "菱形划像", icon: <Diamond size={12} /> },
+  { id: "iris-star", label: "星形划像", icon: <Star size={12} /> },
 ];
 
 const EASINGS: { id: EasingType; label: string }[] = [
-  { id: "linear", label: "Linear" },
-  { id: "ease-in", label: "Ease In" },
-  { id: "ease-out", label: "Ease Out" },
-  { id: "ease-in-out", label: "Ease In Out" },
+  { id: "linear", label: "线性" },
+  { id: "ease-in", label: "缓入" },
+  { id: "ease-out", label: "缓出" },
+  { id: "ease-in-out", label: "缓入缓出" },
 ];
 
 interface ClipTransitionSectionProps {
@@ -1006,8 +1006,8 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
     if (timelineClipContext.previousClip) {
       transitions.push({
         key: "incoming",
-        title: "Incoming Transition",
-        description: "From the previous clip into this clip",
+        title: "入点转场",
+        description: "从上一片段过渡到当前片段",
         clipA: timelineClipContext.previousClip,
         clipB: timelineClipContext.currentClip,
         transition: timelineClipContext.incomingTransition,
@@ -1017,8 +1017,8 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
     if (timelineClipContext.nextClip) {
       transitions.push({
         key: "outgoing",
-        title: "Outgoing Transition",
-        description: "From this clip into the next clip",
+        title: "出点转场",
+        description: "从当前片段过渡到下一片段",
         clipA: timelineClipContext.currentClip,
         clipB: timelineClipContext.nextClip,
         transition: timelineClipContext.outgoingTransition,
@@ -1131,15 +1131,15 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
 
     const parts: string[] = [];
     if (entryPreset !== "none") {
-      parts.push(`Entry: ${entryPreset}`);
+      parts.push(`入点: ${PRESETS.find((p) => p.id === entryPreset)?.label ?? entryPreset}`);
     }
     if (exitPreset !== "none") {
-      parts.push(`Exit: ${exitPreset}`);
+      parts.push(`出点: ${PRESETS.find((p) => p.id === exitPreset)?.label ?? exitPreset}`);
     }
     if (parts.length > 0) {
-      toast.success("Clip Animation Applied", parts.join(", "));
+      toast.success("片段动画已应用", parts.join("，"));
     } else {
-      toast.info("Animations Cleared");
+      toast.info("动画已清除");
     }
   }, [
     clip,
@@ -1162,7 +1162,7 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
       {/* Entry Transition */}
       <div className="space-y-2">
         <span className="text-[10px] font-medium text-text-secondary uppercase tracking-wider">
-          Entry Animation
+          入点动画
         </span>
         <div className="grid grid-cols-3 gap-1">
           {PRESETS.map((preset) => (
@@ -1183,7 +1183,7 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
         {entryPreset !== "none" && (
           <div className="flex gap-2 mt-2">
             <div className="flex-1">
-              <label className="text-[9px] text-text-muted">Duration</label>
+              <label className="text-[9px] text-text-muted">时长</label>
               <input
                 type="number"
                 step="0.1"
@@ -1197,7 +1197,7 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
               />
             </div>
             <div className="flex-1">
-              <label className="text-[9px] text-text-muted">Easing</label>
+              <label className="text-[9px] text-text-muted">缓动</label>
               <Select value={entryEasing} onValueChange={(v) => setEntryEasing(v as EasingType)}>
                 <SelectTrigger className="w-full bg-background-tertiary border-border text-text-primary text-[10px] h-7">
                   <SelectValue />
@@ -1218,7 +1218,7 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
       {/* Exit Transition */}
       <div className="space-y-2">
         <span className="text-[10px] font-medium text-text-secondary uppercase tracking-wider">
-          Exit Animation
+          出点动画
         </span>
         <div className="grid grid-cols-3 gap-1">
           {PRESETS.map((preset) => (
@@ -1239,7 +1239,7 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
         {exitPreset !== "none" && (
           <div className="flex gap-2 mt-2">
             <div className="flex-1">
-              <label className="text-[9px] text-text-muted">Duration</label>
+              <label className="text-[9px] text-text-muted">时长</label>
               <input
                 type="number"
                 step="0.1"
@@ -1253,7 +1253,7 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
               />
             </div>
             <div className="flex-1">
-              <label className="text-[9px] text-text-muted">Easing</label>
+              <label className="text-[9px] text-text-muted">缓动</label>
               <Select value={exitEasing} onValueChange={(v) => setExitEasing(v as EasingType)}>
                 <SelectTrigger className="w-full bg-background-tertiary border-border text-text-primary text-[10px] h-7">
                   <SelectValue />
@@ -1276,12 +1276,12 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
         onClick={applyTransitions}
         className="w-full py-2 bg-primary hover:bg-primary-hover text-white font-medium rounded-lg text-[11px] transition-all"
       >
-        Apply Entry/Exit Animations
+        应用入点/出点动画
       </button>
 
       <div className="space-y-3 border-t border-border pt-3">
         <span className="text-[10px] font-medium text-text-secondary uppercase tracking-wider">
-          Clip-to-Clip Transitions
+          片段间转场
         </span>
 
         {timelineClipContext ? (
@@ -1312,12 +1312,12 @@ export const ClipTransitionSection: React.FC<ClipTransitionSectionProps> = ({
             ))
           ) : (
             <p className="text-[10px] text-text-muted">
-              No adjacent clips are available on this track.
+              此轨道上暂无相邻片段。
             </p>
           )
         ) : (
           <p className="text-[10px] text-text-muted">
-            Clip-to-clip transitions are available for timeline media clips.
+            片段间转场仅适用于时间轴媒体片段。
           </p>
         )}
       </div>

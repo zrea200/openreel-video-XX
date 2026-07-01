@@ -48,6 +48,34 @@ interface ParticleEffectsSectionProps {
   onPreviewEffect?: (effectId: string) => void;
 }
 
+const PARTICLE_TYPE_LABELS: Record<string, string> = {
+  ambient: "环境",
+  weather: "天气",
+  celebration: "庆祝",
+  fire: "火焰",
+  magic: "魔法",
+  nature: "自然",
+};
+
+const EFFECT_TYPE_LABELS: Record<string, string> = {
+  snow: "雪花",
+  rain: "雨",
+  confetti: "彩纸",
+  sparkles: "闪光",
+  smoke: "烟雾",
+  fire: "火焰",
+  bubbles: "气泡",
+  dust: "灰尘",
+  stars: "星星",
+};
+
+const BLEND_MODE_LABELS: Record<string, string> = {
+  normal: "正常",
+  add: "相加",
+  multiply: "正片叠底",
+  screen: "滤色",
+};
+
 export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
   clipId,
   clipDuration,
@@ -125,13 +153,13 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
       <div className="flex gap-2">
         <Select value={selectedPreset} onValueChange={setSelectedPreset}>
           <SelectTrigger className="flex-1 h-8 text-xs min-w-0 [&>span]:truncate">
-            <SelectValue placeholder="Select effect preset..." />
+            <SelectValue placeholder="选择效果预设…" />
           </SelectTrigger>
           <SelectContent>
             {Object.entries(groupedPresets).map(([type, presets]) => (
               <div key={type}>
                 <div className="px-2 py-1.5 text-xs font-semibold text-text-muted uppercase tracking-wider">
-                  {type}
+                  {PARTICLE_TYPE_LABELS[type] ?? type}
                 </div>
                 {presets.map((preset) => (
                   <SelectItem key={preset.id} value={preset.id} textValue={preset.name}>
@@ -150,15 +178,15 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
           className="h-8 px-3"
         >
           <Plus size={14} className="mr-1" />
-          Add
+          添加
         </Button>
       </div>
 
       {effects.length === 0 ? (
         <div className="text-center py-6 text-text-muted text-xs">
           <Sparkles size={24} className="mx-auto mb-2 opacity-50" />
-          <p>No particle effects added</p>
-          <p className="mt-1 text-[10px]">Select a preset above to add effects</p>
+          <p>尚未添加粒子效果</p>
+          <p className="mt-1 text-[10px]">在上方选择预设以添加效果</p>
         </div>
       ) : (
         <ScrollArea className="max-h-[400px]">
@@ -182,15 +210,15 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                       )}
                     </button>
 
-                    <span className="flex-1 text-xs font-medium text-text-primary capitalize">
-                      {effect.type}
+                    <span className="flex-1 text-xs font-medium text-text-primary">
+                      {EFFECT_TYPE_LABELS[effect.type] ?? effect.type}
                     </span>
 
                     {onPreviewEffect && (
                       <button
                         onClick={() => onPreviewEffect(effect.id)}
                         className="p-1 rounded hover:bg-background-elevated text-text-muted hover:text-primary transition-colors"
-                        title="Preview effect"
+                        title="预览效果"
                       >
                         <Play size={12} />
                       </button>
@@ -203,7 +231,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                           ? "text-primary hover:bg-primary/20"
                           : "text-text-muted hover:bg-background-elevated"
                       }`}
-                      title={effect.enabled ? "Disable" : "Enable"}
+                      title={effect.enabled ? "禁用" : "启用"}
                     >
                       {effect.enabled ? <Eye size={12} /> : <EyeOff size={12} />}
                     </button>
@@ -211,7 +239,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                     <button
                       onClick={() => onRemoveEffect(effect.id)}
                       className="p-1 rounded hover:bg-red-500/20 text-text-muted hover:text-red-400 transition-colors"
-                      title="Remove effect"
+                      title="移除效果"
                     >
                       <Trash2 size={12} />
                     </button>
@@ -222,7 +250,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <Label className="text-[10px] text-text-muted mb-1">
-                            Start Time (s)
+                            开始时间 (s)
                           </Label>
                           <Input
                             type="number"
@@ -241,7 +269,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                         </div>
                         <div>
                           <Label className="text-[10px] text-text-muted mb-1">
-                            Duration (s)
+                            时长 (s)
                           </Label>
                           <Input
                             type="number"
@@ -262,12 +290,12 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                       <Collapsible>
                         <CollapsibleTrigger className="flex items-center gap-1 text-[10px] text-text-muted hover:text-text-primary">
                           <ChevronRight size={10} className="transition-transform data-[state=open]:rotate-90" />
-                          Particle Settings
+                          粒子设置
                         </CollapsibleTrigger>
                         <CollapsibleContent className="pt-2 space-y-3">
                           <div>
                             <Label className="text-[10px] text-text-muted mb-1">
-                              Particle Count: {effect.config.particleCount}
+                              粒子数量：{effect.config.particleCount}
                             </Label>
                             <Slider
                               value={[effect.config.particleCount]}
@@ -283,7 +311,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
 
                           <div>
                             <Label className="text-[10px] text-text-muted mb-1">
-                              Speed: {effect.config.speed}
+                              速度：{effect.config.speed}
                             </Label>
                             <Slider
                               value={[effect.config.speed]}
@@ -299,7 +327,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
 
                           <div>
                             <Label className="text-[10px] text-text-muted mb-1">
-                              Gravity: {effect.config.gravity}
+                              重力：{effect.config.gravity}
                             </Label>
                             <Slider
                               value={[effect.config.gravity]}
@@ -315,7 +343,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
 
                           <div>
                             <Label className="text-[10px] text-text-muted mb-1">
-                              Emission Rate: {effect.config.emissionRate}
+                              发射率：{effect.config.emissionRate}
                             </Label>
                             <Slider
                               value={[effect.config.emissionRate]}
@@ -332,7 +360,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                           <div className="grid grid-cols-2 gap-2">
                             <div>
                               <Label className="text-[10px] text-text-muted mb-1">
-                                Min Size: {effect.config.size.min}
+                                最小尺寸：{effect.config.size.min}
                               </Label>
                               <Slider
                                 value={[effect.config.size.min]}
@@ -350,7 +378,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                             </div>
                             <div>
                               <Label className="text-[10px] text-text-muted mb-1">
-                                Max Size: {effect.config.size.max}
+                                最大尺寸：{effect.config.size.max}
                               </Label>
                               <Slider
                                 value={[effect.config.size.max]}
@@ -370,7 +398,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
 
                           <div>
                             <Label className="text-[10px] text-text-muted mb-1">
-                              Turbulence: {effect.config.turbulence}
+                              湍流：{effect.config.turbulence}
                             </Label>
                             <Slider
                               value={[effect.config.turbulence]}
@@ -386,7 +414,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
 
                           <div>
                             <Label className="text-[10px] text-text-muted mb-1">
-                              Blend Mode
+                              混合模式
                             </Label>
                             <Select
                               value={effect.config.blendMode}
@@ -398,10 +426,10 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="normal">Normal</SelectItem>
-                                <SelectItem value="add">Additive</SelectItem>
-                                <SelectItem value="multiply">Multiply</SelectItem>
-                                <SelectItem value="screen">Screen</SelectItem>
+                                <SelectItem value="normal">{BLEND_MODE_LABELS.normal}</SelectItem>
+                                <SelectItem value="add">{BLEND_MODE_LABELS.add}</SelectItem>
+                                <SelectItem value="multiply">{BLEND_MODE_LABELS.multiply}</SelectItem>
+                                <SelectItem value="screen">{BLEND_MODE_LABELS.screen}</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -411,7 +439,7 @@ export const ParticleEffectsSection: React.FC<ParticleEffectsSectionProps> = ({
                       <Collapsible>
                         <CollapsibleTrigger className="flex items-center gap-1 text-[10px] text-text-muted hover:text-text-primary">
                           <ChevronRight size={10} className="transition-transform data-[state=open]:rotate-90" />
-                          Colors ({effect.config.colors.length})
+                          颜色 ({effect.config.colors.length})
                         </CollapsibleTrigger>
                         <CollapsibleContent className="pt-2">
                           <div className="flex flex-wrap gap-1">
@@ -505,7 +533,7 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ color, onChange, onRemove }) 
                   setIsOpen(false);
                 }}
                 className="p-1.5 rounded hover:bg-red-500/20 text-text-muted hover:text-red-400 transition-colors"
-                title="Remove color"
+                title="移除颜色"
               >
                 <Trash2 size={12} />
               </button>

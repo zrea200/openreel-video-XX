@@ -107,7 +107,7 @@ const CloneSourceIndicator: React.FC<{
       <div className="p-3 bg-background-tertiary rounded-lg text-center">
         <Target size={20} className="mx-auto mb-1 text-text-muted" />
         <p className="text-[10px] text-text-muted">
-          Alt+Click to set clone source
+          按住 Alt 并点击设置仿制源
         </p>
       </div>
     );
@@ -118,13 +118,13 @@ const CloneSourceIndicator: React.FC<{
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Target size={14} className="text-primary" />
-          <span className="text-[10px] text-text-primary">Clone Source</span>
+          <span className="text-[10px] text-text-primary">仿制源</span>
         </div>
         <button
           onClick={onClear}
           className="text-[9px] text-text-muted hover:text-error transition-colors"
         >
-          Clear
+          清除
         </button>
       </div>
       <div className="mt-2 flex items-center gap-4">
@@ -186,20 +186,20 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
       {
         id: "spotHeal" as RetouchingTool,
         icon: <Eraser size={16} />,
-        label: "Spot Healing",
-        description: "Remove blemishes by sampling surrounding pixels",
+        label: "污点修复",
+        description: "采样周围像素并自然融合以移除瑕疵",
       },
       {
         id: "cloneStamp" as RetouchingTool,
         icon: <Copy size={16} />,
-        label: "Clone Stamp",
-        description: "Copy pixels from source to target",
+        label: "仿制图章",
+        description: "将仿制源像素复制到目标区域",
       },
       {
         id: "redEyeRemoval" as RetouchingTool,
         icon: <Eye size={16} />,
-        label: "Red-Eye Removal",
-        description: "Remove red-eye from photos",
+        label: "红眼移除",
+        description: "自动检测并移除照片中的红眼",
       },
     ],
     [],
@@ -210,7 +210,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
       {/* Tool Selection */}
       <div className="space-y-2">
         <span className="text-[10px] text-text-secondary font-medium">
-          Retouching Tools
+          修图工具
         </span>
         <div className="space-y-2">
           {tools.map((tool) => (
@@ -231,7 +231,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
       {activeTool === "cloneStamp" && (
         <div className="space-y-2">
           <span className="text-[10px] text-text-secondary font-medium">
-            Clone Source
+            仿制源
           </span>
           <CloneSourceIndicator
             source={cloneSource}
@@ -243,7 +243,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
       {/* Brush Settings */}
       <div className="space-y-3 p-3 bg-background-tertiary rounded-lg">
         <span className="text-[10px] text-text-secondary font-medium">
-          Brush Settings
+          画笔设置
         </span>
 
         {/* Brush Preview */}
@@ -251,7 +251,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
 
         {/* Size Slider */}
         <Slider
-          label="Size"
+          label="大小"
           value={brushConfig.size}
           onChange={onBrushSizeChange}
           min={1}
@@ -262,7 +262,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
 
         {/* Hardness Slider */}
         <Slider
-          label="Hardness"
+          label="硬度"
           value={brushConfig.hardness * 100}
           onChange={(value) => onBrushHardnessChange(value / 100)}
           min={0}
@@ -273,7 +273,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
 
         {/* Opacity Slider */}
         <Slider
-          label="Opacity"
+          label="不透明度"
           value={brushConfig.opacity * 100}
           onChange={(value) => onBrushOpacityChange(value / 100)}
           min={0}
@@ -285,7 +285,7 @@ export const RetouchingSection: React.FC<RetouchingSectionProps> = ({
         {/* Flow Slider (for spot healing and clone stamp) */}
         {(activeTool === "spotHeal" || activeTool === "cloneStamp") && (
           <Slider
-            label="Flow"
+            label="流量"
             value={brushConfig.flow * 100}
             onChange={(value) => onBrushFlowChange(value / 100)}
             min={0}

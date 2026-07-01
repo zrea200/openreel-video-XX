@@ -9,6 +9,11 @@ import {
   SelectItem,
 } from "@openreel/ui";
 
+const TRANSFORM_STYLE_LABELS: Record<"flat" | "preserve-3d", string> = {
+  flat: "平面",
+  "preserve-3d": "保留 3D",
+};
+
 interface Transform3DSectionProps {
   clipId: string;
 }
@@ -92,7 +97,7 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
   if (!clip) {
     return (
       <div className="text-center py-8 text-text-muted text-xs">
-        No clip selected
+        未选中片段
       </div>
     );
   }
@@ -100,7 +105,7 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
   return (
     <div className="space-y-3">
         <Slider
-          label="Rotation X"
+          label="旋转 X"
           value={rotate3d.x}
           onChange={handleRotateXChange}
           min={-360}
@@ -110,7 +115,7 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
         />
 
         <Slider
-          label="Rotation Y"
+          label="旋转 Y"
           value={rotate3d.y}
           onChange={handleRotateYChange}
           min={-360}
@@ -120,7 +125,7 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
         />
 
         <Slider
-          label="Rotation Z"
+          label="旋转 Z"
           value={rotate3d.z}
           onChange={handleRotateZChange}
           min={-360}
@@ -130,7 +135,7 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
         />
 
         <Slider
-          label="Perspective"
+          label="透视"
           value={perspective}
           onChange={handlePerspectiveChange}
           min={100}
@@ -141,7 +146,7 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
 
         <div className="space-y-1">
           <span className="text-[10px] text-text-secondary">
-            Transform Style
+            变换样式
           </span>
           <Select
             value={transformStyle}
@@ -151,24 +156,23 @@ export const Transform3DSection: React.FC<Transform3DSectionProps> = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-background-secondary border-border">
-              <SelectItem value="flat">Flat</SelectItem>
-              <SelectItem value="preserve-3d">Preserve 3D</SelectItem>
+              <SelectItem value="flat">{TRANSFORM_STYLE_LABELS.flat}</SelectItem>
+              <SelectItem value="preserve-3d">{TRANSFORM_STYLE_LABELS["preserve-3d"]}</SelectItem>
             </SelectContent>
           </Select>
           <p className="text-[9px] text-text-muted">
             {transformStyle === "flat" &&
-              "Flattens children into the plane of this element"}
+              "将子元素压平到当前元素的平面内"}
             {transformStyle === "preserve-3d" &&
-              "Children positioned in 3D space"}
+              "子元素在三维空间中定位"}
           </p>
         </div>
 
       {(rotate3d.x !== 0 || rotate3d.y !== 0 || rotate3d.z !== 0) && (
         <div className="p-2 bg-primary/5 border border-primary/20 rounded-lg">
           <p className="text-[9px] text-text-muted">
-            <span className="text-primary font-medium">Tip:</span> 3D rotations
-            allow you to rotate layers along X, Y, and Z axes for depth effects.
-            Adjust perspective to control the 3D depth perception.
+            <span className="text-primary font-medium">提示：</span>
+            3D 旋转可沿 X、Y、Z 轴旋转图层以产生景深效果。调整透视可控制 3D 深度感。
           </p>
         </div>
       )}

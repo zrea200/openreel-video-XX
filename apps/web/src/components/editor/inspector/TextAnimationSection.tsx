@@ -18,51 +18,51 @@ interface PresetInfo {
 }
 
 const ANIMATION_PRESETS: PresetInfo[] = [
-  { value: "none", label: "None", description: "No animation" },
+  { value: "none", label: "无", description: "无动画" },
   {
     value: "typewriter",
-    label: "Typewriter",
-    description: "Characters appear one by one",
+    label: "打字机",
+    description: "逐字出现",
   },
-  { value: "fade", label: "Fade", description: "Fade in and out" },
+  { value: "fade", label: "淡入淡出", description: "淡入并淡出" },
   {
     value: "slide-left",
-    label: "Slide Left",
-    description: "Slide in from the right",
+    label: "左滑",
+    description: "从右侧滑入",
   },
   {
     value: "slide-right",
-    label: "Slide Right",
-    description: "Slide in from the left",
+    label: "右滑",
+    description: "从左侧滑入",
   },
   {
     value: "slide-up",
-    label: "Slide Up",
-    description: "Slide in from below",
+    label: "上滑",
+    description: "从下方滑入",
   },
   {
     value: "slide-down",
-    label: "Slide Down",
-    description: "Slide in from above",
+    label: "下滑",
+    description: "从上方滑入",
   },
-  { value: "scale", label: "Scale", description: "Scale up from small" },
-  { value: "bounce", label: "Bounce", description: "Bouncy entrance" },
-  { value: "rotate", label: "Rotate", description: "Rotate into view" },
-  { value: "wave", label: "Wave", description: "Characters wave up and down" },
-  { value: "shake", label: "Shake", description: "Vibrating text effect" },
-  { value: "pop", label: "Pop", description: "Poppy entrance with overshoot" },
-  { value: "glitch", label: "Glitch", description: "Digital glitch effect" },
-  { value: "split", label: "Split", description: "Text splits from center" },
-  { value: "flip", label: "Flip", description: "3D flip animation" },
+  { value: "scale", label: "缩放", description: "由小放大" },
+  { value: "bounce", label: "弹跳", description: "弹跳式入场" },
+  { value: "rotate", label: "旋转", description: "旋转进入画面" },
+  { value: "wave", label: "波浪", description: "字符上下波浪" },
+  { value: "shake", label: "抖动", description: "文字震动效果" },
+  { value: "pop", label: "弹出", description: "带过冲的弹出入场" },
+  { value: "glitch", label: "故障", description: "数字故障效果" },
+  { value: "split", label: "分裂", description: "从中心向两侧展开" },
+  { value: "flip", label: "翻转", description: "3D 翻转动画" },
   {
     value: "word-by-word",
-    label: "Word by Word",
-    description: "Words appear sequentially",
+    label: "逐词",
+    description: "按词依次出现",
   },
   {
     value: "rainbow",
-    label: "Rainbow",
-    description: "Color cycles through spectrum",
+    label: "彩虹",
+    description: "颜色在光谱中循环",
   },
 ];
 
@@ -73,7 +73,7 @@ const PresetSelector: React.FC<{
   onChange: (preset: TextAnimationPreset) => void;
 }> = ({ value, onChange }) => (
   <div className="space-y-2">
-    <span className="text-[10px] text-text-secondary">Animation Preset</span>
+    <span className="text-[10px] text-text-secondary">动画预设</span>
     <Select value={value} onValueChange={(v) => onChange(v as TextAnimationPreset)}>
       <SelectTrigger className="w-full bg-background-tertiary border-border text-text-primary">
         <SelectValue />
@@ -97,15 +97,15 @@ const EasingSelector: React.FC<{
   onChange: (easing: string) => void;
 }> = ({ value, onChange }) => {
   const easingOptions = [
-    { value: "linear", label: "Linear" },
-    { value: "ease-in", label: "Ease In" },
-    { value: "ease-out", label: "Ease Out" },
-    { value: "ease-in-out", label: "Ease In Out" },
+    { value: "linear", label: "线性" },
+    { value: "ease-in", label: "缓入" },
+    { value: "ease-out", label: "缓出" },
+    { value: "ease-in-out", label: "缓入缓出" },
   ];
 
   return (
     <div className="space-y-1">
-      <span className="text-[10px] text-text-secondary">Easing</span>
+      <span className="text-[10px] text-text-secondary">缓动</span>
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger className="w-full bg-background-tertiary border-border text-text-primary text-[10px]">
           <SelectValue />
@@ -187,7 +187,7 @@ export const TextAnimationSection: React.FC<TextAnimationSectionProps> = ({
     return (
       <div className="p-4 text-center">
         <Type size={24} className="mx-auto mb-2 text-text-muted" />
-        <p className="text-[10px] text-text-muted">No text clip selected</p>
+        <p className="text-[10px] text-text-muted">未选中文字片段</p>
       </div>
     );
   }
@@ -202,12 +202,12 @@ export const TextAnimationSection: React.FC<TextAnimationSectionProps> = ({
             <div className="flex items-center gap-2 mb-2">
               <Clock size={12} className="text-text-muted" />
               <span className="text-[10px] text-text-secondary font-medium">
-                Timing
+                时间
               </span>
             </div>
 
             <Slider
-              label="In Duration"
+              label="入点时长"
               value={inDuration}
               onChange={handleInDurationChange}
               min={0}
@@ -217,7 +217,7 @@ export const TextAnimationSection: React.FC<TextAnimationSectionProps> = ({
             />
 
             <Slider
-              label="Out Duration"
+              label="出点时长"
               value={outDuration}
               onChange={handleOutDurationChange}
               min={0}
@@ -235,12 +235,12 @@ export const TextAnimationSection: React.FC<TextAnimationSectionProps> = ({
             <div className="flex items-center gap-2 mb-2">
               <Play size={12} className="text-text-muted" />
               <span className="text-[10px] text-text-secondary font-medium">
-                Preview
+                预览
               </span>
             </div>
             <p className="text-[9px] text-text-muted">
-              Animation will play during preview and export. Total animation
-              time: {(inDuration + outDuration).toFixed(1)}s
+              动画在预览和导出时播放。总动画时长：
+              {(inDuration + outDuration).toFixed(1)}s
             </p>
           </div>
         </>
@@ -312,10 +312,10 @@ const FadeParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Fade Settings
+        淡入淡出设置
       </span>
       <Slider
-        label="Start Opacity"
+        label="起始不透明度"
         value={startOpacity}
         onChange={(v) => handleChange(v, endOpacity)}
         min={0}
@@ -324,7 +324,7 @@ const FadeParams: React.FC<{
         unit=""
       />
       <Slider
-        label="End Opacity"
+        label="结束不透明度"
         value={endOpacity}
         onChange={(v) => handleChange(startOpacity, v)}
         min={0}
@@ -359,10 +359,10 @@ const SlideParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Slide Settings
+        滑动设置
       </span>
       <Slider
-        label="Distance"
+        label="距离"
         value={slideDistance}
         onChange={handleChange}
         min={0.05}
@@ -398,10 +398,10 @@ const ScaleParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Scale Settings
+        缩放设置
       </span>
       <Slider
-        label="Scale From"
+        label="起始缩放"
         value={scaleFrom}
         onChange={(v) => handleChange(v, scaleTo)}
         min={0}
@@ -410,7 +410,7 @@ const ScaleParams: React.FC<{
         unit="x"
       />
       <Slider
-        label="Scale To"
+        label="结束缩放"
         value={scaleTo}
         onChange={(v) => handleChange(scaleFrom, v)}
         min={0}
@@ -446,10 +446,10 @@ const BounceParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Bounce Settings
+        弹跳设置
       </span>
       <Slider
-        label="Height"
+        label="高度"
         value={bounceHeight}
         onChange={(v) => handleChange(v, bounceCount)}
         min={0.01}
@@ -458,7 +458,7 @@ const BounceParams: React.FC<{
         unit=""
       />
       <Slider
-        label="Bounces"
+        label="弹跳次数"
         value={bounceCount}
         onChange={(v) => handleChange(bounceHeight, Math.round(v))}
         min={1}
@@ -493,10 +493,10 @@ const RotateParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Rotate Settings
+        旋转设置
       </span>
       <Slider
-        label="Angle"
+        label="角度"
         value={rotateAngle}
         onChange={handleChange}
         min={-720}
@@ -532,10 +532,10 @@ const WaveParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Wave Settings
+        波浪设置
       </span>
       <Slider
-        label="Amplitude"
+        label="振幅"
         value={waveAmplitude}
         onChange={(v) => handleChange(v, waveFrequency)}
         min={0.005}
@@ -544,7 +544,7 @@ const WaveParams: React.FC<{
         unit=""
       />
       <Slider
-        label="Frequency"
+        label="频率"
         value={waveFrequency}
         onChange={(v) => handleChange(waveAmplitude, v)}
         min={0.5}
@@ -580,10 +580,10 @@ const ShakeParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Shake Settings
+        抖动设置
       </span>
       <Slider
-        label="Intensity"
+        label="强度"
         value={shakeIntensity}
         onChange={(v) => handleChange(v, shakeSpeed)}
         min={0.001}
@@ -592,7 +592,7 @@ const ShakeParams: React.FC<{
         unit=""
       />
       <Slider
-        label="Speed"
+        label="速度"
         value={shakeSpeed}
         onChange={(v) => handleChange(shakeIntensity, v)}
         min={5}
@@ -627,10 +627,10 @@ const PopParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Pop Settings
+        弹出设置
       </span>
       <Slider
-        label="Overshoot"
+        label="过冲量"
         value={popOvershoot}
         onChange={handleChange}
         min={1}
@@ -666,10 +666,10 @@ const GlitchParams: React.FC<{
   return (
     <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
       <span className="text-[10px] text-text-secondary font-medium">
-        Glitch Settings
+        故障设置
       </span>
       <Slider
-        label="Intensity"
+        label="强度"
         value={glitchIntensity}
         onChange={(v) => handleChange(v, glitchSpeed)}
         min={0.005}
@@ -678,7 +678,7 @@ const GlitchParams: React.FC<{
         unit=""
       />
       <Slider
-        label="Speed"
+        label="速度"
         value={glitchSpeed}
         onChange={(v) => handleChange(glitchIntensity, v)}
         min={1}

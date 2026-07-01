@@ -11,38 +11,38 @@ const MODELS: ModelInfo[] = [
   {
     id: IMAGE_MODELS.SEEDREAM,
     name: "Seedream 5 Lite",
-    description: "High-quality image-to-image with aspect ratio and quality control. Up to 4K output.",
+    description: "高质量图生图，支持宽高比与画质控制，最高 4K 输出。",
     badge: "4K",
   },
   {
     id: IMAGE_MODELS.Z_IMAGE,
     name: "Z-Image",
-    description: "Text-to-image generation. Source image is used as inspiration only.",
-    badge: "Text→Image",
+    description: "文生图。源图仅作灵感参考。",
+    badge: "文生图",
   },
   {
     id: IMAGE_MODELS.NANO_BANANA2,
     name: "Nano Banana 2",
-    description: "Versatile generation with wide aspect ratio support and flexible resolution.",
-    badge: "Versatile",
+    description: "多功能生成，支持多种宽高比与分辨率。",
+    badge: "通用",
   },
   {
     id: IMAGE_MODELS.FLUX2,
     name: "Flux 2 Pro",
-    description: "Professional image-to-image with up to 8 reference images and 2K output.",
+    description: "专业图生图，最多 8 张参考图，2K 输出。",
     badge: "Pro",
   },
   {
     id: IMAGE_MODELS.GROK,
     name: "Grok Imagine",
-    description: "Style and composition transfer with optional prompt guidance.",
-    badge: "Style",
+    description: "风格与构图迁移，可选提示词引导。",
+    badge: "风格",
   },
   {
     id: IMAGE_MODELS.QWEN,
     name: "Qwen",
-    description: "Fine-grained control over image transformation strength and quality.",
-    badge: "Control",
+    description: "精细控制图像变换强度与画质。",
+    badge: "可控",
   },
 ];
 
@@ -53,7 +53,7 @@ interface Props {
 export function ModelPicker({ onSelect }: Props) {
   return (
     <div className="space-y-3">
-      <p className="text-xs text-text-muted">Select a model to generate a new image from your source.</p>
+      <p className="text-xs text-text-muted">选择模型，基于源图生成新图像。</p>
       <div className="grid grid-cols-1 gap-2">
         {MODELS.map((m) => (
           <button

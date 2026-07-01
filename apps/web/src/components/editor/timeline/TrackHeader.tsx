@@ -107,7 +107,7 @@ export const TrackHeader: React.FC<TrackHeaderProps> = ({
               <button
                 onClick={(e) => { e.stopPropagation(); toggleTrackExpanded(track.id); }}
                 className="p-0.5 rounded transition-colors hover:bg-background-elevated text-text-muted"
-                title={isExpanded ? "Collapse keyframes" : "Expand keyframes"}
+                title={isExpanded ? "折叠关键帧" : "展开关键帧"}
               >
                 {isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
               </button>
@@ -153,7 +153,7 @@ export const TrackHeader: React.FC<TrackHeaderProps> = ({
                     ? "text-status-error"
                     : "text-fg-3 hover:bg-hover hover:text-fg"
                 }`}
-                title={track.hidden ? "Show track" : "Hide track"}
+                title={track.hidden ? "显示轨道" : "隐藏轨道"}
               >
                 {track.hidden ? <EyeOff size={12} /> : <Eye size={12} />}
               </button>
@@ -166,7 +166,7 @@ export const TrackHeader: React.FC<TrackHeaderProps> = ({
                     ? "text-status-error"
                     : "text-fg-3 hover:bg-hover hover:text-fg"
                 }`}
-                title={track.muted ? "Unmute" : "Mute"}
+                title={track.muted ? "取消静音" : "静音"}
               >
                 <Volume2 size={12} />
               </button>
@@ -178,14 +178,14 @@ export const TrackHeader: React.FC<TrackHeaderProps> = ({
                   ? "text-accent"
                   : "text-fg-3 hover:bg-hover hover:text-fg"
               }`}
-              title={track.locked ? "Unlock" : "Lock"}
+              title={track.locked ? "解锁" : "锁定"}
             >
               <Lock size={12} />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); handleRemoveTrack(); }}
               className="w-[22px] h-[22px] grid place-items-center rounded transition-colors text-fg-muted hover:bg-hover hover:text-status-error"
-              title="Delete track"
+              title="删除轨道"
             >
               <Trash2 size={12} />
             </button>
@@ -199,11 +199,11 @@ export const TrackHeader: React.FC<TrackHeaderProps> = ({
       <ContextMenuContent className="min-w-[160px]">
         <ContextMenuItem onClick={startRename}>
           <Pencil className="mr-2 h-4 w-4" />
-          Rename Track
+          重命名轨道
         </ContextMenuItem>
         <ContextMenuItem onClick={handleRemoveGaps} disabled={!hasGaps}>
           <AlignLeft className="mr-2 h-4 w-4" />
-          Remove Gaps
+          移除间隙
         </ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem
@@ -211,7 +211,7 @@ export const TrackHeader: React.FC<TrackHeaderProps> = ({
           className="text-red-400 focus:text-red-400 hover:text-red-400"
         >
           <Trash2 className="mr-2 h-4 w-4" />
-          Delete Track
+          删除轨道
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

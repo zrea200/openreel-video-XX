@@ -93,7 +93,7 @@ export const StabilizationSection: React.FC<StabilizationSectionProps> = ({
     } catch (error) {
       console.error("Stabilization failed:", error);
       setStage(null);
-      setError(error instanceof Error ? error.message : "Stabilization failed");
+      setError(error instanceof Error ? error.message : "防抖处理失败");
     } finally {
       setProcessing(false);
       setStage(null);
@@ -139,11 +139,11 @@ export const StabilizationSection: React.FC<StabilizationSectionProps> = ({
   const stageLabel = (() => {
     switch (stage) {
       case "downloading":
-        return "Downloading stabilization engine...";
+        return "正在下载防抖引擎…";
       case "detecting":
-        return "Analyzing motion...";
+        return "正在分析运动…";
       case "stabilizing":
-        return "Stabilizing video...";
+        return "正在稳定画面…";
       default:
         return "";
     }
@@ -154,7 +154,7 @@ export const StabilizationSection: React.FC<StabilizationSectionProps> = ({
       <div className="flex items-center justify-between">
         <Label className="flex items-center gap-2 text-sm">
           <Video className="h-4 w-4" />
-          Stabilize
+          画面防抖
         </Label>
         <Switch
           checked={stabilization.enabled && isStabilized}
@@ -165,7 +165,7 @@ export const StabilizationSection: React.FC<StabilizationSectionProps> = ({
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label className="text-xs text-muted-foreground">Strength</Label>
+          <Label className="text-xs text-muted-foreground">强度</Label>
           <span className="text-xs text-muted-foreground">
             {stabilization.strength}%
           </span>
@@ -183,7 +183,7 @@ export const StabilizationSection: React.FC<StabilizationSectionProps> = ({
       {!vidstabEngine.isLoaded() && !processing && !isStabilized && (
         <div className="flex items-center gap-2 rounded-md border border-border/60 bg-muted/40 px-3 py-2 text-[11px] text-muted-foreground">
           <Download className="h-3.5 w-3.5 shrink-0" />
-          <span>First use requires a one-time download (~65 MB)</span>
+          <span>首次使用需一次性下载（约 65 MB）</span>
         </div>
       )}
 
@@ -215,7 +215,7 @@ export const StabilizationSection: React.FC<StabilizationSectionProps> = ({
           className="w-full"
           onClick={handleStabilize}
         >
-          Re-stabilize
+          重新防抖
         </Button>
       )}
     </div>

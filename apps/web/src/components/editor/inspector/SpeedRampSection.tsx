@@ -32,6 +32,19 @@ interface ClipLike {
   duration: number;
 }
 
+const SPEED_CURVE_PRESET_LABELS: Record<string, string> = {
+  linear: "线性",
+  "ease-in": "缓入",
+  "ease-out": "缓出",
+  "ease-in-out": "缓入缓出",
+  "speed-ramp-up": "加速",
+  "speed-ramp-down": "减速",
+  "bullet-time": "子弹时间",
+  "hero-moment": "高光时刻",
+  "dramatic-slow": "戏剧慢动作",
+  "quick-cut": "快切",
+};
+
 interface SpeedRampSectionProps {
   clip: ClipLike;
 }
@@ -367,7 +380,7 @@ const SpeedCurveCanvas: React.FC<{
         }`}
       />
       <div className="absolute bottom-1 right-1 text-[8px] text-text-muted pointer-events-none">
-        Click to add • Drag to move • Click a point to remove
+        点击添加 · 拖动移动 · 点击节点删除
       </div>
     </div>
   );
@@ -515,14 +528,14 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
     <div className="space-y-3">
       <div className="p-2 bg-background-tertiary rounded-lg border border-border">
         <p className="text-[10px] text-text-muted">
-          Effective duration: {formatDuration(effectiveDuration)}
+          有效时长：{formatDuration(effectiveDuration)}
         </p>
       </div>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium text-text-secondary">
-            Playback Speed
+            播放速度
           </span>
           <span className="text-[10px] font-mono text-primary">
             {currentSpeed.toFixed(2)}x
@@ -568,7 +581,7 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
           }`}
         >
           <RotateCcw size={12} />
-          Reverse
+          倒放
         </button>
         <button
           onClick={handlePitchCorrectionToggle}
@@ -578,13 +591,13 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
               : "bg-background-tertiary border-border text-text-secondary hover:border-primary/50"
           }`}
         >
-          Pitch Correct
+          音高校正
         </button>
       </div>
 
       <div className="space-y-1.5">
         <span className="text-[10px] font-medium text-text-secondary">
-          Speed Curve Presets
+          速度曲线预设
         </span>
         <div className="grid grid-cols-2 gap-1">
           {SPEED_CURVE_PRESETS.map((preset) => (
@@ -594,7 +607,7 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
               className="py-1.5 px-2 text-[9px] rounded-lg border bg-background-tertiary border-border text-text-secondary hover:border-primary/50 hover:text-primary transition-colors text-left"
               title={preset.description}
             >
-              {preset.name}
+              {SPEED_CURVE_PRESET_LABELS[preset.id] ?? preset.name}
             </button>
           ))}
         </div>
@@ -605,10 +618,10 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
         className="w-full flex items-center gap-2 py-2 text-[10px] text-text-secondary hover:text-text-primary transition-colors"
       >
         {showCurve ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-        <span className="font-medium">Speed Ramping</span>
+        <span className="font-medium">速度渐变</span>
         {keyframes.length > 0 && (
           <span className="ml-auto text-[9px] text-primary">
-            {keyframes.length} keyframes
+            {keyframes.length} 个关键帧
           </span>
         )}
       </button>
@@ -656,10 +669,10 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
         className="w-full flex items-center gap-2 py-2 text-[10px] text-text-secondary hover:text-text-primary transition-colors"
       >
         {isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-        <span className="font-medium">Freeze Frames</span>
+        <span className="font-medium">定格帧</span>
         {freezeFrames.length > 0 && (
           <span className="ml-auto text-[9px] text-primary">
-            {freezeFrames.length} freeze
+            {freezeFrames.length} 个定格
           </span>
         )}
       </button>
@@ -671,7 +684,7 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
             className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] bg-primary/20 border border-primary/30 text-primary rounded-lg hover:bg-primary/20 transition-colors"
           >
             <Pause size={12} />
-            Add Freeze Frame at Playhead
+            在播放头处添加定格帧
           </button>
 
           {freezeFrames.length > 0 && (
@@ -685,7 +698,7 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
                   <span className="text-text-secondary">
                     {ff.startTime.toFixed(2)}s
                   </span>
-                  <span className="text-text-muted">for</span>
+                  <span className="text-text-muted">持续</span>
                   <span className="text-primary font-mono">
                     {ff.duration.toFixed(1)}s
                   </span>
@@ -707,7 +720,7 @@ export const SpeedRampSection: React.FC<SpeedRampSectionProps> = ({ clip }) => {
         className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] bg-background-tertiary border border-border text-text-secondary rounded-lg hover:border-red-500/50 hover:text-red-400 transition-colors"
       >
         <RotateCcw size={12} />
-        Reset Speed & Effects
+        重置速度与效果
       </button>
     </div>
   );

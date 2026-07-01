@@ -98,7 +98,7 @@ export const KeyboardShortcutsOverlay: React.FC<
 
       if (conflict) {
         alert(
-          `This shortcut conflicts with "${conflict.name}". Choose a different key.`,
+          `此快捷键与「${conflict.name}」冲突，请选择其他按键。`,
         );
         return;
       }
@@ -116,7 +116,7 @@ export const KeyboardShortcutsOverlay: React.FC<
   };
 
   const handleResetAll = () => {
-    if (confirm("Reset all shortcuts to defaults?")) {
+    if (confirm("将所有快捷键恢复为默认值？")) {
       keyboardShortcuts.resetAllShortcuts();
       setShortcuts(keyboardShortcuts.getAllShortcuts());
     }
@@ -141,7 +141,7 @@ export const KeyboardShortcutsOverlay: React.FC<
           <div className="flex items-center gap-3">
             <Keyboard size={20} className="text-primary" />
             <DialogTitle className="text-lg font-bold text-text-primary">
-              Keyboard Shortcuts
+              键盘快捷键
             </DialogTitle>
           </div>
         </DialogHeader>
@@ -156,7 +156,7 @@ export const KeyboardShortcutsOverlay: React.FC<
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search shortcuts..."
+              placeholder="搜索快捷键…"
               className="pl-9 bg-background-tertiary border-border text-text-primary"
             />
           </div>
@@ -167,7 +167,7 @@ export const KeyboardShortcutsOverlay: React.FC<
               className="flex items-center gap-2 px-3 py-2 bg-background-tertiary border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary transition-colors"
             >
               <span>
-                {presets.find((p) => p.id === activePreset)?.name || "Preset"}
+                {presets.find((p) => p.id === activePreset)?.name || "预设"}
               </span>
               <ChevronDown size={14} />
             </button>
@@ -198,7 +198,7 @@ export const KeyboardShortcutsOverlay: React.FC<
             className="flex items-center gap-1 px-3 py-2 text-sm text-text-muted hover:text-text-primary transition-colors"
           >
             <RotateCcw size={14} />
-            Reset All
+            全部重置
           </button>
         </div>
 
@@ -211,7 +211,7 @@ export const KeyboardShortcutsOverlay: React.FC<
                 : "text-text-secondary hover:text-text-primary hover:bg-background-tertiary"
             }`}
           >
-            All
+            全部
           </button>
           {categories.map((category) => (
             <button
@@ -258,7 +258,7 @@ export const KeyboardShortcutsOverlay: React.FC<
                             onKeyDown={(e) =>
                               handleShortcutCapture(e, shortcut.id)
                             }
-                            placeholder="Press keys..."
+                            placeholder="请按键…"
                             className="w-32 px-2 py-1 bg-primary/20 border border-primary rounded text-sm text-center text-text-primary focus:outline-none"
                           />
                         ) : (
@@ -273,7 +273,7 @@ export const KeyboardShortcutsOverlay: React.FC<
                           <button
                             onClick={() => handleResetShortcut(shortcut.id)}
                             className="p-1 text-text-muted hover:text-text-primary opacity-0 group-hover:opacity-100 transition-opacity"
-                            title="Reset to default"
+                            title="恢复默认"
                           >
                             <RotateCcw size={12} />
                           </button>
@@ -289,18 +289,18 @@ export const KeyboardShortcutsOverlay: React.FC<
           {filteredShortcuts.length === 0 && (
             <div className="text-center py-8 text-text-muted">
               <Keyboard size={32} className="mx-auto mb-2 opacity-30" />
-              <p className="text-sm">No shortcuts found</p>
+              <p className="text-sm">未找到快捷键</p>
             </div>
           )}
         </div>
 
         <div className="p-3 border-t border-border bg-background-tertiary text-center">
           <p className="text-[10px] text-text-muted">
-            Click a shortcut key to customize • Press{" "}
+            点击快捷键可自定义 • 按{" "}
             <kbd className="px-1.5 py-0.5 bg-background-secondary border border-border rounded text-[10px]">
               ?
             </kbd>{" "}
-            to toggle this overlay
+            可开关此面板
           </p>
         </div>
       </DialogContent>

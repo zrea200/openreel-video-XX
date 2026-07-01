@@ -361,7 +361,7 @@ export const InspectorPanel: React.FC = () => {
     if (!selectedClip) return;
     void applyClipEffectWithPlaybackLock(
       selectedClip.id,
-      "Applying background removal",
+      "正在去除背景",
       () => {
         chromaKeyEngine.enableChromaKey(selectedClip.id);
         chromaKeyEngine.setKeyColor(selectedClip.id, { r: 0, g: 1, b: 0 });
@@ -377,7 +377,7 @@ export const InspectorPanel: React.FC = () => {
     try {
       await applyClipEffectWithPlaybackLock(
         selectedClip.id,
-        "Applying audio cleanup",
+        "正在清理音频",
         async () => {
           await initializeAudioBridgeEffects();
           const bridge = getAudioBridgeEffects();
@@ -404,15 +404,15 @@ export const InspectorPanel: React.FC = () => {
             );
 
             if (!result.success) {
-              throw new Error(result.error ?? "Failed to apply noise cleanup");
+              throw new Error(result.error ?? "降噪处理应用失败");
             }
           }
 
           setAudioEnhanced(true);
           setTimeout(() => setAudioEnhanced(false), 2000);
           toast.success(
-            "Noise cleanup applied",
-            "Fine-tune or switch presets in Background Noise Removal.",
+            "降噪已应用",
+            "可在「背景降噪」中微调或切换预设。",
           );
 
           forceUpdate();
@@ -421,10 +421,10 @@ export const InspectorPanel: React.FC = () => {
     } catch (error) {
       console.error("Failed to enhance audio:", error);
       toast.error(
-        "Could not clean up audio",
+        "音频清理失败",
         error instanceof Error
           ? error.message
-          : "Noise cleanup could not be applied to this clip.",
+          : "无法对此片段应用降噪处理。",
       );
     } finally {
       setIsEnhancingAudio(false);
@@ -442,7 +442,7 @@ export const InspectorPanel: React.FC = () => {
     if (!selectedClip) return;
     await applyClipEffectWithPlaybackLock(
       selectedClip.id,
-      "Applying auto color",
+      "正在自动调色",
       () => {
         addVideoEffect(selectedClip.id, "saturation");
         addVideoEffect(selectedClip.id, "contrast");
@@ -482,7 +482,7 @@ export const InspectorPanel: React.FC = () => {
     setTranscriptionProgress({
       phase: "extracting",
       progress: 0,
-      message: "Preparing audio...",
+      message: "正在准备音频…",
     });
 
     try {
@@ -525,7 +525,7 @@ export const InspectorPanel: React.FC = () => {
         phase: "error",
         progress: 0,
         message:
-          error instanceof Error ? error.message : "Transcription failed",
+          error instanceof Error ? error.message : "转录失败",
       });
       setTimeout(() => {
         setTranscriptionProgress(null);
@@ -554,17 +554,17 @@ export const InspectorPanel: React.FC = () => {
         if (result.success) {
           if (result.errors.length > 0) {
             toast.warning(
-              "SRT imported with warnings",
-              `${result.errors.length} subtitle segment(s) were skipped.`,
+              "SRT 已导入（含警告）",
+              `已跳过 ${result.errors.length} 条字幕片段。`,
             );
           } else {
-            toast.success("SRT imported", "Subtitles were added to the Captions track.");
+            toast.success("SRT 已导入", "字幕已添加到字幕轨道。");
           }
         } else {
-          toast.error("SRT import failed", result.errors[0] || "No valid subtitles found.");
+          toast.error("SRT 导入失败", result.errors[0] || "未找到有效字幕。");
         }
       } catch {
-        toast.error("SRT import failed", "Could not read the selected subtitle file.");
+        toast.error("SRT 导入失败", "无法读取所选字幕文件。");
       } finally {
         event.target.value = "";
       }
@@ -579,7 +579,7 @@ export const InspectorPanel: React.FC = () => {
 
       const result = await registerCustomFont(file);
       if (!result.success) {
-        toast.error("Font upload failed", result.error ?? "Unknown error.");
+        toast.error("字体上传失败", result.error ?? "未知错误。");
       } else {
         updateSubtitle(selectedSubtitle.id, {
           style: {
@@ -587,7 +587,7 @@ export const InspectorPanel: React.FC = () => {
             fontFamily: result.fontFamily,
           } as typeof selectedSubtitle.style,
         });
-        toast.success("Custom font uploaded", `${result.fontFamily} is ready to use.`);
+        toast.success("自定义字体已上传", `${result.fontFamily} 已可使用。`);
       }
 
       event.target.value = "";
@@ -683,9 +683,9 @@ export const InspectorPanel: React.FC = () => {
   );
   const noiseReductionSectionTitle = selectedNoiseReductionEffect
     ? selectedNoiseReductionEffect.enabled
-      ? "Background Noise Removal (Active)"
-      : "Background Noise Removal (Configured)"
-    : "Background Noise Removal";
+      ? "背景降噪（已启用）"
+      : "背景降噪（已配置）"
+    : "背景降噪";
   const appliedEditingTemplates =
     selectedTimelineClip?.metadata?.appliedTemplates || [];
   const handleRecipeControlChange = useCallback(
@@ -750,7 +750,7 @@ export const InspectorPanel: React.FC = () => {
 
       const template = getEditingTemplate(templateId);
       if (!template) {
-        toast.error("Recipe unavailable", "This recipe definition is no longer available.");
+        toast.error("配方不可用", "该配方定义已不存在。");
         return;
       }
 
@@ -764,11 +764,11 @@ export const InspectorPanel: React.FC = () => {
       );
 
       if (!updated) {
-        toast.error("Could not update recipe", "The recipe controls could not be saved for this clip.");
+        toast.error("配方更新失败", "无法保存此片段的配方控件。");
         return;
       }
 
-      toast.success("Recipe updated", `${template.name} was updated on this clip.`);
+      toast.success("配方已更新", `已在此片段上更新 ${template.name}。`);
     },
     [
       getEditingTemplate,

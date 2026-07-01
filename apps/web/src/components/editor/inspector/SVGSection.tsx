@@ -27,9 +27,25 @@ const ColorField: React.FC<{
   </div>
 );
 
+const COLOR_MODE_LABELS: Record<"none" | "tint" | "replace", string> = {
+  none: "无",
+  tint: "着色",
+  replace: "替换",
+};
+
+const SVG_ANIMATION_LABELS: Record<string, string> = {
+  none: "无",
+  fade: "淡入淡出",
+  scale: "缩放",
+  slide: "滑动",
+  bounce: "弹跳",
+  rotate: "旋转",
+  draw: "描边绘制",
+};
+
 const ANIMATION_PRESETS = SVG_ANIMATION_PRESETS.map((preset) => ({
   value: preset.id,
-  label: preset.name,
+  label: SVG_ANIMATION_LABELS[preset.id] ?? preset.name,
   description: preset.description,
 }));
 
@@ -149,7 +165,7 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
   if (!svgClip) {
     return (
       <div className="text-center py-8 text-text-muted text-xs">
-        No SVG clip selected
+        未选中 SVG 片段
       </div>
     );
   }
@@ -158,19 +174,19 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
     <div className="space-y-4">
       <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-text-secondary">Mode</span>
+            <span className="text-[10px] text-text-secondary">模式</span>
             <div className="flex gap-1">
               {(["none", "tint", "replace"] as const).map((mode) => (
                 <button
                   key={mode}
                   onClick={() => handleColorModeChange(mode)}
-                  className={`px-2 py-1 text-[9px] rounded capitalize transition-colors ${
+                  className={`px-2 py-1 text-[9px] rounded transition-colors ${
                     colorStyle.colorMode === mode
                       ? "bg-primary text-white"
                       : "bg-background-tertiary border border-border text-text-secondary hover:text-text-primary"
                   }`}
                 >
-                  {mode}
+                  {COLOR_MODE_LABELS[mode]}
                 </button>
               ))}
             </div>
@@ -179,12 +195,12 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
           {colorStyle.colorMode !== "none" && (
             <>
               <ColorField
-                label="Color"
+                label="颜色"
                 value={colorStyle.tintColor || "#ffffff"}
                 onChange={handleTintColorChange}
               />
               <Slider
-                label="Opacity"
+                label="不透明度"
                 value={colorStyle.tintOpacity || 1}
                 onChange={handleTintOpacityChange}
                 min={0}
@@ -197,7 +213,7 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
 
       <div className="space-y-3">
         <span className="text-[10px] font-medium text-text-secondary">
-          Entry Animation
+          入场动画
         </span>
         <Select
           value={entryAnimation?.type || "none"}
@@ -217,7 +233,7 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
 
         {entryAnimation && entryAnimation.type !== "none" && (
           <Slider
-            label="Duration"
+            label="时长"
             value={entryAnimation.duration}
             onChange={handleEntryDurationChange}
             min={0.1}
@@ -229,7 +245,7 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
 
       <div className="space-y-4">
         <span className="text-[10px] font-medium text-text-secondary">
-          Exit Animation
+          出场动画
         </span>
         <Select
           value={exitAnimation?.type || "none"}
@@ -249,7 +265,7 @@ export const SVGSection: React.FC<SVGSectionProps> = ({ clipId }) => {
 
         {exitAnimation && exitAnimation.type !== "none" && (
           <Slider
-            label="Duration"
+            label="时长"
             value={exitAnimation.duration}
             onChange={handleExitDurationChange}
             min={0.1}

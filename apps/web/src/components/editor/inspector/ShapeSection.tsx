@@ -59,14 +59,14 @@ const StrokeStyleSelector: React.FC<{
   onChange: (dashArray: number[] | undefined) => void;
 }> = ({ value, onChange }) => {
   const styles = [
-    { value: undefined, label: "Solid", preview: "────" },
-    { value: [5, 5], label: "Dashed", preview: "- - -" },
-    { value: [2, 2], label: "Dotted", preview: "• • •" },
+    { value: undefined, label: "实线", preview: "────" },
+    { value: [5, 5], label: "虚线", preview: "- - -" },
+    { value: [2, 2], label: "点线", preview: "• • •" },
   ];
 
   return (
     <div className="flex items-center justify-between">
-      <span className="text-[10px] text-text-secondary">Style</span>
+      <span className="text-[10px] text-text-secondary">描边样式</span>
       <div className="flex gap-1">
         {styles.map((style, index) => (
           <button
@@ -78,7 +78,7 @@ const StrokeStyleSelector: React.FC<{
                 ? "bg-primary text-white"
                 : "bg-background-tertiary border border-border text-text-secondary hover:text-text-primary"
             }`}
-            title={style.label}
+            title={STROKE_STYLE_LABELS[style.label] ?? style.label}
           >
             {style.preview}
           </button>
@@ -86,6 +86,22 @@ const StrokeStyleSelector: React.FC<{
       </div>
     </div>
   );
+};
+
+const STROKE_STYLE_LABELS: Record<string, string> = {
+  Solid: "实线",
+  Dashed: "虚线",
+  Dotted: "点线",
+};
+
+const SHAPE_TYPE_LABELS: Record<string, string> = {
+  rectangle: "矩形",
+  circle: "圆形",
+  ellipse: "椭圆",
+  triangle: "三角形",
+  star: "星形",
+  polygon: "多边形",
+  arrow: "箭头",
 };
 
 const ShapeTypeDisplay: React.FC<{
@@ -107,10 +123,10 @@ const ShapeTypeDisplay: React.FC<{
         {shapeIcons[shapeType] || <Square size={16} />}
       </div>
       <div>
-        <span className="text-[10px] font-medium text-text-primary capitalize">
-          {shapeType}
+        <span className="text-[10px] font-medium text-text-primary">
+          {SHAPE_TYPE_LABELS[shapeType] ?? shapeType}
         </span>
-        <p className="text-[9px] text-text-muted">Shape clip</p>
+        <p className="text-[9px] text-text-muted">形状片段</p>
       </div>
     </div>
   );
@@ -159,7 +175,7 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
     return (
       <div className="p-4 text-center">
         <Square size={24} className="mx-auto mb-2 text-text-muted" />
-        <p className="text-[10px] text-text-muted">No shape clip selected</p>
+        <p className="text-[10px] text-text-muted">未选中形状片段</p>
       </div>
     );
   }
@@ -170,10 +186,10 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
 
       <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
         <span className="text-[10px] text-text-secondary font-medium">
-          Fill
+          填充
         </span>
         <ColorField
-          label="Color"
+          label="颜色"
           value={style.fill?.color || "#3b82f6"}
           onChange={(color) =>
             handleStyleChange({
@@ -187,7 +203,7 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
           }
         />
         <Slider
-          label="Opacity"
+          label="不透明度"
           value={(style.fill?.opacity || 1) * 100}
           onChange={(opacity) =>
             handleStyleChange({
@@ -206,10 +222,10 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
 
       <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
         <span className="text-[10px] text-text-secondary font-medium">
-          Stroke
+          描边
         </span>
         <ColorField
-          label="Color"
+          label="颜色"
           value={style.stroke?.color || "#1d4ed8"}
           onChange={(color) =>
             handleStyleChange({
@@ -223,7 +239,7 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
           }
         />
         <NumberInput
-          label="Width"
+          label="宽度"
           value={style.stroke?.width || 0}
           onChange={(width) =>
             handleStyleChange({
@@ -258,10 +274,10 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
       {shapeType === "rectangle" && (
         <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
           <span className="text-[10px] text-text-secondary font-medium">
-            Corners
+            圆角
           </span>
           <Slider
-            label="Radius"
+            label="半径"
             value={style.cornerRadius || 0}
             onChange={(cornerRadius) => handleStyleChange({ cornerRadius })}
             min={0}
@@ -273,10 +289,10 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
 
       <div className="space-y-2 p-3 bg-background-tertiary rounded-lg">
         <span className="text-[10px] text-text-secondary font-medium">
-          Shadow
+          阴影
         </span>
         <ColorField
-          label="Color"
+          label="颜色"
           value={style.shadow?.color || "#000000"}
           onChange={(color) =>
             handleStyleChange({
@@ -291,7 +307,7 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
           showAlpha
         />
         <NumberInput
-          label="Offset X"
+          label="X 偏移"
           value={style.shadow?.offsetX || 0}
           onChange={(offsetX) =>
             handleStyleChange({
@@ -308,7 +324,7 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
           unit="px"
         />
         <NumberInput
-          label="Offset Y"
+          label="Y 偏移"
           value={style.shadow?.offsetY || 0}
           onChange={(offsetY) =>
             handleStyleChange({
@@ -325,7 +341,7 @@ export const ShapeSection: React.FC<ShapeSectionProps> = ({ clipId }) => {
           unit="px"
         />
         <Slider
-          label="Blur"
+          label="模糊"
           value={style.shadow?.blur || 0}
           onChange={(blur) =>
             handleStyleChange({

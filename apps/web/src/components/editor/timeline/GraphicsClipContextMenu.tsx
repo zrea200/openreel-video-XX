@@ -70,17 +70,17 @@ export const GraphicsClipContextMenu: React.FC<GraphicsClipContextMenuProps> = (
   const getClipTypeLabel = () => {
     switch (clipType) {
       case "shape":
-        return "Shape";
+        return "形状";
       case "svg":
         return "SVG";
       case "sticker":
-        return "Sticker";
+        return "贴纸";
       case "emoji":
-        return "Emoji";
+        return "表情";
       case "text":
-        return "Text";
+        return "文字";
       default:
-        return "Graphics";
+        return "图形";
     }
   };
 
@@ -97,7 +97,7 @@ export const GraphicsClipContextMenu: React.FC<GraphicsClipContextMenuProps> = (
     <ContextMenuContent className="min-w-[200px]">
       <ContextMenuLabel className="flex items-center text-[10px] text-text-muted">
         {getClipTypeIcon()}
-        {getClipTypeLabel()} Clip
+        {getClipTypeLabel()}片段
       </ContextMenuLabel>
       <ContextMenuSeparator />
 
@@ -105,7 +105,7 @@ export const GraphicsClipContextMenu: React.FC<GraphicsClipContextMenuProps> = (
         <>
           <ContextMenuItem onClick={handleDuplicate}>
             <Layers className="mr-2 h-4 w-4" />
-            Duplicate
+            复制
             <ContextMenuShortcut>⌘D</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuSeparator />
@@ -114,7 +114,7 @@ export const GraphicsClipContextMenu: React.FC<GraphicsClipContextMenuProps> = (
 
       <ContextMenuItem onClick={handleDelete} className="text-red-400">
         <Trash2 className="mr-2 h-4 w-4" />
-        Delete
+        删除
         <ContextMenuShortcut>⌫</ContextMenuShortcut>
       </ContextMenuItem>
     </ContextMenuContent>

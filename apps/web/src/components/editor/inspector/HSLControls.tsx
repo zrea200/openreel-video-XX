@@ -9,41 +9,41 @@ export const DEFAULT_HSL_VALUES: HSLValues = {
 };
 
 const COLOR_RANGES = [
-  { key: "reds", label: "R", fullLabel: "Reds", color: "#ef4444", index: 0 },
+  { key: "reds", label: "R", fullLabel: "红色", color: "#ef4444", index: 0 },
   {
     key: "oranges",
     label: "O",
-    fullLabel: "Oranges",
+    fullLabel: "橙色",
     color: "#f97316",
     index: 1,
   },
   {
     key: "yellows",
     label: "Y",
-    fullLabel: "Yellows",
+    fullLabel: "黄色",
     color: "#eab308",
     index: 2,
   },
   {
     key: "greens",
     label: "G",
-    fullLabel: "Greens",
+    fullLabel: "绿色",
     color: "#22c55e",
     index: 3,
   },
-  { key: "cyans", label: "C", fullLabel: "Cyans", color: "#06b6d4", index: 4 },
-  { key: "blues", label: "B", fullLabel: "Blues", color: "#3b82f6", index: 5 },
+  { key: "cyans", label: "C", fullLabel: "青色", color: "#06b6d4", index: 4 },
+  { key: "blues", label: "B", fullLabel: "蓝色", color: "#3b82f6", index: 5 },
   {
     key: "purples",
     label: "P",
-    fullLabel: "Purples",
+    fullLabel: "紫色",
     color: "#a855f7",
     index: 6,
   },
   {
     key: "magentas",
     label: "M",
-    fullLabel: "Magentas",
+    fullLabel: "洋红",
     color: "#ec4899",
     index: 7,
   },
@@ -249,7 +249,7 @@ export const HSLControls: React.FC<HSLControlsProps> = ({
             className="flex items-center gap-1 px-2 py-1 text-[10px] text-text-muted hover:text-text-primary transition-colors"
           >
             <RotateCcw size={10} />
-            Reset All
+            全部重置
           </button>
         </div>
       )}
@@ -282,7 +282,7 @@ export const HSLControls: React.FC<HSLControlsProps> = ({
             onClick={handleResetColor}
             className="text-[9px] text-text-muted hover:text-text-secondary transition-colors"
           >
-            Reset
+            重置
           </button>
         )}
       </div>
@@ -290,7 +290,7 @@ export const HSLControls: React.FC<HSLControlsProps> = ({
       {/* HSL Sliders */}
       <div className="space-y-3">
         <HSLSlider
-          label="Hue"
+          label="色相"
           value={currentHue}
           onChange={handleHueChange}
           min={-180}
@@ -299,7 +299,7 @@ export const HSLControls: React.FC<HSLControlsProps> = ({
           color={activeColor.color}
         />
         <HSLSlider
-          label="Saturation"
+          label="饱和度"
           value={currentSaturation}
           onChange={handleSaturationChange}
           min={-100}
@@ -308,7 +308,7 @@ export const HSLControls: React.FC<HSLControlsProps> = ({
           color={activeColor.color}
         />
         <HSLSlider
-          label="Luminance"
+          label="明度"
           value={currentLuminance}
           onChange={handleLuminanceChange}
           min={-100}
@@ -333,7 +333,7 @@ export const HSLControls: React.FC<HSLControlsProps> = ({
                   hasAdj ? "opacity-100" : "opacity-20"
                 }`}
                 style={{ backgroundColor: color.color }}
-                title={`${color.fullLabel}${hasAdj ? " (adjusted)" : ""}`}
+                title={`${color.fullLabel}${hasAdj ? "（已调整）" : ""}`}
               />
             );
           })}

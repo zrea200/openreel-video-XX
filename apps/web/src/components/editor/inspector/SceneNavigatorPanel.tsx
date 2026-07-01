@@ -36,7 +36,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
       return [
         {
           id: "default",
-          label: "Full Timeline",
+          label: "完整时间轴",
           startTime: 0,
           endTime: duration,
           color: "#6366f1",
@@ -63,7 +63,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
     if (sortedMarkers[0]?.time > 0) {
       sceneList.unshift({
         id: "intro",
-        label: "Intro",
+        label: "片头",
         startTime: 0,
         endTime: sortedMarkers[0].time,
         color: "#6366f1",
@@ -100,7 +100,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
   const handleAddScene = useCallback(() => {
     const bridge = getPlaybackBridge();
     const currentTime = bridge.getCurrentTime();
-    addMarker(currentTime, `Scene ${markers.length + 1}`, "#10b981");
+    addMarker(currentTime, `场景 ${markers.length + 1}`, "#10b981");
   }, [addMarker, markers.length]);
 
   const formatTime = (seconds: number): string => {
@@ -127,7 +127,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
         <div className="flex items-center gap-1.5 px-2 py-1 bg-background-tertiary rounded">
           <Film size={14} className="text-primary" />
           <span className="text-[11px] font-medium text-text-primary">
-            {currentScene?.label || "Scene"}
+            {currentScene?.label || "场景"}
           </span>
           <span className="text-[10px] text-text-muted">
             {currentSceneIndex + 1}/{scenes.length}
@@ -152,7 +152,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
           <div className="flex items-center gap-2">
             <Film size={14} className="text-primary" />
             <span className="text-[11px] font-medium text-text-primary">
-              Scenes
+              场景
             </span>
             <span className="text-[10px] text-text-muted">
               ({scenes.length})
@@ -163,7 +163,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
             className="flex items-center gap-1 px-2 py-1 bg-primary hover:bg-primary/80 text-white rounded text-[10px] font-medium transition-colors"
           >
             <Plus size={10} />
-            Add
+            添加
           </button>
         </div>
 
@@ -220,10 +220,10 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
         <Layers size={16} className="text-indigo-400" />
         <div>
           <span className="text-[11px] font-medium text-text-primary">
-            Scene Navigator
+            场景导航
           </span>
           <p className="text-[9px] text-text-muted">
-            Navigate between sections
+            在各段落之间跳转
           </p>
         </div>
       </div>
@@ -232,7 +232,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
         <div className="flex items-center gap-2">
           <Film size={14} className="text-text-secondary" />
           <span className="text-[11px] font-medium text-text-primary">
-            Scenes
+            场景
           </span>
           <span className="text-[10px] text-text-muted bg-background-tertiary px-1.5 py-0.5 rounded">
             {scenes.length}
@@ -243,7 +243,7 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
           className="flex items-center gap-1 px-2 py-1 bg-primary hover:bg-primary/80 text-white rounded text-[10px] font-medium transition-colors"
         >
           <Plus size={10} />
-          Add Scene
+          添加场景
         </button>
       </div>
 
@@ -314,17 +314,17 @@ export const SceneNavigatorPanel: React.FC<SceneNavigatorPanelProps> = ({
           className="flex items-center gap-1 text-[10px] text-text-muted hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronLeft size={12} />
-          Previous
+          上一个
         </button>
         <span className="text-[9px] text-text-muted">
-          Scene {currentSceneIndex + 1} of {scenes.length}
+          场景 {currentSceneIndex + 1} / {scenes.length}
         </span>
         <button
           onClick={handleNext}
           disabled={currentSceneIndex === scenes.length - 1}
           className="flex items-center gap-1 text-[10px] text-text-muted hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
-          Next
+          下一个
           <ChevronRight size={12} />
         </button>
       </div>

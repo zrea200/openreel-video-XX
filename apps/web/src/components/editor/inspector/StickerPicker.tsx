@@ -6,6 +6,29 @@ import type { StickerItem, EmojiItem } from "@openreel/core";
 
 type TabType = "stickers" | "emojis";
 
+const EMOJI_CATEGORY_LABELS: Record<string, string> = {
+  smileys: "表情",
+  people: "人物",
+  animals: "动物",
+  food: "食物",
+  travel: "旅行",
+  activities: "活动",
+  objects: "物品",
+  symbols: "符号",
+  flags: "旗帜",
+};
+
+const STICKER_CATEGORY_LABELS: Record<string, string> = {
+  arrows: "箭头",
+  shapes: "形状",
+  badges: "徽章",
+  social: "社交",
+  business: "商务",
+  nature: "自然",
+  tech: "科技",
+  celebration: "庆祝",
+};
+
 interface StickerPickerProps {
   trackId: string;
   startTime: number;
@@ -194,7 +217,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
  `}
         >
           <Smile size={14} />
-          Emojis
+          表情
         </button>
         <button
           onClick={() => handleTabChange("stickers")}
@@ -208,7 +231,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
  `}
         >
           <Sticker size={14} />
-          Stickers
+          贴纸
         </button>
       </div>
 
@@ -222,7 +245,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={`Search ${activeTab}...`}
+          placeholder={activeTab === "emojis" ? "搜索表情…" : "搜索贴纸…"}
           className="pl-8 pr-8 text-[10px] bg-background-tertiary border-border h-7 text-text-primary"
         />
         {searchQuery && (
@@ -243,7 +266,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
                 <CategoryTab
                   key={category.id}
                   id={category.id}
-                  name={category.name}
+                  name={EMOJI_CATEGORY_LABELS[category.id] ?? category.name}
                   isActive={selectedCategory === category.id}
                   onClick={() => handleCategoryChange(category.id)}
                 />
@@ -252,7 +275,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
                 <CategoryTab
                   key={category.id}
                   id={category.id}
-                  name={category.name}
+                  name={STICKER_CATEGORY_LABELS[category.id] ?? category.name}
                   icon={category.icon}
                   isActive={selectedCategory === category.id}
                   onClick={() => handleCategoryChange(category.id)}
@@ -296,8 +319,8 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
             </div>
             <p className="text-[10px] text-text-muted">
               {searchQuery
-                ? `No ${activeTab} found for "${searchQuery}"`
-                : `No ${activeTab} in this category`}
+                ? `未找到与「${searchQuery}」相关的${activeTab === "emojis" ? "表情" : "贴纸"}`
+                : `此分类下暂无${activeTab === "emojis" ? "表情" : "贴纸"}`}
             </p>
           </div>
         )}
@@ -314,7 +337,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
             className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] text-text-secondary hover:text-text-primary bg-background-tertiary hover:bg-background-secondary rounded-lg transition-colors"
           >
             <Plus size={14} />
-            Add Custom Sticker
+            添加自定义贴纸
           </button>
         </div>
       )}

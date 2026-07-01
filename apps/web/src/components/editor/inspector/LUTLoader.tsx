@@ -18,7 +18,7 @@ const IntensitySlider: React.FC<{
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] text-text-secondary">Intensity</span>
+        <span className="text-[10px] text-text-secondary">强度</span>
         <span className="text-[10px] font-mono text-text-primary">
           {percentage}%
         </span>
@@ -53,7 +53,7 @@ function parseCubeLUT(content: string): LUTData {
       const parts = line.split(/\s+/);
       size = parseInt(parts[1], 10);
       if (isNaN(size) || size < 2 || size > 256) {
-        throw new Error(`Invalid LUT size: ${parts[1]}`);
+        throw new Error(`无效的 LUT 尺寸：${parts[1]}`);
       }
       continue;
     }
@@ -74,13 +74,13 @@ function parseCubeLUT(content: string): LUTData {
   }
 
   if (size === 0) {
-    throw new Error("LUT size not specified in file");
+    throw new Error("文件中未指定 LUT 尺寸");
   }
 
   const expectedLength = size * size * size * 3;
   if (data.length !== expectedLength) {
     throw new Error(
-      `Invalid LUT data: expected ${expectedLength} values, got ${data.length}`,
+      `无效的 LUT 数据：期望 ${expectedLength} 个值，实际 ${data.length} 个`,
     );
   }
 
@@ -145,12 +145,12 @@ function parse3dlLUT(content: string): LUTData {
     if (calculatedSize * calculatedSize * calculatedSize * 3 === data.length) {
       size = calculatedSize;
     } else {
-      throw new Error("Could not determine LUT size from data");
+      throw new Error("无法从数据中确定 LUT 尺寸");
     }
   }
 
   if (data.length === 0) {
-    throw new Error("No valid LUT data found in file");
+    throw new Error("文件中未找到有效的 LUT 数据");
   }
 
   return {
@@ -202,16 +202,14 @@ export const LUTLoader: React.FC<LUTLoaderProps> = ({
         } else if (extension === "3dl") {
           parsedLUT = parse3dlLUT(content);
         } else {
-          throw new Error(
-            "Unsupported file format. Please use .cube or .3dl files.",
-          );
+          throw new Error("不支持的文件格式，请使用 .cube 或 .3dl 文件。");
         }
 
         setFileName(file.name);
         onChange(parsedLUT);
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : "Failed to parse LUT file";
+          err instanceof Error ? err.message : "解析 LUT 文件失败";
         setError(errorMessage);
         onError?.(errorMessage);
       } finally {
@@ -279,12 +277,12 @@ export const LUTLoader: React.FC<LUTLoaderProps> = ({
           {isLoading ? (
             <>
               <div className="w-3 h-3 border border-text-muted border-t-transparent rounded-full animate-spin" />
-              Loading...
+              加载中…
             </>
           ) : (
             <>
               <Upload size={12} />
-              Load LUT (.cube, .3dl)
+              加载 LUT（.cube、.3dl）
             </>
           )}
         </button>
@@ -294,16 +292,16 @@ export const LUTLoader: React.FC<LUTLoaderProps> = ({
           <div className="flex items-center justify-between p-2 bg-background-tertiary rounded-lg">
             <div className="flex-1 min-w-0">
               <p className="text-[10px] text-text-primary truncate">
-                {fileName || "LUT Loaded"}
+                {fileName || "LUT 已加载"}
               </p>
               <p className="text-[9px] text-text-muted">
-                {lutData.size}x{lutData.size}x{lutData.size} LUT
+                {lutData.size}×{lutData.size}×{lutData.size} LUT
               </p>
             </div>
             <button
               onClick={handleRemoveLUT}
               className="p-1 text-text-muted hover:text-text-primary transition-colors"
-              title="Remove LUT"
+              title="移除 LUT"
             >
               <X size={14} />
             </button>
@@ -321,7 +319,7 @@ export const LUTLoader: React.FC<LUTLoaderProps> = ({
             disabled={isLoading}
             className="w-full py-1.5 text-[10px] text-text-muted hover:text-text-secondary transition-colors"
           >
-            Load Different LUT
+            加载其他 LUT
           </button>
         </div>
       )}

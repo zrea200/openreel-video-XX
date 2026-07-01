@@ -132,7 +132,7 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
 
   const handleEnhance = useCallback(async () => {
     if (!text.trim()) {
-      setError("Please enter some text");
+      setError("请输入文字");
       return;
     }
 
@@ -148,7 +148,7 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
       setEnhancedPreview(result);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
-      setError(err instanceof Error ? err.message : "Failed to enhance text");
+      setError(err instanceof Error ? err.message : "文字优化失败");
     } finally {
       setIsEnhancing(false);
     }
@@ -156,7 +156,7 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
 
   const generateSpeech = useCallback(async () => {
     if (!text.trim() && !enhancedPreview) {
-      setError("Please enter some text");
+      setError("请输入文字");
       return;
     }
 
@@ -182,7 +182,7 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
       }
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") return;
-      setError(err instanceof Error ? err.message : "Failed to generate speech");
+      setError(err instanceof Error ? err.message : "语音生成失败");
     } finally {
       setIsGenerating(false);
     }
@@ -218,7 +218,7 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
       const errorMsg =
         typeof importResult.error === "string"
           ? importResult.error
-          : "Failed to import audio";
+          : "导入音频失败";
       throw new Error(errorMsg);
     }
 
@@ -236,10 +236,10 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
       await importToMediaAssets();
       storeClearAudio();
       setText("");
-      setSuccessMsg("Saved to Media Assets");
+      setSuccessMsg("已保存到媒体素材");
       setTimeout(() => setSuccessMsg(null), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to save to media");
+      setError(err instanceof Error ? err.message : "保存到媒体失败");
     } finally {
       setIsGenerating(false);
     }
@@ -260,7 +260,7 @@ export function useTtsActions(options: UseTtsActionsOptions): UseTtsActionsRetur
       storeClearAudio();
       setText("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to add to timeline");
+      setError(err instanceof Error ? err.message : "添加到时间轴失败");
     } finally {
       setIsGenerating(false);
     }

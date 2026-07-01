@@ -15,6 +15,14 @@ interface EmphasisAnimationSectionProps {
   clipId: string;
 }
 
+const EMPHASIS_CATEGORY_LABELS: Record<string, string> = {
+  Attention: "吸引注意",
+  Movement: "位移",
+  Rotation: "旋转",
+  Distortion: "变形",
+  "Zoom & Pan": "缩放与平移",
+};
+
 const EMPHASIS_ANIMATIONS: {
   category: string;
   animations: {
@@ -28,20 +36,20 @@ const EMPHASIS_ANIMATIONS: {
     animations: [
       {
         type: "pulse",
-        label: "Pulse",
-        description: "Gentle scale breathing effect",
+        label: "脉冲",
+        description: "轻柔的缩放呼吸效果",
       },
       {
         type: "heartbeat",
-        label: "Heartbeat",
-        description: "Double-beat pulse like a heart",
+        label: "心跳",
+        description: "类似心跳的双拍脉冲",
       },
-      { type: "flash", label: "Flash", description: "Opacity pulsing effect" },
-      { type: "glow", label: "Glow", description: "Scale and opacity pulse" },
+      { type: "flash", label: "闪烁", description: "不透明度脉冲效果" },
+      { type: "glow", label: "发光", description: "缩放与不透明度脉冲" },
       {
         type: "breathe",
-        label: "Breathe",
-        description: "Slow, calming scale effect",
+        label: "呼吸",
+        description: "缓慢舒缓的缩放效果",
       },
     ],
   },
@@ -50,31 +58,31 @@ const EMPHASIS_ANIMATIONS: {
     animations: [
       {
         type: "shake",
-        label: "Shake",
-        description: "Quick side-to-side shake",
+        label: "抖动",
+        description: "快速左右摇晃",
       },
-      { type: "bounce", label: "Bounce", description: "Bouncing up and down" },
-      { type: "float", label: "Float", description: "Gentle floating motion" },
+      { type: "bounce", label: "弹跳", description: "上下弹跳" },
+      { type: "float", label: "漂浮", description: "轻柔漂浮运动" },
       {
         type: "vibrate",
-        label: "Vibrate",
-        description: "Random small movements",
+        label: "震动",
+        description: "随机小幅位移",
       },
-      { type: "wave", label: "Wave", description: "Wave-like motion" },
+      { type: "wave", label: "波浪", description: "波浪式运动" },
     ],
   },
   {
     category: "Rotation",
     animations: [
-      { type: "spin", label: "Spin", description: "Continuous rotation" },
-      { type: "swing", label: "Swing", description: "Pendulum-like rotation" },
+      { type: "spin", label: "旋转", description: "持续旋转" },
+      { type: "swing", label: "摇摆", description: "钟摆式旋转" },
       {
         type: "wobble",
-        label: "Wobble",
-        description: "Wobbling with rotation",
+        label: "晃动",
+        description: "带旋转的摇摆",
       },
-      { type: "tilt", label: "Tilt", description: "Slow tilting motion" },
-      { type: "tada", label: "Tada", description: "Attention-grabbing wiggle" },
+      { type: "tilt", label: "倾斜", description: "缓慢倾斜运动" },
+      { type: "tada", label: "庆祝", description: "吸引注意的摆动" },
     ],
   },
   {
@@ -82,18 +90,18 @@ const EMPHASIS_ANIMATIONS: {
     animations: [
       {
         type: "jello",
-        label: "Jello",
-        description: "Jelly-like squish effect",
+        label: "果冻",
+        description: "果冻般挤压效果",
       },
       {
         type: "rubber-band",
-        label: "Rubber Band",
-        description: "Stretchy rubber effect",
+        label: "橡皮筋",
+        description: "弹性拉伸效果",
       },
       {
         type: "flicker",
-        label: "Flicker",
-        description: "Random visibility flicker",
+        label: "频闪",
+        description: "随机可见性闪烁",
       },
     ],
   },
@@ -102,31 +110,31 @@ const EMPHASIS_ANIMATIONS: {
     animations: [
       {
         type: "zoom-pulse",
-        label: "Zoom Pulse",
-        description: "Scale in and out",
+        label: "缩放脉冲",
+        description: "放大缩小循环",
       },
       {
         type: "focus-zoom",
-        label: "Focus Zoom",
-        description: "Zoom to point and back",
+        label: "焦点缩放",
+        description: "缩放至焦点后恢复",
       },
       {
         type: "ken-burns",
-        label: "Ken Burns",
-        description: "Slow zoom with pan",
+        label: "肯·伯恩斯",
+        description: "缓慢缩放并平移",
       },
       {
         type: "pan-left",
-        label: "Pan Left",
-        description: "Slow pan to the left",
+        label: "向左平移",
+        description: "缓慢向左平移",
       },
       {
         type: "pan-right",
-        label: "Pan Right",
-        description: "Slow pan to the right",
+        label: "向右平移",
+        description: "缓慢向右平移",
       },
-      { type: "pan-up", label: "Pan Up", description: "Slow pan upward" },
-      { type: "pan-down", label: "Pan Down", description: "Slow pan downward" },
+      { type: "pan-up", label: "向上平移", description: "缓慢向上平移" },
+      { type: "pan-down", label: "向下平移", description: "缓慢向下平移" },
     ],
   },
 ];
@@ -260,21 +268,21 @@ export const EmphasisAnimationSection: React.FC<
               : "bg-background-tertiary border border-border text-text-secondary hover:text-text-primary"
           }`}
         >
-          None
+          无
         </button>
         <button
           onClick={handleReset}
           className="py-2 rounded-lg text-[10px] font-medium bg-background-tertiary border border-border text-text-secondary hover:text-text-primary transition-all flex items-center justify-center gap-1"
         >
           <RotateCcw size={10} />
-          Reset
+          重置
         </button>
       </div>
 
       {EMPHASIS_ANIMATIONS.map((category) => (
         <div key={category.category}>
           <h4 className="text-[10px] font-medium text-text-muted mb-2">
-            {category.category}
+            {EMPHASIS_CATEGORY_LABELS[category.category] ?? category.category}
           </h4>
           <div className="grid grid-cols-2 gap-1.5">
             {category.animations.map((anim) => (
@@ -305,7 +313,7 @@ export const EmphasisAnimationSection: React.FC<
 
             <div className="space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] text-text-secondary">Speed</span>
+                <span className="text-[10px] text-text-secondary">速度</span>
                 <span className="text-[10px] font-mono text-text-primary bg-background-tertiary px-1.5 py-0.5 rounded border border-border">
                   {currentAnimation.speed.toFixed(1)}x
                 </span>
@@ -324,7 +332,7 @@ export const EmphasisAnimationSection: React.FC<
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-text-secondary">
-                  Intensity
+                  强度
                 </span>
                 <span className="text-[10px] font-mono text-text-primary bg-background-tertiary px-1.5 py-0.5 rounded border border-border">
                   {Math.round(currentAnimation.intensity * 100)}%
@@ -345,7 +353,7 @@ export const EmphasisAnimationSection: React.FC<
 
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-text-secondary">
-                Loop Animation
+                循环播放
               </span>
               <button
                 onClick={() =>
@@ -369,16 +377,16 @@ export const EmphasisAnimationSection: React.FC<
           <div className="pt-3 border-t border-border space-y-3">
             <div className="flex items-center gap-2 text-primary">
               <Clock size={12} />
-              <span className="text-[10px] font-medium">Timing</span>
+              <span className="text-[10px] font-medium">时间</span>
               <span className="text-[9px] text-text-muted ml-auto">
-                Clip: {formatTime(clipDuration)}
+                片段：{formatTime(clipDuration)}
               </span>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-text-secondary">
-                  Start Time
+                  开始时间
                 </span>
                 <span className="text-[10px] font-mono text-text-primary bg-background-tertiary px-1.5 py-0.5 rounded border border-border">
                   {formatTime(currentAnimation.startTime ?? 0)}
@@ -400,12 +408,12 @@ export const EmphasisAnimationSection: React.FC<
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] text-text-secondary">
-                  Duration
+                  时长
                 </span>
                 <span className="text-[10px] font-mono text-text-primary bg-background-tertiary px-1.5 py-0.5 rounded border border-border">
                   {currentAnimation.animationDuration
                     ? formatTime(currentAnimation.animationDuration)
-                    : "Full clip"}
+                    : "整段片段"}
                 </span>
               </div>
               <Slider
@@ -434,7 +442,7 @@ export const EmphasisAnimationSection: React.FC<
                   }
                   className="text-primary hover:underline"
                 >
-                  Reset to full clip
+                  恢复整段
                 </button>
                 <span>
                   {formatTime(clipDuration - (currentAnimation.startTime ?? 0))}
@@ -448,14 +456,14 @@ export const EmphasisAnimationSection: React.FC<
               <div className="flex items-center gap-2 text-primary">
                 <Target size={12} />
                 <span className="text-[10px] font-medium">
-                  Focus Zoom Settings
+                  焦点缩放设置
                 </span>
               </div>
 
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] text-text-secondary">
-                    Zoom Scale
+                    缩放倍数
                   </span>
                   <span className="text-[10px] font-mono text-text-primary bg-background-tertiary px-1.5 py-0.5 rounded border border-border">
                     {(currentAnimation.zoomScale || 1.5).toFixed(1)}x
@@ -477,7 +485,7 @@ export const EmphasisAnimationSection: React.FC<
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] text-text-secondary">
-                    Hold Duration
+                    保持时长
                   </span>
                   <span className="text-[10px] font-mono text-text-primary bg-background-tertiary px-1.5 py-0.5 rounded border border-border">
                     {((currentAnimation.holdDuration || 0.3) * 100).toFixed(0)}%
@@ -498,12 +506,12 @@ export const EmphasisAnimationSection: React.FC<
 
               <div className="space-y-2">
                 <span className="text-[10px] text-text-secondary">
-                  Focus Point
+                  焦点位置
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
                     <span className="text-[9px] text-text-muted">
-                      X Position
+                      X 位置
                     </span>
                     <Slider
                       min={0}
@@ -522,7 +530,7 @@ export const EmphasisAnimationSection: React.FC<
                   </div>
                   <div className="space-y-1">
                     <span className="text-[9px] text-text-muted">
-                      Y Position
+                      Y 位置
                     </span>
                     <Slider
                       min={0}
@@ -581,8 +589,7 @@ export const EmphasisAnimationSection: React.FC<
         <div className="flex items-center gap-2 text-text-muted">
           <Zap size={10} />
           <span className="text-[9px]">
-            Emphasis animations play while the clip is visible (not during
-            entry/exit)
+            强调动画在片段可见期间播放（非入点/出点动画）
           </span>
         </div>
       </div>

@@ -21,6 +21,11 @@ import {
   type SFXCategory,
   type MoodTag,
 } from "@openreel/core";
+import {
+  MUSIC_GENRE_LABELS,
+  MOOD_TAG_LABELS,
+  SFX_CATEGORY_LABELS,
+} from "../display-labels";
 
 type TabType = "music" | "sfx";
 
@@ -84,7 +89,7 @@ const SoundCard: React.FC<SoundCardProps> = ({
         <button
           onClick={onAdd}
           className="p-1.5 rounded-md bg-primary/20 hover:bg-primary text-primary hover:text-white transition-colors"
-          title="Add to timeline"
+          title="添加到时间轴"
         >
           <Plus size={14} />
         </button>
@@ -239,9 +244,9 @@ export const MusicLibraryPanel: React.FC = () => {
         <Music size={16} className="text-primary" />
         <div>
           <span className="text-[11px] font-medium text-text-primary">
-            Music & SFX
+            音乐与音效
           </span>
-          <p className="text-[9px] text-text-muted">Royalty-free sounds</p>
+          <p className="text-[9px] text-text-muted">免版税素材</p>
         </div>
       </div>
 
@@ -255,7 +260,7 @@ export const MusicLibraryPanel: React.FC = () => {
           }`}
         >
           <Music size={12} />
-          Music
+          音乐
         </button>
         <button
           onClick={() => setActiveTab("sfx")}
@@ -266,7 +271,7 @@ export const MusicLibraryPanel: React.FC = () => {
           }`}
         >
           <Zap size={12} />
-          Sound FX
+          音效
         </button>
       </div>
 
@@ -277,7 +282,7 @@ export const MusicLibraryPanel: React.FC = () => {
         />
         <Input
           type="text"
-          placeholder="Search sounds..."
+          placeholder="搜索音频…"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-8 text-[10px] bg-background-secondary border-border h-8"
@@ -294,7 +299,7 @@ export const MusicLibraryPanel: React.FC = () => {
                 : "bg-background-tertiary text-text-muted hover:text-text-primary"
             }`}
           >
-            All
+            全部
           </button>
           {MUSIC_GENRES.map((genre) => (
             <button
@@ -306,7 +311,7 @@ export const MusicLibraryPanel: React.FC = () => {
                   : "bg-background-tertiary text-text-muted hover:text-text-primary"
               }`}
             >
-              {genre.name}
+              {MUSIC_GENRE_LABELS[genre.id] ?? genre.name}
             </button>
           ))}
         </div>
@@ -322,7 +327,7 @@ export const MusicLibraryPanel: React.FC = () => {
                 : "bg-background-tertiary text-text-muted hover:text-text-primary"
             }`}
           >
-            All
+            全部
           </button>
           {SFX_CATEGORIES.map((cat) => (
             <button
@@ -334,7 +339,7 @@ export const MusicLibraryPanel: React.FC = () => {
                   : "bg-background-tertiary text-text-muted hover:text-text-primary"
               }`}
             >
-              {cat.name}
+              {SFX_CATEGORY_LABELS[cat.id] ?? cat.name}
             </button>
           ))}
         </div>
@@ -352,7 +357,7 @@ export const MusicLibraryPanel: React.FC = () => {
                   : "bg-background-secondary text-text-muted hover:text-text-primary"
               }`}
             >
-              {mood.name}
+              {MOOD_TAG_LABELS[mood.id] ?? mood.name}
             </button>
           ))}
         </div>
@@ -365,9 +370,9 @@ export const MusicLibraryPanel: React.FC = () => {
               size={24}
               className="mx-auto mb-2 text-text-muted opacity-50"
             />
-            <p className="text-[10px] text-text-muted">No sounds found</p>
+            <p className="text-[10px] text-text-muted">未找到音频</p>
             <p className="text-[9px] text-text-muted mt-1">
-              Try adjusting filters
+              请尝试调整筛选条件
             </p>
           </div>
         ) : (
@@ -385,7 +390,7 @@ export const MusicLibraryPanel: React.FC = () => {
       </div>
 
       <p className="text-[9px] text-text-muted text-center">
-        {sounds.length} {activeTab === "music" ? "tracks" : "effects"} available
+        {sounds.length} 个{activeTab === "music" ? "曲目" : "音效"}可用
       </p>
     </div>
   );
