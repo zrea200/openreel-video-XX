@@ -22,13 +22,11 @@ import { InspectorSection } from "../shell/InspectorSection";
 
 const CAPTION_STYLE_LABELS: Partial<Record<CaptionAnimationStyle, string>> = {
   none: "无",
-  fade: "淡入淡出",
-  pop: "弹出",
-  slide: "滑入",
+  "word-highlight": "逐词高亮",
+  "word-by-word": "逐词显示",
   typewriter: "打字机",
   karaoke: "卡拉 OK",
   bounce: "弹跳",
-  scale: "缩放",
 };
 
 const getCaptionStyleLabel = (style: CaptionAnimationStyle): string =>
