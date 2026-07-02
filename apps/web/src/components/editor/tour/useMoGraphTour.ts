@@ -52,18 +52,18 @@ export function useMoGraphTour() {
   const isLastStep = state.currentStep === MOGRAPH_TOUR_STEPS.length - 1;
 
   const updateTargetRect = useCallback(() => {
-    if (!step?.target) {
+    if (!step?.targetSelector) {
       setTargetRect(null);
       return;
     }
 
-    const el = document.querySelector(step.target);
+    const el = document.querySelector(step.targetSelector);
     if (el) {
       setTargetRect(el.getBoundingClientRect());
     } else {
       setTargetRect(null);
     }
-  }, [step?.target]);
+  }, [step?.targetSelector]);
 
   useEffect(() => {
     if (!state.isActive) return;
